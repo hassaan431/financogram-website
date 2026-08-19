@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financo | Understand Money. Make Better Decisions.</title>
+    <link rel="icon" type="image/png" href="assets/logo-transparent.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/style.css">
+    <meta name="description" content="Financogram provides simple money lessons, financial calculators, and investment guides for the youth of Pakistan.">
+    <meta name="keywords" content="personal finance, investing, calculators, Pakistan, SIP, real estate, retirement">
+    <meta property="og:title" content="Financogram - Personal Finance Simplified">
+    <meta property="og:description" content="Financogram provides simple money lessons, financial calculators, and investment guides for the youth of Pakistan.">
+    <meta property="og:image" content="https://financogram.com/assets/logo-transparent.png">
+    <meta property="og:url" content="https://financogram.com">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo"><img src="assets/logo-transparent.png" alt="Financogram Logo" style="height: 40px; width: auto; display: inline-block; vertical-align: middle; margin-right: 8px;">Financogram</a>
+            
+            <button class="menu-toggle" id="mobile-menu" aria-label="Toggle Navigation">
+                ☰
+            </button>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="calculators/index.html">Calculators</a></li>
+                <li><a href="learn/index.html">Learn</a></li>
+                <li><a href="about.html">About</a></li>
+                <li>
+                    <a href="https://www.instagram.com/financo.gram/" target="_blank" class="btn btn-outline" style="padding: 6px 16px;">
+                        Instagram
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content Area Starts -->
+    <main>
+        
+        <!-- 1. Hero Section (The big introduction at the top) -->
+        <header class="hero">
+            <div class="container">
+                <h1>Understand Money.<br>Make Better Decisions.</h1>
+                <p>Financo is an educational platform designed to help young people understand personal finance through simple explanations and practical calculators.</p>
+                <div>
+                    <!-- Link to the calculators section below -->
+                    <a href="calculators/index.html" class="btn">Explore Calculators</a>
+                    <!-- Link to the learn section below -->
+                    <a href="#learn" class="btn btn-outline" style="margin-left: 10px;">Read Articles</a>
+                </div>
+            </div>
+        </header>
+
+        <!-- 2. Featured Calculators Section -->
+        <section id="calculators" class="section container">
+            <h2 class="section-title">Featured Calculators</h2>
+            
+            <!-- We use our CSS grid to line these cards up side-by-side -->
+            <div class="grid">
+                
+                <!-- Calculator Card 1 -->
+                <div class="card">
+                    <h3 style="color: var(--primary-color);">SIP Calculator</h3>
+                    <p>Calculate the future value of your Systematic Investment Plan (SIP) based on your monthly contributions.</p>
+                    <a href="calculators/sip.html" class="btn btn-outline" style="width: 100%;">Calculate</a>
+                </div>
+                
+                <!-- Calculator Card 2 -->
+                <div class="card">
+                    <h3 style="color: var(--primary-color);">Compound Interest</h3>
+                    <p>See how your money grows over time with the magic of compounding interest and time.</p>
+                    <a href="#" class="btn btn-outline" style="width: 100%;">Calculate</a>
+                </div>
+                
+                <!-- Calculator Card 3 -->
+                <div class="card">
+                    <h3 style="color: var(--primary-color);">Inflation Calculator</h3>
+                    <p>Understand how inflation silently affects your purchasing power and savings over the years.</p>
+                    <a href="#" class="btn btn-outline" style="width: 100%;">Calculate</a>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 3. Learn / Articles Section -->
+        <!-- We wrap this in a slightly colored box to separate it from the rest of the page -->
+        <section id="learn" class="section container" style="background-color: var(--bg-card); border-radius: var(--border-radius); padding: var(--spacing-xl); box-shadow: var(--shadow-sm);">
+            <h2 class="section-title">Latest Articles</h2>
+            
+            <div class="grid">
+                <!-- Article Placeholder 1 -->
+                <div class="card" style="box-shadow: none; border-color: transparent; border-bottom: 1px solid var(--border-color); border-radius: 0; padding: var(--spacing-md) 0;">
+                    <h3>What Is Compound Interest?</h3>
+                    <p>The most powerful concept in finance, explained simply.</p>
+                    <a href="#">Read More &rarr;</a>
+                </div>
+                
+                <!-- Article Placeholder 2 -->
+                <div class="card" style="box-shadow: none; border-color: transparent; border-bottom: 1px solid var(--border-color); border-radius: 0; padding: var(--spacing-md) 0;">
+                    <h3>SIP vs Lump Sum Investing</h3>
+                    <p>Which investment strategy makes the most sense for your financial goals?</p>
+                    <a href="#">Read More &rarr;</a>
+                </div>
+                
+                <!-- Article Placeholder 3 -->
+                <div class="card" style="box-shadow: none; border-color: transparent; border-bottom: 1px solid var(--border-color); border-radius: 0; padding: var(--spacing-md) 0;">
+                    <h3>What Is an Emergency Fund?</h3>
+                    <p>Why you absolutely need one, and exactly how much you should save.</p>
+                    <a href="#">Read More &rarr;</a>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: var(--spacing-lg);">
+                <a href="#" class="btn btn-outline">View All Topics</a>
+            </div>
+        </section>
+
+        <!-- 4. Instagram CTA (Call To Action) Banner -->
+        <section class="container">
+            <div class="cta-banner">
+                <h2>Join the Community</h2>
+                <p>Follow Financo on Instagram for daily bite-sized money lessons.</p>
+                <a href="https://www.instagram.com/financo.gram/" target="_blank" class="btn">Follow @financo.gram</a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>"Financo provides educational information and calculators for informational purposes only. This content is not personalized financial, investment, tax, or legal advice."</p>
+            <p style="margin-top: 1rem;">&copy; 2024 Financo. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

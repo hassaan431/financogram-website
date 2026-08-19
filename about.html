@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Financo</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Link to global styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/png" href="assets/logo-transparent.png">
+    
+    <style>
+        .about-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .about-mission {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin-bottom: 2.5rem;
+            line-height: 1.5;
+            font-weight: 600;
+        }
+        .about-bio {
+            text-align: left;
+            padding: 3rem;
+            margin-bottom: 2.5rem;
+        }
+        .about-bio h2 {
+            margin-bottom: 1.5rem;
+            color: var(--text-main);
+            font-size: 1.8rem;
+        }
+        .about-bio p {
+            margin-bottom: 1.25rem;
+            line-height: 1.8;
+            font-size: 1.05rem;
+            color: var(--text-main);
+        }
+        .emoji-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 2rem;
+            text-align: left;
+        }
+        .emoji-list li {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-weight: 500;
+            color: var(--text-main);
+        }
+    </style>
+    <meta name="description" content="Financogram provides simple money lessons, financial calculators, and investment guides for the youth of Pakistan.">
+    <meta name="keywords" content="personal finance, investing, calculators, Pakistan, SIP, real estate, retirement">
+    <meta property="og:title" content="Financogram - Personal Finance Simplified">
+    <meta property="og:description" content="Financogram provides simple money lessons, financial calculators, and investment guides for the youth of Pakistan.">
+    <meta property="og:image" content="https://financogram.com/assets/logo-transparent.png">
+    <meta property="og:url" content="https://financogram.com">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo"><img src="assets/logo-transparent.png" alt="Financogram Logo" style="height: 40px; width: auto; display: inline-block; vertical-align: middle; margin-right: 8px;">Financogram</a>
+            <button class="menu-toggle" id="mobile-menu" aria-label="Toggle Navigation">
+                ☰
+            </button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="calculators/index.html">Calculators</a></li>
+                <li><a href="learn/index.html">Learn</a></li>
+                <li><a href="about.html" style="color: var(--primary-color); font-weight: 700;">About</a></li>
+                <li>
+                    <a href="https://www.instagram.com/financo.gram/" target="_blank" class="btn btn-outline" style="padding: 6px 16px;">
+                        Instagram
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="container about-container" style="margin-top: 60px; min-height: 60vh; margin-bottom: 80px;">
+        
+        <h1 style="font-size: 3rem; margin-bottom: 1rem; letter-spacing: -1px;">Teaching what school never did.</h1>
+        <p class="about-mission">
+            Our mission is to educate the youth of Pakistan about personal finance, investing, and wealth building.
+        </p>
+
+        <div class="card about-bio">
+            <h2>The Story Behind Financogram</h2>
+            <p>
+                Money dictates almost every aspect of our lives, yet the vast majority of us graduate from school without a single lesson on how to manage it. We are taught complex calculus, but we aren't taught how to budget, save, or invest.
+            </p>
+            <p>
+                <strong>Financogram</strong> was built to fix that gap. We believe that financial literacy shouldn't be a privilege reserved for a few. It should be accessible, easy to understand, and highly actionable. By breaking down complex financial concepts into simple, jargon-free lessons, we aim to empower the youth of Pakistan to take control of their financial future.
+            </p>
+
+            <ul class="emoji-list">
+                <li><span style="font-size: 1.5rem;">🇵🇰</span> Teaching finance school never did</li>
+                <li><span style="font-size: 1.5rem;">💰</span> Simple money lessons for beginners</li>
+                <li><span style="font-size: 1.5rem;">📚</span> Breaking down saving & investing</li>
+            </ul>
+        </div>
+
+        <div style="background: #ffffff; border: 1px solid var(--border-color); border-radius: 24px; box-shadow: 0 12px 40px rgba(0,0,0,0.04); padding: 3rem; display: flex; gap: 3.5rem; align-items: center; flex-wrap: wrap; margin-bottom: 3rem;">
+            <div style="flex: 1; min-width: 250px; text-align: center;">
+                <img src="assets/founder.jpg" alt="Founder of Financogram" style="width: 100%; max-width: 320px; border-radius: 16px; margin-bottom: 1.5rem; display: inline-block;">
+                <p style="font-size: 1rem; font-weight: 600; color: var(--primary-color); line-height: 1.5; padding: 0 10px;">
+                    Aerospace Engineer turned MBA.<br>Corporate Analyst.<br>Finance Educator.
+                </p>
+            </div>
+            <div style="flex: 1.8; min-width: 300px;">
+                <h2 style="margin-bottom: 1.5rem; color: var(--text-main); font-size: 2rem; font-weight: 800; letter-spacing: -0.5px;">Meet the Founder</h2>
+                <p style="margin-bottom: 1.25rem; line-height: 1.8; font-size: 1.05rem; color: var(--text-main);">
+                    While I've spent years dealing with complex data and systems, my true passion lies in something much simpler: understanding money. I absolutely love to learn and educate others about personal finance.
+                </p>
+                <p style="line-height: 1.8; font-size: 1.05rem; color: var(--text-main);">
+                    I started Financogram because I realized that the foundational rules of saving, investing, and growing wealth aren't taught in school, leaving millions of smart young people to figure it out the hard way. My goal is to change that.
+                </p>
+            </div>
+        </div>
+        
+        <a href="https://www.instagram.com/financo.gram/" target="_blank" class="btn" style="font-size: 1.1rem; padding: 14px 32px;">
+            Join our community on Instagram
+        </a>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>"Financo provides educational information and calculators for informational purposes only. This content is not personalized financial, investment, tax, or legal advice."</p>
+            <p style="margin-top: 1rem;">&copy; 2024 Financo. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

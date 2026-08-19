@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mortgage vs Rent & Invest | Financo</title>
+    <link rel="icon" type="image/png" href="../assets/logo-transparent.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Link to global styles -->
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <!-- Chart JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
+    <!-- Specific styles for THIS calculator only -->
+    <style>
+        .calc-container {
+            /* Light theme variables to match Financo */
+            --bg: #ffffff;
+            --surface: #f8fafc;
+            --surface2: #ffffff;
+            --border: #e2e8f0;
+            --green: #2A9D8F; /* Financo Teal */
+            --green-dim: rgba(42, 157, 143, 0.1);
+            --amber: #F4A261; /* Financo Orange */
+            --amber-dim: rgba(244, 162, 97, 0.12);
+            --text: #264653; /* Financo Dark */
+            --muted: #64748b;
+            --muted2: #94a3b8;
+            
+            font-family: var(--font-family);
+            color: var(--text);
+            margin: 0 auto;
+            max-width: 900px;
+        }
+
+        .calc-container * { box-sizing: border-box; }
+
+        .e2-header { margin-bottom: 36px; text-align: center;}
+        .e2-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--green); margin-bottom: 10px; }
+        .e2-title { font-size: 28px; font-weight: 700; line-height: 1.2; margin-bottom: 8px; color: var(--text); }
+        .e2-subtitle { font-size: 14px; color: var(--muted); font-weight: 400; }
+
+        .e2-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 20px; }
+        .e2-section-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+
+        .e2-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+
+        .e2-field label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 8px; letter-spacing: 0.3px; }
+        .e2-field input { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; font-family: var(--font-family); font-size: 15px; font-weight: 600; color: var(--text); outline: none; transition: border-color 0.2s; -moz-appearance: textfield; }
+        .e2-field input:focus { border-color: var(--green); box-shadow: 0 0 0 3px var(--green-dim); }
+
+        .e2-preview { margin-top: 20px; background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 18px 22px; }
+        .e2-preview-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+        .e2-preview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }
+        .e2-preview-item .e2-pv-label { font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 4px; }
+        .e2-preview-item .e2-pv-val { font-size: 18px; font-weight: 700; color: var(--green); }
+
+        .e2-btn { width: 100%; margin-top: 24px; background: var(--green); color: #ffffff; border: none; border-radius: 12px; padding: 15px 28px; font-family: var(--font-family); font-size: 15px; font-weight: 700; cursor: pointer; letter-spacing: 0.5px; transition: background 0.2s, transform 0.1s; }
+        .e2-btn:hover { background: #218276; }
+        .e2-btn:active { transform: scale(0.98); }
+
+        #e2-results { display: none; }
+        .e2-result-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+        
+        .e2-result-card { border: 1px solid var(--border); border-radius: 16px; padding: 24px; position: relative; transition: border-color 0.3s; background: var(--surface2); }
+        .e2-result-card.e2-winner { border-color: var(--green); background: var(--green-dim); }
+        .e2-result-card.e2-loser { background: var(--surface); }
+
+        .e2-winner-badge { display: inline-block; background: var(--green); color: #ffffff; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; margin-bottom: 14px; }
+        .e2-card-title { font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 4px; }
+        .e2-card-value { font-size: 30px; font-weight: 800; color: var(--text); line-height: 1.1; }
+        .e2-card-sub { font-size: 12px; color: var(--muted); margin-top: 10px; line-height: 1.7; }
+
+        .e2-insight { background: var(--surface2); border: 1px solid var(--border); border-left: 4px solid var(--green); border-radius: 12px; padding: 18px 22px; margin-bottom: 20px; font-size: 14px; line-height: 1.7; color: var(--text); font-weight: 500; }
+        .e2-insight strong { color: var(--green); font-weight: 700;}
+
+        .e2-chart-wrap { position: relative; height: 320px; margin-bottom: 20px; }
+
+        .e2-table-wrap { overflow-x: auto; }
+        .e2-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .e2-table th { text-align: left; padding: 10px 14px; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--border); }
+        .e2-table td { padding: 12px 14px; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: top; font-weight: 500;}
+        .e2-table td:last-child, .e2-table th:last-child { color: var(--green); }
+        .e2-table tr:last-child td { border-bottom: none; font-weight: 700; }
+
+        .e2-legend { display: flex; gap: 20px; margin-bottom: 12px; font-size: 12px; font-weight: 500; }
+        .e2-legend-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 6px; vertical-align: middle; }
+
+        /* Mobile specific fixes for the calculator */
+        @media(max-width: 580px) { 
+            .e2-result-cards { grid-template-columns: 1fr; }
+            .e2-grid { grid-template-columns: 1fr; } 
+        }
+    </style>
+    <meta name="description" content="Financogram provides simple money lessons, financial calculators, and investment guides for the youth of Pakistan.">
+    <meta name="keywords" content="personal finance, investing, calculators, Pakistan, SIP, real estate, retirement">
+    <meta property="og:title" content="Financogram - Personal Finance Simplified">
+    <meta property="og:description" content="Financogram provides simple money lessons, financial calculators, and investment guides for the youth of Pakistan.">
+    <meta property="og:image" content="https://financogram.com/assets/logo-transparent.png">
+    <meta property="og:url" content="https://financogram.com">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo"><img src="../assets/logo-transparent.png" alt="Financogram Logo" style="height: 40px; width: auto; display: inline-block; vertical-align: middle; margin-right: 8px;">Financogram</a>
+            <button class="menu-toggle" id="mobile-menu">☰</button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="index.html" style="color: var(--primary-color); font-weight: 700;">Calculators</a></li>
+                <li><a href="../learn/index.html">Learn</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="https://www.instagram.com/financo.gram/" target="_blank" class="btn btn-outline" style="padding: 6px 16px;">Instagram</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="container" style="margin-top: 40px; min-height: 60vh; margin-bottom: 60px;">
+        
+        <a href="index.html" style="display: inline-block; margin-bottom: 20px;">&larr; Back to all calculators</a>
+
+        <div class="card calc-container">
+            <div class="e2-header">
+                <div class="e2-eyebrow">Pakistan Real Estate Calculator</div>
+                <div class="e2-title">Mortgage vs Rent & Invest in PSX</div>
+                <div class="e2-subtitle">Should you take a mortgage, or rent and invest the difference?</div>
+            </div>
+
+            <div class="e2-card">
+                <div class="e2-section-label">Inputs</div>
+                <div class="e2-grid">
+                <div class="e2-field">
+                    <label>House Price (Crore PKR)</label>
+                    <input type="number" id="e2-price" value="3" step="0.1" min="0" oninput="e2Preview()"/>
+                </div>
+                <div class="e2-field">
+                    <label>Down Payment (%)</label>
+                    <input type="number" id="e2-down" value="20" step="1" min="0" max="100" oninput="e2Preview()"/>
+                </div>
+                <div class="e2-field">
+                    <label>Mortgage Rate (%/yr)</label>
+                    <input type="number" id="e2-mrate" value="17" step="0.1" min="0" oninput="e2Preview()"/>
+                </div>
+                <div class="e2-field">
+                    <label>Mortgage Term (Years)</label>
+                    <input type="number" id="e2-mterm" value="20" step="1" min="1" oninput="e2Preview()"/>
+                </div>
+                <div class="e2-field">
+                    <label>PSX Annual Return (%)</label>
+                    <input type="number" id="e2-psx" value="15" step="0.1" min="0"/>
+                </div>
+                <div class="e2-field">
+                    <label>Property Appreciation (%/yr)</label>
+                    <input type="number" id="e2-app" value="10" step="0.1" min="0"/>
+                </div>
+                <div class="e2-field">
+                    <label>Annual Rent Yield (% of value)</label>
+                    <input type="number" id="e2-rent" value="5" step="0.1" min="0" oninput="e2Preview()"/>
+                </div>
+                <div class="e2-field">
+                    <label>Annual Maintenance (% of value)</label>
+                    <input type="number" id="e2-maint" value="1.5" step="0.1" min="0"/>
+                </div>
+                <div class="e2-field">
+                    <label>Comparison Period (Years)</label>
+                    <input type="number" id="e2-period" value="30" step="1" min="1" max="50"/>
+                </div>
+                </div>
+
+                <!-- Live Preview -->
+                <div class="e2-preview" id="e2-preview">
+                <div class="e2-preview-label">Live Preview</div>
+                <div class="e2-preview-grid">
+                    <div class="e2-preview-item">
+                    <div class="e2-pv-label">Loan Amount</div>
+                    <div class="e2-pv-val" id="e2-pv-loan">—</div>
+                    </div>
+                    <div class="e2-preview-item">
+                    <div class="e2-pv-label">Monthly EMI</div>
+                    <div class="e2-pv-val" id="e2-pv-emi">—</div>
+                    </div>
+                    <div class="e2-preview-item">
+                    <div class="e2-pv-label">Starting Monthly Rent</div>
+                    <div class="e2-pv-val" id="e2-pv-rent">—</div>
+                    </div>
+                    <div class="e2-preview-item">
+                    <div class="e2-pv-label">Monthly Diff to Invest</div>
+                    <div class="e2-pv-val" id="e2-pv-diff">—</div>
+                    </div>
+                </div>
+                </div>
+
+                <button class="e2-btn" onclick="e2Calculate()">Calculate →</button>
+            </div>
+
+            <div id="e2-results">
+                <div class="e2-result-cards" id="e2-cards"></div>
+                <div class="e2-card">
+                <div class="e2-insight" id="e2-insight"></div>
+                <div class="e2-legend" id="e2-legend"></div>
+                <div class="e2-chart-wrap">
+                    <canvas id="e2-chart"></canvas>
+                </div>
+                </div>
+                <div class="e2-card">
+                <div class="e2-section-label">Breakdown</div>
+                <div class="e2-table-wrap">
+                    <table class="e2-table" id="e2-table"></table>
+                </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>"Financo provides educational information and calculators for informational purposes only. This content is not personalized financial, investment, tax, or legal advice."</p>
+            <p style="margin-top: 1rem;">&copy; 2024 Financo. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+
+    <script>
+    (function(){
+        var e2ChartInstance = null;
+
+        function e2fmt(val) {
+        return (Math.round(val * 100) / 100).toFixed(2);
+        }
+
+        function e2fmtLakh(val) {
+        var lakh = val * 100;
+        return (Math.round(lakh * 10) / 10).toFixed(1) + ' L';
+        }
+
+        function e2getEMI(principal, annualRate, termYears) {
+        var r = annualRate / 12;
+        var n = termYears * 12;
+        if (r === 0) return principal / n;
+        return principal * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+        }
+
+        window.e2Preview = function() {
+        var price = parseFloat(document.getElementById('e2-price').value) || 3;
+        var downPct = (parseFloat(document.getElementById('e2-down').value) || 20) / 100;
+        var mRate = (parseFloat(document.getElementById('e2-mrate').value) || 17) / 100;
+        var mTerm = parseInt(document.getElementById('e2-mterm').value) || 20;
+        var rentYield = (parseFloat(document.getElementById('e2-rent').value) || 5) / 100;
+
+        var loan = price * (1 - downPct);
+        var emi = e2getEMI(loan, mRate, mTerm); 
+        var monthlyRent = (price * rentYield) / 12;
+        var diff = (emi + 0) - monthlyRent; 
+
+        document.getElementById('e2-pv-loan').textContent = '₨ ' + e2fmt(loan) + ' Cr';
+        document.getElementById('e2-pv-emi').textContent = '₨ ' + e2fmtLakh(emi);
+        document.getElementById('e2-pv-rent').textContent = '₨ ' + e2fmtLakh(monthlyRent);
+        document.getElementById('e2-pv-diff').textContent = diff >= 0 ? ('₨ ' + e2fmtLakh(diff)) : ('−₨ ' + e2fmtLakh(Math.abs(diff)));
+        }
+
+        window.e2Calculate = function() {
+        var price = parseFloat(document.getElementById('e2-price').value) || 3;
+        var downPct = (parseFloat(document.getElementById('e2-down').value) || 20) / 100;
+        var mRate = (parseFloat(document.getElementById('e2-mrate').value) || 17) / 100;
+        var mTerm = parseInt(document.getElementById('e2-mterm').value) || 20;
+        var psxRate = (parseFloat(document.getElementById('e2-psx').value) || 15) / 100;
+        var appRate = (parseFloat(document.getElementById('e2-app').value) || 10) / 100;
+        var rentYield = (parseFloat(document.getElementById('e2-rent').value) || 5) / 100;
+        var maintRate = (parseFloat(document.getElementById('e2-maint').value) || 1.5) / 100;
+        var years = parseInt(document.getElementById('e2-period').value) || 30;
+
+        var downPayment = price * downPct;
+        var loan = price * (1 - downPct);
+        var monthlyEMI = e2getEMI(loan, mRate, mTerm);
+        var annualEMI = monthlyEMI * 12;
+
+        var loanBalance = loan;
+        var houseVal = price;
+        var portfolio = downPayment; 
+        var totalMaint = 0;
+        var totalRentPaid = 0;
+        var totalInvested = downPayment; 
+
+        var equityData = [downPayment]; 
+        var psxData = [downPayment]; 
+        var labels = ['0'];
+        var step = Math.max(1, Math.floor(years / 10));
+
+        for (var y = 1; y <= years; y++) {
+            houseVal = houseVal * (1 + appRate);
+            var rentThisYear = houseVal * rentYield;
+            totalRentPaid += rentThisYear;
+            var maintThisYear = houseVal * maintRate;
+            totalMaint += maintThisYear;
+
+            if (y <= mTerm) {
+            var interestThisYear = loanBalance * mRate;
+            var principalThisYear = annualEMI - interestThisYear;
+            if (principalThisYear < 0) principalThisYear = 0;
+            loanBalance = loanBalance - principalThisYear;
+            if (loanBalance < 0) loanBalance = 0;
+            }
+            var mortgageOutflow = (y <= mTerm) ? annualEMI : 0;
+            var equity = houseVal - loanBalance - totalMaint;
+            var diff = (mortgageOutflow + maintThisYear) - rentThisYear;
+            if (diff > 0) {
+            totalInvested += diff;
+            portfolio = portfolio * (1 + psxRate) + diff;
+            } else {
+            portfolio = portfolio * (1 + psxRate);
+            }
+
+            if (y % step === 0 || y === years) {
+            labels.push('' + y);
+            equityData.push(parseFloat(e2fmt(equity)));
+            psxData.push(parseFloat(e2fmt(portfolio)));
+            }
+        }
+
+        var netMortgage = houseVal - loanBalance - totalMaint;
+        var netInvest = portfolio;
+        var mortWins = netMortgage > netInvest;
+        var diff2 = Math.abs(netMortgage - netInvest);
+        var multiplier = mortWins ? (netMortgage / Math.max(netInvest, 0.001)) : (netInvest / Math.max(netMortgage, 0.001));
+
+        var mortClass = mortWins ? 'e2-winner' : 'e2-loser';
+        var investClass = mortWins ? 'e2-loser' : 'e2-winner';
+        var mortBadge = mortWins ? '<div class="e2-winner-badge">Winner</div>' : '';
+        var investBadge = !mortWins ? '<div class="e2-winner-badge">Winner</div>' : '';
+
+        document.getElementById('e2-cards').innerHTML =
+            '<div class="e2-result-card ' + mortClass + '">' +
+            mortBadge +
+            '<div class="e2-card-title">Option A — Mortgage</div>' +
+            '<div class="e2-card-value">₨ ' + e2fmt(netMortgage) + ' Cr</div>' +
+            '<div class="e2-card-sub">House ' + e2fmt(houseVal) + ' Cr<br>− Loan ' + e2fmt(Math.max(0,loanBalance)) + ' Cr<br>− Maint ' + e2fmt(totalMaint) + ' Cr</div>' +
+            '</div>' +
+            '<div class="e2-result-card ' + investClass + '">' +
+            investBadge +
+            '<div class="e2-card-title">Option B — Rent + Invest</div>' +
+            '<div class="e2-card-value">₨ ' + e2fmt(netInvest) + ' Cr</div>' +
+            '<div class="e2-card-sub">PSX Portfolio ' + e2fmt(portfolio) + ' Cr<br>Total Invested ' + e2fmt(totalInvested) + ' Cr<br>Rent Paid ' + e2fmt(totalRentPaid) + ' Cr</div>' +
+            '</div>';
+
+        var winnerName = mortWins ? 'Taking the mortgage' : 'Renting and investing in PSX';
+        document.getElementById('e2-insight').innerHTML =
+            '<strong>' + winnerName + '</strong> wins by <strong>₨ ' + e2fmt(diff2) + ' Cr</strong> over ' + years + ' years — a <strong>' + multiplier.toFixed(2) + 'x</strong> difference in net outcome.';
+
+        document.getElementById('e2-legend').innerHTML =
+            '<span><span class="e2-legend-dot" style="background:#F4A261;"></span> Mortgage Equity</span>' +
+            '<span><span class="e2-legend-dot" style="background:#2A9D8F;"></span> PSX Portfolio</span>';
+
+        if (e2ChartInstance) { e2ChartInstance.destroy(); e2ChartInstance = null; }
+        var ctx = document.getElementById('e2-chart').getContext('2d');
+        
+        // Use Financo colors for chart
+        var colorMortgage = '#F4A261';
+        var colorInvest = '#2A9D8F';
+        
+        e2ChartInstance = new Chart(ctx, {
+            type: 'line',
+            data: {
+            labels: labels,
+            datasets: [
+                {
+                label: 'Mortgage Equity',
+                data: equityData,
+                borderColor: colorMortgage,
+                backgroundColor: 'rgba(244,162,97,0.08)',
+                borderWidth: 2,
+                borderDash: [6, 4],
+                pointRadius: 3,
+                pointBackgroundColor: colorMortgage,
+                tension: 0.3,
+                fill: false
+                },
+                {
+                label: 'PSX Portfolio',
+                data: psxData,
+                borderColor: colorInvest,
+                backgroundColor: 'rgba(42,157,143,0.08)',
+                borderWidth: 2,
+                borderDash: [],
+                pointRadius: 3,
+                pointBackgroundColor: colorInvest,
+                tension: 0.3,
+                fill: false
+                }
+            ]
+            },
+            options: {
+            responsive: true, maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                backgroundColor: '#ffffff',
+                borderColor: '#e2e8f0',
+                borderWidth: 1,
+                titleColor: '#64748b',
+                bodyColor: '#264653',
+                callbacks: {
+                    label: function(ctx) { return ctx.dataset.label + ': ₨ ' + ctx.parsed.y.toFixed(2) + ' Cr'; }
+                }
+                }
+            },
+            scales: {
+                x: {
+                grid: { color: 'rgba(0,0,0,0.04)' },
+                ticks: { color: '#64748b', font: { family: 'Inter', size: 11 } },
+                title: { display: true, text: 'Years', color: '#64748b', font: { family: 'Inter' } }
+                },
+                y: {
+                grid: { color: 'rgba(0,0,0,0.04)' },
+                ticks: { color: '#64748b', font: { family: 'Inter', size: 11 }, callback: function(v){ return '₨ ' + v + ' Cr'; } },
+                title: { display: true, text: 'Value (Crore PKR)', color: '#64748b', font: { family: 'Inter' } }
+                }
+            }
+            }
+        });
+
+        document.getElementById('e2-table').innerHTML =
+            '<thead><tr>' +
+            '<th>Item</th>' +
+            '<th>Option A: Mortgage</th>' +
+            '<th>Option B: Rent + Invest</th>' +
+            '</tr></thead>' +
+            '<tbody>' +
+            '<tr><td>Upfront Capital</td><td>₨ ' + e2fmt(downPayment) + ' Cr (down)</td><td>₨ ' + e2fmt(downPayment) + ' Cr (invested in PSX Day 1)</td></tr>' +
+            '<tr><td>Final Asset Value</td><td>₨ ' + e2fmt(houseVal) + ' Cr (house)</td><td>₨ ' + e2fmt(portfolio) + ' Cr (portfolio)</td></tr>' +
+            '<tr><td>Loan Remaining</td><td>− ₨ ' + e2fmt(Math.max(0,loanBalance)) + ' Cr</td><td>N/A</td></tr>' +
+            '<tr><td>Total Maintenance</td><td>− ₨ ' + e2fmt(totalMaint) + ' Cr</td><td>N/A</td></tr>' +
+            '<tr><td>Total Rent Paid</td><td>N/A</td><td>− ₨ ' + e2fmt(totalRentPaid) + ' Cr</td></tr>' +
+            '<tr><td>Total Invested in PSX</td><td>N/A</td><td>₨ ' + e2fmt(totalInvested) + ' Cr</td></tr>' +
+            '<tr><td>Net Value</td><td>₨ ' + e2fmt(netMortgage) + ' Cr</td><td>₨ ' + e2fmt(netInvest) + ' Cr</td></tr>' +
+            '</tbody>';
+
+        document.getElementById('e2-results').style.display = 'block';
+        }
+
+        window.onload = e2Preview;
+    })();
+    </script>
+</body>
+</html>

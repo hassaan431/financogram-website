@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retire Today Calculator | Financo</title>
+    <link rel="icon" type="image/png" href="../assets/logo-transparent.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css">
+    
+    <!-- Link to global styles -->
+    <link rel="stylesheet" href="../css/style.css">
+
+    <!-- Specific styles for THIS calculator only -->
+    <style>
+        .calc-container {
+            --bg: #ffffff;
+            --surf: #f8fafc;
+            --surf2: #ffffff;
+            --bd: #e2e8f0;
+            --bd2: #cbd5e1;
+            --t1: #264653;
+            --t2: #64748b;
+            --t3: #94a3b8;
+            --green: #2A9D8F;
+            --green-bg: rgba(42, 157, 143, 0.1);
+            --green-bd: rgba(42, 157, 143, 0.3);
+            --blue: #264653;
+            --blue-bg: rgba(38, 70, 83, 0.1);
+            --blue-bd: rgba(38, 70, 83, 0.3);
+            --amber: #F4A261;
+            --amber-bg: rgba(244, 162, 97, 0.1);
+            --amber-bd: rgba(244, 162, 97, 0.3);
+            --amber-t: #E76F51;
+            --red-bg: rgba(231, 111, 81, 0.1);
+            --red-bd: rgba(231, 111, 81, 0.3);
+            --red-t: #E76F51;
+            
+            --font-display: var(--font-family);
+            --font-body: var(--font-family);
+            
+            --r-sm: 8px;
+            --r-md: 12px;
+            --r-lg: 16px;
+
+            font-family: var(--font-body);
+            color: var(--t1);
+            margin: 0 auto;
+            max-width: 800px;
+        }
+
+        .calc-container * { box-sizing: border-box; }
+
+        .hdr { text-align: center; margin-bottom: 32px; padding-top: 8px; }
+        .hdr-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--amber); margin-bottom: 12px; }
+        .hdr h1 { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--t1); letter-spacing: -0.01em; margin-bottom: 8px; }
+        .hdr p { font-size: 14px; color: var(--t2); font-weight: 400; }
+        
+        .badges { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+        .badge { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 20px; border: 1px solid; }
+        .b-green { background: var(--green-bg); color: var(--green); border-color: var(--green-bd); }
+        .b-blue  { background: var(--blue-bg);  color: var(--blue);  border-color: var(--blue-bd); }
+        
+        .c-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+        .full { grid-column: 1/-1; }
+        @media (max-width: 520px) { .c-grid { grid-template-columns: 1fr; } .full { grid-column: 1; } }
+        
+        .ic { background: var(--surf); border: 1px solid var(--bd); border-radius: var(--r-lg); padding: 18px 22px; transition: border-color 0.2s; }
+        .ic:hover { border-color: var(--bd2); }
+        .ic-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+        .ic-lbl { font-size: 13px; color: var(--t2); font-weight: 500; }
+        .ic-val  { font-size: 16px; font-weight: 600; color: var(--t1); }
+        
+        .exp-wrap { display: flex; align-items: center; gap: 4px; background: var(--surf2); border: 1px solid var(--bd); border-radius: var(--r-sm); padding: 5px 10px; }
+        .exp-wrap span { font-size: 13px; color: var(--t2); }
+        .exp-wrap input { font-size: 15px; font-weight: 600; border: none; outline: none; background: transparent; width: 95px; text-align: right; font-family: var(--font-body); color: var(--t1); }
+        
+        .calc-container input[type=range] { width: 100%; -webkit-appearance: none; appearance: none; height: 4px; background: var(--bd); border-radius: 3px; outline: none; cursor: pointer; }
+        .calc-container input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--green); cursor: pointer; box-shadow: 0 0 0 3px var(--green-bg); transition: box-shadow 0.15s; }
+        .calc-container input[type=range]::-webkit-slider-thumb:hover { box-shadow: 0 0 0 5px var(--green-bd); }
+        .range-ends { display: flex; justify-content: space-between; font-size: 11px; color: var(--t3); margin-top: 8px; font-weight: 500;}
+        
+        .derived-card { background: var(--surf2); border: 1px solid var(--bd); border-radius: var(--r-lg); padding: 18px 22px; display: flex; flex-direction: column; justify-content: center; }
+        .derived-card .lbl { font-size: 12px; color: var(--t2); margin-bottom: 6px; font-weight: 500;}
+        .derived-card .val { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--t1); margin-bottom: 4px; line-height: 1.2; }
+        .derived-card .sub { font-size: 11px; color: var(--t3); }
+        
+        .alloc-bar { display: flex; height: 6px; border-radius: 3px; overflow: hidden; margin-top: 10px; gap: 2px; }
+        .alloc-bar-psx { background: var(--green); border-radius: 3px; transition: width 0.15s; }
+        .alloc-bar-mm  { flex: 1; background: var(--blue); border-radius: 3px; }
+        .alloc-labels  { display: flex; justify-content: space-between; font-size: 11px; margin-top: 8px; font-weight: 600;}
+        
+        .err-box { display: none; background: var(--red-bg); border: 1px solid var(--red-bd); color: var(--red-t); border-radius: var(--r-sm); padding: 10px 14px; font-size: 13px; margin-bottom: 14px; font-weight: 500;}
+        
+        .blend-card { background: var(--surf); border: 1px solid var(--bd); border-radius: var(--r-md); padding: 16px 20px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+        .blend-lbl { font-size: 12px; color: var(--t2); margin-bottom: 4px; font-weight: 600;}
+        .blend-sub { font-size: 11px; color: var(--t3); font-weight: 500;}
+        .blend-val  { font-family: var(--font-display); font-size: 24px; font-weight: 700; color: var(--t1); }
+        .blend-real { font-size: 12px; color: var(--t3); margin-top: 3px; text-align: right; font-weight: 500;}
+        
+        .sustain { display: flex; align-items: center; gap: 8px; border-radius: var(--r-sm); padding: 10px 14px; font-size: 13px; margin-bottom: 12px; font-weight: 600;}
+        .sustain-ok   { background: var(--green-bg); border: 1px solid var(--green-bd); color: var(--green); }
+        .sustain-warn { background: var(--amber-bg); border: 1px solid var(--amber-bd); color: var(--amber-t); }
+        
+        .c-metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 12px; }
+        .mc { background: var(--surf2); border: 1px solid var(--bd); border-radius: var(--r-md); padding: 16px 18px; }
+        .mc-lbl { font-size: 12px; color: var(--t2); margin-bottom: 7px; font-weight: 500;}
+        .mc-val { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--t1); margin-bottom: 3px; line-height: 1.2; }
+        .mc-sub { font-size: 11px; color: var(--t3); }
+        
+        .hero-result { background: var(--green-bg); border: 1.5px solid var(--green-bd); border-radius: var(--r-lg); padding: 22px 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-bottom: 12px; }
+        .hero-lbl { font-size: 13px; font-weight: 600; color: var(--green); margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
+        .hero-sub { font-size: 11px; color: var(--green); opacity: 0.8; font-weight: 500;}
+        .hero-val { font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--green); }
+        @media(max-width: 580px) { .hero-result { flex-direction: column; text-align: center; } }
+        
+        .tbl-wrap { border: 1px solid var(--bd); border-radius: var(--r-lg); overflow: hidden; margin-bottom: 20px; }
+        .tbl-btn { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 13px 18px; background: var(--surf); border: none; cursor: pointer; font-family: var(--font-body); color: var(--t2); font-size: 13px; text-align: left; transition: background 0.15s; font-weight: 600;}
+        .tbl-btn:hover { background: var(--surf2); }
+        .tbl-btn > span { display: flex; align-items: center; gap: 7px; }
+        .chev { font-size: 15px; transition: transform 0.22s ease; }
+        .tbl-body { display: none; }
+        .c-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .c-table td { padding: 8px 18px; border-bottom: 1px solid var(--bd); color: var(--t1); }
+        .c-table td:first-child { color: var(--t2); width: 62%; font-weight: 500;}
+        .c-table td:last-child { text-align: right; }
+        .c-table tr:last-child td { border-bottom: none; font-weight: 600; color: var(--t1); }
+        .sec-row { background: var(--surf); }
+        .sec-row td { font-size: 11px !important; text-transform: uppercase; letter-spacing: 0.07em; color: var(--t3) !important; padding: 8px 18px !important; font-weight: 700 !important; }
+        
+        .ft { text-align: center; font-size: 11px; color: var(--t3); margin-top: 8px; line-height: 1.6; }
+    </style>
+    <meta name="description" content="Financogram provides simple money lessons, financial calculators, and investment guides for the youth of Pakistan.">
+    <meta name="keywords" content="personal finance, investing, calculators, Pakistan, SIP, real estate, retirement">
+    <meta property="og:title" content="Financogram - Personal Finance Simplified">
+    <meta property="og:description" content="Financogram provides simple money lessons, financial calculators, and investment guides for the youth of Pakistan.">
+    <meta property="og:image" content="https://financogram.com/assets/logo-transparent.png">
+    <meta property="og:url" content="https://financogram.com">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo"><img src="../assets/logo-transparent.png" alt="Financogram Logo" style="height: 40px; width: auto; display: inline-block; vertical-align: middle; margin-right: 8px;">Financogram</a>
+            <button class="menu-toggle" id="mobile-menu">☰</button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="index.html" style="color: var(--primary-color); font-weight: 700;">Calculators</a></li>
+                <li><a href="../learn/index.html">Learn</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="https://www.instagram.com/financo.gram/" target="_blank" class="btn btn-outline" style="padding: 6px 16px;">Instagram</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="container" style="margin-top: 40px; min-height: 60vh; margin-bottom: 60px;">
+        
+        <a href="index.html" style="display: inline-block; margin-bottom: 20px;">&larr; Back to all calculators</a>
+
+        <div class="card calc-container">
+            <header class="hdr">
+                <div class="hdr-tag"><i class="ti ti-armchair"></i> Retirement Planning · Pakistan</div>
+                <h1>Retire Today Calculator</h1>
+                <p>How much corpus do you need right now to stop working today?</p>
+            </header>
+
+            <div class="badges">
+                <span class="badge b-green"><i class="ti ti-trending-up"></i> PSX growth: 16% p.a.</span>
+                <span class="badge b-blue"><i class="ti ti-building-bank"></i> Money market: 8% p.a.</span>
+            </div>
+
+            <div class="c-grid">
+
+                <div class="ic full">
+                <div class="ic-row">
+                    <label for="me" class="ic-lbl">Current monthly expenses</label>
+                    <div class="exp-wrap">
+                    <span>₨</span>
+                    <input type="number" id="me-num" value="100000" min="10000" max="5000000" step="5000">
+                    </div>
+                </div>
+                <input type="range" id="me" min="20000" max="1000000" step="5000" value="100000">
+                <div class="range-ends"><span>₨ 20K</span><span>₨ 10 Lac</span></div>
+                </div>
+
+                <div class="ic">
+                <div class="ic-row">
+                    <label for="ca" class="ic-lbl">Current age</label>
+                    <span id="ca-lbl" class="ic-val">40 yrs</span>
+                </div>
+                <input type="range" id="ca" min="18" max="80" value="40" step="1">
+                <div class="range-ends"><span>18</span><span>80</span></div>
+                </div>
+
+                <div class="ic">
+                <div class="ic-row">
+                    <label for="le" class="ic-lbl">Life expectancy</label>
+                    <span id="le-lbl" class="ic-val">80 yrs</span>
+                </div>
+                <input type="range" id="le" min="50" max="100" value="80" step="1">
+                <div class="range-ends"><span>50</span><span>100</span></div>
+                </div>
+
+                <div class="ic">
+                <div class="ic-row">
+                    <label for="inf" class="ic-lbl">Annual inflation</label>
+                    <span id="inf-lbl" class="ic-val">10%</span>
+                </div>
+                <input type="range" id="inf" min="5" max="20" value="10" step="1">
+                <div class="range-ends"><span>5%</span><span>20%</span></div>
+                </div>
+
+                <div class="derived-card">
+                <div class="lbl">Years in retirement</div>
+                <div id="yir-display" class="val">40 yrs</div>
+                <div class="sub">Life expectancy − Current age</div>
+                </div>
+
+                <div class="ic full">
+                <div class="ic-row">
+                    <label for="psx" class="ic-lbl">Portfolio split</label>
+                    <span id="split-lbl" class="ic-val">60% PSX · 40% MM</span>
+                </div>
+                <input type="range" id="psx" min="0" max="100" value="60" step="5">
+                <div class="alloc-bar">
+                    <div id="psx-bar" class="alloc-bar-psx" style="width:60%;"></div>
+                    <div class="alloc-bar-mm"></div>
+                </div>
+                <div class="alloc-labels">
+                    <span style="color: var(--green);">PSX (16%)</span>
+                    <span style="color: var(--blue);">Money Market (8%)</span>
+                </div>
+                </div>
+
+            </div>
+
+            <div id="err" class="err-box">
+                <i class="ti ti-alert-circle"></i> Life expectancy must be greater than current age.
+            </div>
+
+            <div class="blend-card">
+                <div>
+                <div class="blend-lbl">Blended portfolio return</div>
+                <div id="blend-sub" class="blend-sub">60% × 16% + 40% × 8%</div>
+                </div>
+                <div>
+                <div id="r-blend" class="blend-val">12.8%</div>
+                <div id="r-real" class="blend-real">Real return: 2.8% above inflation</div>
+                </div>
+            </div>
+
+            <div id="sustain-ok" class="sustain sustain-ok">
+                <i class="ti ti-circle-check" style="font-size:16px;"></i>
+                Portfolio grows in real terms — this allocation beats inflation.
+            </div>
+            <div id="sustain-warn" class="sustain sustain-warn" style="display:none;">
+                <i class="ti ti-alert-triangle" style="font-size:16px;"></i>
+                Portfolio erodes in real terms — consider increasing your PSX allocation.
+            </div>
+
+            <div class="c-metrics">
+                <div class="mc">
+                <div class="mc-lbl">PSX portion</div>
+                <div id="r-psx" class="mc-val">—</div>
+                <div id="r-psx-sub" class="mc-sub">60% · growing at 16%</div>
+                </div>
+                <div class="mc">
+                <div class="mc-lbl">MM portion</div>
+                <div id="r-mm" class="mc-val">—</div>
+                <div id="r-mm-sub" class="mc-sub">40% · income at 8%</div>
+                </div>
+                <div class="mc">
+                <div class="mc-lbl">Monthly portfolio income</div>
+                <div id="r-income" class="mc-val">—</div>
+                <div class="mc-sub">blended return ÷ 12</div>
+                </div>
+            </div>
+
+            <div class="hero-result">
+                <div>
+                <div class="hero-lbl"><i class="ti ti-armchair"></i> Corpus needed to retire today</div>
+                <div id="hero-sub" class="hero-sub">—</div>
+                </div>
+                <div id="r-corpus" class="hero-val">—</div>
+            </div>
+
+            <div class="tbl-wrap">
+                <button class="tbl-btn" onclick="window.toggleTbl()">
+                <span><i class="ti ti-calculator"></i> How this is calculated</span>
+                <i id="chev" class="ti ti-chevron-down chev"></i>
+                </button>
+                <div id="tbl-body" class="tbl-body">
+                <table class="c-table">
+                    <tr class="sec-row"><td colspan="2">Step 1 — blended portfolio return</td></tr>
+                    <tr><td>PSX allocation</td><td id="t-psx-alloc">—</td></tr>
+                    <tr><td>MM allocation</td><td id="t-mm-alloc">—</td></tr>
+                    <tr><td>PSX contribution &nbsp;(alloc × 16%)</td><td id="t-psx-contrib">—</td></tr>
+                    <tr><td>MM contribution &nbsp;(alloc × 8%)</td><td id="t-mm-contrib">—</td></tr>
+                    <tr><td>Blended annual return</td><td id="t-blend">—</td></tr>
+                    <tr><td>Monthly blended rate</td><td id="t-blend-m">—</td></tr>
+                    <tr class="sec-row"><td colspan="2">Step 2 — corpus (PV of growing annuity)</td></tr>
+                    <tr><td>Current age</td><td id="t-ca">—</td></tr>
+                    <tr><td>Life expectancy</td><td id="t-le">—</td></tr>
+                    <tr><td>Years in retirement &nbsp;(life exp. − current age)</td><td id="t-ry">—</td></tr>
+                    <tr><td>Current monthly expenses (PMT)</td><td id="t-me">—</td></tr>
+                    <tr><td>Annual inflation (g)</td><td id="t-inf">—</td></tr>
+                    <tr><td>Monthly inflation rate (g ÷ 12)</td><td id="t-inf-m">—</td></tr>
+                    <tr><td>Monthly blended rate (r)</td><td id="t-r">—</td></tr>
+                    <tr><td>Total months (n)</td><td id="t-n">—</td></tr>
+                    <tr><td>((1+g) / (1+r)) ^ n</td><td id="t-ratio">—</td></tr>
+                    <tr><td>PV factor &nbsp;[1 − ratio] / (r − g)</td><td id="t-pvf">—</td></tr>
+                    <tr><td>Corpus needed</td><td id="t-corpus">—</td></tr>
+                    <tr class="sec-row"><td colspan="2">Step 3 — portfolio split</td></tr>
+                    <tr><td>Total corpus</td><td id="t-corpus2">—</td></tr>
+                    <tr><td>PSX portion</td><td id="t-psx-amt">—</td></tr>
+                    <tr><td>MM portion</td><td id="t-mm-amt">—</td></tr>
+                    <tr><td>Annual income at blended return</td><td id="t-annual-inc">—</td></tr>
+                    <tr><td>Monthly portfolio income</td><td id="t-monthly-inc">—</td></tr>
+                </table>
+                </div>
+            </div>
+
+            <p class="ft">Illustrative only. Assumes constant returns and no rebalancing costs.<br>Consult a qualified financial advisor before making investment decisions.</p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>"Financo provides educational information and calculators for informational purposes only. This content is not personalized financial, investment, tax, or legal advice."</p>
+            <p style="margin-top: 1rem;">&copy; 2024 Financo. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>
+        (function() {
+            const PSX_R = 0.16, MM_R = 0.08;
+            function fmt(v) {
+                if (!v||isNaN(v)||!isFinite(v)) return "—";
+                if (v>=10000000) return "\u20a8\u00a0"+(v/10000000).toFixed(2)+" Cr";
+                if (v>=100000)   return "\u20a8\u00a0"+(v/100000).toFixed(2)+" Lac";
+                return "\u20a8\u00a0"+Math.round(v).toLocaleString();
+            }
+            function pct(v,dec=2){ return (v*100).toFixed(dec)+"%"; }
+            function s(id,val){ const el=document.getElementById(id); if(el) el.textContent=val; }
+            
+            window.toggleTbl = function(){
+                const b=document.getElementById("tbl-body"),c=document.getElementById("chev");
+                const open=b.style.display!=="block";
+                b.style.display=open?"block":"none";
+                c.style.transform=open?"rotate(180deg)":"rotate(0deg)";
+            }
+            
+            function calc(){
+                const me  = +document.getElementById("me").value;
+                const ca  = +document.getElementById("ca").value;
+                const le  = +document.getElementById("le").value;
+                const inf = +document.getElementById("inf").value/100;
+                const psx = +document.getElementById("psx").value/100;
+                const mm  = 1-psx;
+                const ry  = le-ca;
+                s("ca-lbl",   ca+" yrs");
+                s("le-lbl",   le+" yrs");
+                s("inf-lbl",  Math.round(inf*100)+"%");
+                s("split-lbl",Math.round(psx*100)+"% PSX · "+Math.round(mm*100)+"% MM");
+                s("yir-display", ry>0 ? ry+" yrs" : "—");
+                document.getElementById("psx-bar").style.width=Math.round(psx*100)+"%";
+                document.getElementById("me-num").value=me;
+                const err=document.getElementById("err");
+                if(ry<=0){ err.style.display="block"; ["r-psx","r-mm","r-income","r-corpus"].forEach(id=>s(id,"—")); s("hero-sub","—"); return; }
+                err.style.display="none";
+                const blend=psx*PSX_R+mm*MM_R, realRt=blend-inf;
+                const r=blend/12, g=inf/12, n=ry*12;
+                s("blend-sub",Math.round(psx*100)+"% × 16% + "+Math.round(mm*100)+"% × 8%");
+                s("r-blend",pct(blend));
+                s("r-real", realRt>=0?"Real return: "+pct(realRt)+" above inflation":"Real return: "+pct(Math.abs(realRt))+" below inflation");
+                document.getElementById("sustain-ok").style.display  =realRt>=0?"flex":"none";
+                document.getElementById("sustain-warn").style.display=realRt<0 ?"flex":"none";
+                let corpus,pvf,ratio;
+                if(Math.abs(r-g)<1e-10){ corpus=me*n; pvf=n; ratio=1; }
+                else { ratio=Math.pow((1+g)/(1+r),n); pvf=(1-ratio)/(r-g); corpus=me*pvf; }
+                const psxAmt=corpus*psx, mmAmt=corpus*mm, annualInc=corpus*blend, monthInc=annualInc/12;
+                s("r-psx",fmt(psxAmt)); s("r-psx-sub",Math.round(psx*100)+"% · growing at 16%");
+                s("r-mm", fmt(mmAmt));  s("r-mm-sub", Math.round(mm*100) +"% · income at 8%");
+                s("r-income",fmt(monthInc)); s("r-corpus",fmt(corpus));
+                s("hero-sub","Age "+ca+" → "+le+" · "+ry+" yrs · "+Math.round(psx*100)+"% PSX + "+Math.round(mm*100)+"% MM · "+Math.round(inf*100)+"% inflation");
+                s("t-psx-alloc",Math.round(psx*100)+"%"); s("t-mm-alloc",Math.round(mm*100)+"%");
+                s("t-psx-contrib",pct(psx*PSX_R)); s("t-mm-contrib",pct(mm*MM_R));
+                s("t-blend",pct(blend)); s("t-blend-m",pct(r,3));
+                s("t-ca",ca+" yrs"); s("t-le",le+" yrs"); s("t-ry",ry+" yrs");
+                s("t-me",fmt(me)); s("t-inf",pct(inf,0)); s("t-inf-m",pct(g,3)); s("t-r",pct(r,3));
+                s("t-n",n+" months");
+                s("t-ratio",((1+g)/(1+r)).toFixed(6)+" ^ "+n+" = "+ratio.toFixed(4));
+                s("t-pvf",pvf.toFixed(2)+"x"); s("t-corpus",fmt(corpus)); s("t-corpus2",fmt(corpus));
+                s("t-psx-amt",fmt(psxAmt)); s("t-mm-amt",fmt(mmAmt));
+                s("t-annual-inc",fmt(annualInc)); s("t-monthly-inc",fmt(monthInc));
+            }
+            const meR=document.getElementById("me"), meN=document.getElementById("me-num");
+            meR.addEventListener("input",()=>{ meN.value=meR.value; calc(); });
+            meN.addEventListener("input",()=>{ meR.value=Math.min(Math.max(+meN.value||0,20000),1000000); calc(); });
+            ["ca","le","inf","psx"].forEach(id=>document.getElementById(id).addEventListener("input",calc));
+            calc();
+        })();
+    </script>
+</body>
+</html>

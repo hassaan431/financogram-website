@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lump Sum Retirement Calculator | Financo</title>
+    <link rel="icon" type="image/png" href="../assets/logo-transparent.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css">
+    
+    <!-- Link to global styles -->
+    <link rel="stylesheet" href="../css/style.css">
+
+    <!-- Specific styles for THIS calculator only -->
+    <style>
+        .calc-container {
+            --bg:        #ffffff;
+            --surf:      #f8fafc;
+            --surf2:     #ffffff;
+            --bd:        #e2e8f0;
+            --bd2:       #cbd5e1;
+            --t1:        #264653;
+            --t2:        #64748b;
+            --t3:        #94a3b8;
+            --green:     #2A9D8F;
+            --green-bg:  rgba(42,157,143,0.1);
+            --green-bd:  rgba(42,157,143,0.3);
+            --green-t:   #218276;
+            --blue:      #264653; 
+            --blue-bg:   rgba(38,70,83,0.1);
+            --blue-bd:   rgba(38,70,83,0.3);
+            --red-bg:    rgba(231,111,81,0.1);
+            --red-bd:    rgba(231,111,81,0.3);
+            --red-t:     #E76F51;
+            --r-sm:  8px;
+            --r-md: 12px;
+            --r-lg: 16px;
+            --font-display: var(--font-family);
+            --font-body:    var(--font-family);
+
+            font-family: var(--font-body);
+            color: var(--t1);
+            margin: 0 auto;
+            max-width: 800px;
+        }
+
+        .calc-container * { box-sizing: border-box; }
+
+        /* Header */
+        .hdr { text-align: center; margin-bottom: 32px; padding-top: 8px; }
+        .hdr-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); margin-bottom: 12px; }
+        .hdr h1 { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--t1); letter-spacing: -0.01em; margin-bottom: 8px; }
+        .hdr p { font-size: 14px; color: var(--t2); font-weight: 400; }
+
+        /* Badges */
+        .badges { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+        .badge { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 20px; border: 1px solid; }
+        .b-green { background: var(--green-bg); color: var(--green); border-color: var(--green-bd); }
+        .b-blue  { background: var(--blue-bg);  color: var(--blue);  border-color: var(--blue-bd);  }
+
+        /* Grid */
+        .c-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+        .full { grid-column: 1 / -1; }
+        @media (max-width: 520px) { .c-grid { grid-template-columns: 1fr; } .full { grid-column: 1; } }
+
+        /* Input cards */
+        .ic { background: var(--surf); border: 1px solid var(--bd); border-radius: var(--r-lg); padding: 18px 22px; transition: border-color 0.2s; }
+        .ic:hover { border-color: var(--bd2); }
+        .ic-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+        .ic-lbl { font-size: 13px; color: var(--t2); font-weight: 500; }
+        .ic-val { font-size: 16px; font-weight: 600; color: var(--t1); }
+
+        /* Expense input wrap */
+        .exp-wrap { display: flex; align-items: center; gap: 4px; background: var(--surf2); border: 1px solid var(--bd); border-radius: var(--r-sm); padding: 5px 10px; }
+        .exp-wrap span { font-size: 13px; color: var(--t2); }
+        .exp-wrap input { font-size: 15px; font-weight: 600; border: none; outline: none; background: transparent; width: 95px; text-align: right; font-family: var(--font-body); color: var(--t1); }
+        
+        /* Sliders */
+        .calc-container input[type=range] { width: 100%; -webkit-appearance: none; appearance: none; height: 4px; background: var(--bd); border-radius: 3px; outline: none; cursor: pointer; }
+        .calc-container input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--green); cursor: pointer; box-shadow: 0 0 0 3px var(--green-bg); transition: box-shadow 0.15s; }
+        .calc-container input[type=range]::-webkit-slider-thumb:hover { box-shadow: 0 0 0 5px var(--green-bd); }
+        .range-ends { display: flex; justify-content: space-between; font-size: 11px; color: var(--t3); margin-top: 8px; font-weight: 500;}
+
+        /* Error */
+        .err-box { display: none; background: var(--red-bg); border: 1px solid var(--red-bd); color: var(--red-t); border-radius: var(--r-sm); padding: 10px 14px; font-size: 13px; margin-bottom: 14px; font-weight: 500;}
+
+        /* Metric cards */
+        .c-metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 12px; }
+        .mc { background: var(--surf2); border: 1px solid var(--bd); border-radius: var(--r-md); padding: 16px 18px; }
+        .mc-lbl { font-size: 12px; color: var(--t2); margin-bottom: 7px; font-weight: 500;}
+        .mc-val { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--t1); margin-bottom: 3px; line-height: 1.2; }
+        .mc-sub { font-size: 11px; color: var(--t3); }
+
+        /* Hero result */
+        .hero-result { background: var(--green-bg); border: 1.5px solid var(--green-bd); border-radius: var(--r-lg); padding: 22px 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-bottom: 12px; }
+        .hero-lbl { font-size: 13px; font-weight: 600; color: var(--green); margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
+        .hero-sub { font-size: 11px; color: var(--green); opacity: 0.8; font-weight: 500;}
+        .hero-val { font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--green); }
+        @media(max-width: 580px) { .hero-result { flex-direction: column; text-align: center; } }
+
+        /* Collapsible table */
+        .tbl-wrap { border: 1px solid var(--bd); border-radius: var(--r-lg); overflow: hidden; margin-bottom: 20px; }
+        .tbl-btn { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 13px 18px; background: var(--surf); border: none; cursor: pointer; font-family: var(--font-body); color: var(--t2); font-size: 13px; text-align: left; transition: background 0.15s; font-weight: 600;}
+        .tbl-btn:hover { background: var(--surf2); }
+        .tbl-btn > span { display: flex; align-items: center; gap: 7px; }
+        .chev { font-size: 15px; transition: transform 0.22s ease; }
+        .tbl-body { display: none; }
+        .c-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .c-table td { padding: 8px 18px; border-bottom: 1px solid var(--bd); color: var(--t1); }
+        .c-table td:first-child { color: var(--t2); width: 62%; font-weight: 500;}
+        .c-table td:last-child { text-align: right; }
+        .c-table tr:last-child td { border-bottom: none; font-weight: 600; color: var(--t1); }
+        .sec-row { background: var(--surf); }
+        .sec-row td { font-size: 11px !important; text-transform: uppercase; letter-spacing: 0.07em; color: var(--t3) !important; padding: 8px 18px !important; font-weight: 700 !important; }
+        
+        .ft { text-align: center; font-size: 11px; color: var(--t3); margin-top: 8px; line-height: 1.6; }
+    </style>
+    <meta name="description" content="Financogram provides simple money lessons, financial calculators, and investment guides for the youth of Pakistan.">
+    <meta name="keywords" content="personal finance, investing, calculators, Pakistan, SIP, real estate, retirement">
+    <meta property="og:title" content="Financogram - Personal Finance Simplified">
+    <meta property="og:description" content="Financogram provides simple money lessons, financial calculators, and investment guides for the youth of Pakistan.">
+    <meta property="og:image" content="https://financogram.com/assets/logo-transparent.png">
+    <meta property="og:url" content="https://financogram.com">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo"><img src="../assets/logo-transparent.png" alt="Financogram Logo" style="height: 40px; width: auto; display: inline-block; vertical-align: middle; margin-right: 8px;">Financogram</a>
+            <button class="menu-toggle" id="mobile-menu">☰</button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="index.html" style="color: var(--primary-color); font-weight: 700;">Calculators</a></li>
+                <li><a href="../learn/index.html">Learn</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="https://www.instagram.com/financo.gram/" target="_blank" class="btn btn-outline" style="padding: 6px 16px;">Instagram</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="container" style="margin-top: 40px; min-height: 60vh; margin-bottom: 60px;">
+        
+        <a href="index.html" style="display: inline-block; margin-bottom: 20px;">&larr; Back to all calculators</a>
+
+        <div class="card calc-container">
+            <header class="hdr">
+                <div class="hdr-tag"><i class="ti ti-building-skyscraper"></i> Retirement Planning · Pakistan</div>
+                <h1>Lump Sum Calculator</h1>
+                <p>How much do you need to invest today as a single one-time amount?</p>
+            </header>
+
+            <div class="badges">
+                <span class="badge b-green"><i class="ti ti-trending-up"></i> PSX return: 16% p.a.</span>
+                <span class="badge b-blue"><i class="ti ti-building-bank"></i> Post-retirement: 8% money market</span>
+            </div>
+
+            <div class="c-grid">
+                <div class="ic">
+                <div class="ic-row">
+                    <label for="ca" class="ic-lbl">Current age</label>
+                    <span id="ca-lbl" class="ic-val">30 yrs</span>
+                </div>
+                <input type="range" id="ca" min="18" max="65" value="30" step="1">
+                <div class="range-ends"><span>18</span><span>65</span></div>
+                </div>
+
+                <div class="ic">
+                <div class="ic-row">
+                    <label for="ra" class="ic-lbl">Retirement age</label>
+                    <span id="ra-lbl" class="ic-val">60 yrs</span>
+                </div>
+                <input type="range" id="ra" min="40" max="75" value="60" step="1">
+                <div class="range-ends"><span>40</span><span>75</span></div>
+                </div>
+
+                <div class="ic full">
+                <div class="ic-row">
+                    <label for="me" class="ic-lbl">Current monthly expenses</label>
+                    <div class="exp-wrap">
+                    <span>₨</span>
+                    <input type="number" id="me-num" value="100000" min="10000" max="5000000" step="5000">
+                    </div>
+                </div>
+                <input type="range" id="me" min="20000" max="1000000" step="5000" value="100000">
+                <div class="range-ends"><span>₨ 20K</span><span>₨ 10 Lac</span></div>
+                </div>
+
+                <div class="ic">
+                <div class="ic-row">
+                    <label for="inf" class="ic-lbl">Annual inflation</label>
+                    <span id="inf-lbl" class="ic-val">10%</span>
+                </div>
+                <input type="range" id="inf" min="5" max="20" value="10" step="1">
+                <div class="range-ends"><span>5%</span><span>20%</span></div>
+                </div>
+
+                <div class="ic">
+                <div class="ic-row">
+                    <label for="ry" class="ic-lbl">Years after retirement</label>
+                    <span id="ry-lbl" class="ic-val">25 yrs</span>
+                </div>
+                <input type="range" id="ry" min="10" max="40" value="25" step="1">
+                <div class="range-ends"><span>10</span><span>40</span></div>
+                </div>
+            </div>
+
+            <div id="err" class="err-box">
+                <i class="ti ti-alert-circle"></i> Retirement age must be greater than current age.
+            </div>
+
+            <div class="c-metrics">
+                <div class="mc">
+                <div class="mc-lbl">Years to retire</div>
+                <div id="r-ytr" class="mc-val">30</div>
+                <div class="mc-sub">years remaining</div>
+                </div>
+                <div class="mc">
+                <div class="mc-lbl">Future monthly need</div>
+                <div id="r-fme" class="mc-val">—</div>
+                <div id="r-fme-sub" class="mc-sub">at retirement</div>
+                </div>
+                <div class="mc">
+                <div class="mc-lbl">Corpus at retirement</div>
+                <div id="r-corpus" class="mc-val">—</div>
+                <div id="r-corpus-sub" class="mc-sub">total needed</div>
+                </div>
+            </div>
+
+            <div class="hero-result">
+                <div>
+                <div class="hero-lbl"><i class="ti ti-coin"></i> Lump sum to invest today</div>
+                <div class="hero-sub">Grows at 16% p.a. in PSX → becomes your retirement corpus</div>
+                </div>
+                <div id="r-lumpsum" class="hero-val">—</div>
+            </div>
+
+            <div class="tbl-wrap">
+                <button class="tbl-btn" onclick="toggleTbl('tbl-body','chev')">
+                <span><i class="ti ti-calculator"></i> How this is calculated</span>
+                <i id="chev" class="ti ti-chevron-down chev"></i>
+                </button>
+                <div id="tbl-body" class="tbl-body">
+                <table class="c-table">
+                    <tr class="sec-row"><td colspan="2">Step 1 — future monthly expenses</td></tr>
+                    <tr><td>Current monthly expenses</td><td id="t-me">—</td></tr>
+                    <tr><td>Annual inflation rate</td><td id="t-inf">—</td></tr>
+                    <tr><td>Years to retirement</td><td id="t-ytr">—</td></tr>
+                    <tr><td>Inflation multiplier &nbsp;(1+r)^n</td><td id="t-imul">—</td></tr>
+                    <tr><td>Future monthly expenses</td><td id="t-fme">—</td></tr>
+                    <tr class="sec-row"><td colspan="2">Step 2 — corpus at retirement</td></tr>
+                    <tr><td>Future monthly expenses</td><td id="t-fme2">—</td></tr>
+                    <tr><td>Money market return (p.a.)</td><td>8.00%</td></tr>
+                    <tr><td>Monthly MM rate</td><td>0.667%</td></tr>
+                    <tr><td>Years after retirement</td><td id="t-ry">—</td></tr>
+                    <tr><td>Total withdrawal months</td><td id="t-months">—</td></tr>
+                    <tr><td>Corpus at retirement &nbsp;(PV of annuity)</td><td id="t-corpus">—</td></tr>
+                    <tr class="sec-row"><td colspan="2">Step 3 — lump sum today</td></tr>
+                    <tr><td>Corpus at retirement</td><td id="t-corpus2">—</td></tr>
+                    <tr><td>PSX annual return</td><td>16.00%</td></tr>
+                    <tr><td>Years of PSX growth</td><td id="t-ytr2">—</td></tr>
+                    <tr><td>PSX growth multiplier &nbsp;(1.16)^n</td><td id="t-pmul">—</td></tr>
+                    <tr><td>Lump sum required today</td><td id="t-ls">—</td></tr>
+                </table>
+                </div>
+            </div>
+
+            <p class="ft">Illustrative only. Assumes constant annual returns. Past returns are not a guarantee of future performance.<br>Consult a qualified financial advisor before making investment decisions.</p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>"Financo provides educational information and calculators for informational purposes only. This content is not personalized financial, investment, tax, or legal advice."</p>
+            <p style="margin-top: 1rem;">&copy; 2024 Financo. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>
+        (function() {
+            const PSX = 0.16, MM = 0.08;
+
+            function fmt(v) {
+                if (!v || isNaN(v) || !isFinite(v)) return "—";
+                if (v >= 10000000) return "\u20a8\u00a0" + (v / 10000000).toFixed(2) + " Cr";
+                if (v >= 100000)   return "\u20a8\u00a0" + (v / 100000).toFixed(2) + " Lac";
+                return "\u20a8\u00a0" + Math.round(v).toLocaleString();
+            }
+
+            function s(id, val) { const el = document.getElementById(id); if (el) el.textContent = val; }
+
+            window.toggleTbl = function(bodyId, chevId) {
+                const b = document.getElementById(bodyId);
+                const c = document.getElementById(chevId);
+                const open = b.style.display !== "block";
+                b.style.display = open ? "block" : "none";
+                c.style.transform = open ? "rotate(180deg)" : "rotate(0deg)";
+            }
+
+            function calc() {
+                const ca  = +document.getElementById("ca").value;
+                const ra  = +document.getElementById("ra").value;
+                const me  = +document.getElementById("me").value;
+                const inf = +document.getElementById("inf").value / 100;
+                const ry  = +document.getElementById("ry").value;
+
+                s("ca-lbl",  ca + " yrs");
+                s("ra-lbl",  ra + " yrs");
+                s("inf-lbl", Math.round(inf * 100) + "%");
+                s("ry-lbl",  ry + " yrs");
+
+                const ytr = ra - ca;
+                const err = document.getElementById("err");
+
+                const ids = ["r-ytr","r-fme","r-corpus","r-lumpsum","t-me","t-inf","t-ytr","t-imul",
+                            "t-fme","t-fme2","t-ry","t-months","t-corpus","t-corpus2","t-ytr2","t-pmul","t-ls"];
+
+                if (ytr <= 0) { err.style.display = "block"; ids.forEach(id => s(id, "—")); return; }
+                err.style.display = "none";
+
+                const infMul = Math.pow(1 + inf, ytr);
+                const fme    = me * infMul;
+                const r      = MM / 12;
+                const n      = ry * 12;
+                const corpus = fme * (1 - Math.pow(1 + r, -n)) / r;
+                const psxMul = Math.pow(1 + PSX, ytr);
+                const lump   = corpus / psxMul;
+
+                s("r-ytr",         ytr);
+                s("r-fme",         fmt(fme));
+                s("r-fme-sub",     "at " + Math.round(inf * 100) + "% inflation / yr");
+                s("r-corpus",      fmt(corpus));
+                s("r-corpus-sub",  "for " + ry + " yrs @ 8% MM");
+                s("r-lumpsum",     fmt(lump));
+
+                s("t-me",      fmt(me));
+                s("t-inf",     (inf * 100).toFixed(0) + "%");
+                s("t-ytr",     ytr + " yrs");
+                s("t-imul",    infMul.toFixed(2) + "x");
+                s("t-fme",     fmt(fme));
+                s("t-fme2",    fmt(fme));
+                s("t-ry",      ry + " yrs");
+                s("t-months",  n + " months");
+                s("t-corpus",  fmt(corpus));
+                s("t-corpus2", fmt(corpus));
+                s("t-ytr2",    ytr + " yrs");
+                s("t-pmul",    psxMul.toFixed(2) + "x");
+                s("t-ls",      fmt(lump));
+            }
+
+            const meR = document.getElementById("me");
+            const meN = document.getElementById("me-num");
+            meR.addEventListener("input", () => { meN.value = meR.value; calc(); });
+            meN.addEventListener("input", () => { meR.value = Math.min(Math.max(+meN.value || 0, 20000), 1000000); calc(); });
+            ["ca", "ra", "inf", "ry"].forEach(id => document.getElementById(id).addEventListener("input", calc));
+            calc();
+        })();
+    </script>
+</body>
+</html>

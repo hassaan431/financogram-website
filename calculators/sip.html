@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Early SIP Calculator | Financo</title>
+    <link rel="icon" type="image/png" href="../assets/logo-transparent.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Link to global styles -->
+    <link rel="stylesheet" href="../css/style.css">
+
+    <!-- Specific styles for THIS calculator only -->
+    <style>
+        .calc-container { margin: 0 auto; max-width: 800px; }
+        .calc-container h1 { margin-bottom: 4px; }
+        .calc-container .subtitle { font-size: 14px; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .inputs-row { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 1.5rem; }
+        .investor-box { flex: 1; min-width: 260px; background: var(--bg-main); border-radius: 12px; padding: 1.25rem; }
+        .investor-box.a { border-top: 4px solid var(--primary-color); }
+        .investor-box.b { border-top: 4px solid #0F6E56; } 
+        .investor-box p { font-size: 14px; font-weight: 600; margin-bottom: 12px; }
+        .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .grid2 label { font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px; }
+        .grid2 input { width: 100%; font-size: 14px; padding: 8px 10px; border: 1px solid var(--border-color); border-radius: 6px; font-family: var(--font-family); }
+        .grid2 input:focus { border-color: var(--primary-color); outline: none; }
+        
+        .apply-btn { padding: 10px 24px; font-size: 14px; font-weight: 600; border-radius: 8px; cursor: pointer; margin-bottom: 1.5rem; background: var(--primary-color); color: #fff; border: none; font-family: var(--font-family); transition: background 0.2s; }
+        .apply-btn:hover { background: var(--primary-hover); }
+        
+        .metrics { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 1.5rem; }
+        .metric { flex: 1; min-width: 140px; background: var(--bg-main); padding: 1rem; border-radius: 8px; }
+        .metric.a { border-left: 4px solid var(--primary-color); }
+        .metric.b { border-left: 4px solid #0F6E56; }
+        .metric.n { border-left: 4px solid var(--text-muted); }
+        .metric-label { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+        .metric-value { font-size: 18px; font-weight: 600; color: var(--text-main); }
+        
+        .legend { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 16px; font-size: 13px; color: var(--text-muted); }
+        .legend span { display: flex; align-items: center; gap: 6px; }
+        
+        .calc-container canvas { width: 100%; display: block; margin-bottom: 1rem;}
+        
+        .controls { display: flex; align-items: center; gap: 16px; margin-top: 1rem; }
+        .play-btn { padding: 8px 24px; font-size: 14px; font-weight: 600; border-radius: 8px; cursor: pointer; min-width: 100px; border: 1px solid var(--border-color); background: transparent; color: var(--text-main); font-family: var(--font-family); }
+        .play-btn:hover { background: var(--bg-main); }
+        .controls input[type=range] { flex: 1; accent-color: var(--primary-color); }
+        .slider-label { font-size: 14px; color: var(--text-muted); min-width: 55px; }
+
+        /* Mobile specific fixes for the calculator */
+        @media (max-width: 600px) {
+            .grid2 { grid-template-columns: 1fr; } /* Stack inputs vertically instead of side-by-side */
+            .investor-box { min-width: 100%; padding: 1rem; }
+            .controls { flex-wrap: wrap; }
+            .legend { flex-direction: column; gap: 10px; }
+            .metrics { flex-direction: column; }
+        }
+    </style>
+    <meta name="description" content="Financogram provides simple money lessons, financial calculators, and investment guides for the youth of Pakistan.">
+    <meta name="keywords" content="personal finance, investing, calculators, Pakistan, SIP, real estate, retirement">
+    <meta property="og:title" content="Financogram - Personal Finance Simplified">
+    <meta property="og:description" content="Financogram provides simple money lessons, financial calculators, and investment guides for the youth of Pakistan.">
+    <meta property="og:image" content="https://financogram.com/assets/logo-transparent.png">
+    <meta property="og:url" content="https://financogram.com">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo"><img src="../assets/logo-transparent.png" alt="Financogram Logo" style="height: 40px; width: auto; display: inline-block; vertical-align: middle; margin-right: 8px;">Financogram</a>
+            <button class="menu-toggle" id="mobile-menu">☰</button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="index.html" style="color: var(--primary-color); font-weight: 700;">Calculators</a></li>
+                <li><a href="../learn/index.html">Learn</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="https://www.instagram.com/financo.gram/" target="_blank" class="btn btn-outline" style="padding: 6px 16px;">Instagram</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="container" style="margin-top: 40px; min-height: 60vh; margin-bottom: 60px;">
+        
+        <!-- Breadcrumb link back to calculators -->
+        <a href="index.html" style="display: inline-block; margin-bottom: 20px;">&larr; Back to all calculators</a>
+
+        <!-- We wrap the calculator in our global 'card' style -->
+        <div class="card calc-container">
+            <h1>Early SIP Calculator</h1>
+            <p class="subtitle">Customise both investors and see how time in the market changes everything.</p>
+
+            <div class="inputs-row">
+                <div class="investor-box a">
+                <p>Investor A</p>
+                <div class="grid2">
+                    <div><label>Name</label><input id="aName" type="text" value="Allama" /></div>
+                    <div><label>Start age</label><input id="aAge" type="number" value="20" min="10" max="58" /></div>
+                    <div><label>Monthly (PKR)</label><input id="aMonthly" type="number" value="5000" min="100" step="500" /></div>
+                    <div><label>End age</label><input id="aEnd" type="number" value="60" min="20" max="80" /></div>
+                    <div><label>Yearly increase %</label><input id="aIncrease" type="number" value="10" min="0" max="50" /></div>
+                    <div><label>Annual return %</label><input id="aReturn" type="number" value="12" min="1" max="40" /></div>
+                </div>
+                </div>
+                <div class="investor-box b">
+                <p>Investor B</p>
+                <div class="grid2">
+                    <div><label>Name</label><input id="bName" type="text" value="Ghalib" /></div>
+                    <div><label>Start age</label><input id="bAge" type="number" value="27" min="10" max="58" /></div>
+                    <div><label>Monthly (PKR)</label><input id="bMonthly" type="number" value="10000" min="100" step="500" /></div>
+                    <div><label>End age</label><input id="bEnd" type="number" value="60" min="20" max="80" /></div>
+                    <div><label>Yearly increase %</label><input id="bIncrease" type="number" value="10" min="0" max="50" /></div>
+                    <div><label>Annual return %</label><input id="bReturn" type="number" value="12" min="1" max="40" /></div>
+                </div>
+                </div>
+            </div>
+
+            <button class="apply-btn" id="applyBtn">Apply &amp; Recalculate</button>
+
+            <div class="metrics">
+                <div class="metric a">
+                <div class="metric-label" id="labelA">Allama — total wealth</div>
+                <div class="metric-value" id="aWealth">—</div>
+                </div>
+                <div class="metric b">
+                <div class="metric-label" id="labelB">Ghalib — total wealth</div>
+                <div class="metric-value" id="bWealth">—</div>
+                </div>
+                <div class="metric n">
+                <div class="metric-label">Total invested (A / B)</div>
+                <div class="metric-value" id="invested">—</div>
+                </div>
+            </div>
+
+            <div class="legend">
+                <span>
+                <svg width="24" height="10"><line x1="0" y1="5" x2="24" y2="5" stroke="#2A9D8F" stroke-width="2.5"/></svg>
+                <span id="legendA">Allama</span>
+                </span>
+                <span>
+                <svg width="24" height="10"><line x1="0" y1="5" x2="24" y2="5" stroke="#0F6E56" stroke-width="2.5" stroke-dasharray="6,4"/></svg>
+                <span id="legendB">Ghalib</span>
+                </span>
+            </div>
+
+            <canvas id="c" role="img" aria-label="Animated SIP comparison chart.">SIP growth comparison between two investors.</canvas>
+
+            <div class="controls">
+                <button class="play-btn" id="playBtn">&#9654; Play</button>
+                <input type="range" id="slider" min="0" max="40" value="0" step="1" />
+                <span class="slider-label" id="sliderLabel">—</span>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>"Financo provides educational information and calculators for informational purposes only. This content is not personalized financial, investment, tax, or legal advice."</p>
+            <p style="margin-top: 1rem;">&copy; 2024 Financo. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    
+    <!-- Calculator Logic Script -->
+    <script>
+        // We use an IIFE (Immediately Invoked Function Expression) to keep this code isolated
+        // so it doesn't interfere with other scripts on the page
+        (function() {
+            var aRows = [], bRows = [];
+            var globalMinAge = 20, globalMaxAge = 60, STEPS = 40;
+            var canvas = document.getElementById('c');
+            var W, H, dpr, ctx;
+            var PAD = { top: 20, right: 20, bottom: 40, left: 76 };
+            var MAX_VAL = 1;
+            var playing = false, rafId = null, animStep = 0, stepStart = null;
+            var STEP_MS = 500;
+            
+            // Updated main color to match Financo theme
+            var MAIN_COLOR = '#2A9D8F';
+
+            function gi(id) { return document.getElementById(id); }
+            function gv(id, def) { var v = parseFloat(gi(id).value); return isNaN(v) ? def : v; }
+            function gs(id) { return gi(id).value.trim() || id; }
+
+            function calcSIP(startAge, endAge, startMonthly, increaseRate, returnRate) {
+                var rate = returnRate / 100 / 12;
+                var wealth = 0, invested = 0, monthly = startMonthly, rows = [];
+                for (var age = startAge; age <= endAge; age++) {
+                    for (var m = 0; m < 12; m++) {
+                    wealth = wealth * (1 + rate) + monthly;
+                    invested += monthly;
+                    }
+                    rows.push({ age: age, wealth: Math.round(wealth), invested: Math.round(invested) });
+                    monthly = Math.round(monthly * (1 + increaseRate / 100));
+                }
+                return rows;
+            }
+
+            function fmt(n) {
+                if (n == null || isNaN(n)) return '—';
+                if (n >= 1e7) return 'PKR ' + (n / 1e7).toFixed(2) + ' Cr';
+                if (n >= 1e5) return 'PKR ' + (n / 1e5).toFixed(2) + ' L';
+                return 'PKR ' + Math.round(n).toLocaleString();
+            }
+
+            function initCanvas() {
+                dpr = window.devicePixelRatio || 1;
+                W = canvas.parentElement.offsetWidth || 680;
+                H = 300;
+                canvas.width = W * dpr;
+                canvas.height = H * dpr;
+                canvas.style.width = W + 'px';
+                canvas.style.height = H + 'px';
+                ctx = canvas.getContext('2d');
+                ctx.scale(dpr, dpr);
+            }
+
+            function xp(age) {
+                return PAD.left + ((age - globalMinAge) / (globalMaxAge - globalMinAge)) * (W - PAD.left - PAD.right);
+            }
+            function yp(v) {
+                return PAD.top + (H - PAD.top - PAD.bottom) * (1 - v / MAX_VAL);
+            }
+            function fmtAxis(n) {
+                if (n >= 1e7) return (n / 1e7).toFixed(1) + 'Cr';
+                if (n >= 1e5) return (n / 1e5).toFixed(0) + 'L';
+                return n;
+            }
+
+            var gridCol = 'rgba(0,0,0,0.07)';
+            var txtCol = '#888780';
+
+            function drawGrid() {
+                var cw = W - PAD.left - PAD.right;
+                var ch = H - PAD.top - PAD.bottom;
+                ctx.clearRect(0, 0, W, H);
+                ctx.font = '11px "Inter", sans-serif';
+                for (var i = 0; i <= 5; i++) {
+                    var v = (MAX_VAL / 5) * i;
+                    var y = yp(v);
+                    ctx.strokeStyle = gridCol; ctx.lineWidth = 0.5;
+                    ctx.beginPath(); ctx.moveTo(PAD.left, y); ctx.lineTo(PAD.left + cw, y); ctx.stroke();
+                    ctx.fillStyle = txtCol; ctx.textAlign = 'right';
+                    ctx.fillText(fmtAxis(Math.round(v)), PAD.left - 6, y + 4);
+                }
+                var span = globalMaxAge - globalMinAge;
+                var step = span <= 20 ? 2 : span <= 40 ? 5 : 10;
+                ctx.textAlign = 'center';
+                for (var age = globalMinAge; age <= globalMaxAge; age++) {
+                    if ((age - globalMinAge) % step !== 0) continue;
+                    var x = xp(age);
+                    ctx.strokeStyle = gridCol; ctx.lineWidth = 0.5;
+                    ctx.beginPath(); ctx.moveTo(x, PAD.top); ctx.lineTo(x, PAD.top + ch); ctx.stroke();
+                    ctx.fillStyle = txtCol;
+                    ctx.fillText('Age ' + age, x, PAD.top + ch + 16);
+                }
+            }
+
+            function drawCurve(pts, color, dash, fillColor) {
+                if (pts.length < 2) return;
+                var ch = H - PAD.top - PAD.bottom;
+                ctx.save();
+                ctx.beginPath();
+                ctx.moveTo(pts[0][0], pts[0][1]);
+                for (var i = 1; i < pts.length; i++) {
+                    var cx = (pts[i - 1][0] + pts[i][0]) / 2;
+                    ctx.bezierCurveTo(cx, pts[i - 1][1], cx, pts[i][1], pts[i][0], pts[i][1]);
+                }
+                ctx.lineTo(pts[pts.length - 1][0], PAD.top + ch);
+                ctx.lineTo(pts[0][0], PAD.top + ch);
+                ctx.closePath();
+                ctx.fillStyle = fillColor; ctx.fill();
+                ctx.beginPath();
+                ctx.moveTo(pts[0][0], pts[0][1]);
+                for (var j = 1; j < pts.length; j++) {
+                    var cx2 = (pts[j - 1][0] + pts[j][0]) / 2;
+                    ctx.bezierCurveTo(cx2, pts[j - 1][1], cx2, pts[j][1], pts[j][0], pts[j][1]);
+                }
+                ctx.strokeStyle = color; ctx.lineWidth = 2.5;
+                ctx.setLineDash(dash); ctx.stroke(); ctx.setLineDash([]);
+                ctx.restore();
+            }
+
+            function getPts(rows, upToAge) {
+                return rows.filter(function(r) { return r.age <= upToAge; }).map(function(r) { return [xp(r.age), yp(r.wealth)]; });
+            }
+
+            function getRow(rows, age) {
+                return rows.find(function(r) { return r.age === age; }) || null;
+            }
+
+            function getLatestRow(rows, upToAge) {
+                var result = null;
+                for (var i = 0; i < rows.length; i++) {
+                    if (rows[i].age <= upToAge) result = rows[i];
+                    else break;
+                }
+                return result;
+            }
+
+            function updateCards(currentAge, progress) {
+                var aRow  = getRow(aRows, currentAge);
+                var aPrev = getRow(aRows, currentAge - 1) || { wealth: 0, invested: 0 };
+                var bRow  = getRow(bRows, currentAge);
+                var bPrev = getRow(bRows, currentAge - 1) || { wealth: 0, invested: 0 };
+
+                var aLatest = getLatestRow(aRows, currentAge);
+                if (aLatest) {
+                    var aW   = aRow ? Math.round(aPrev.wealth   + (aRow.wealth   - aPrev.wealth)   * progress) : aLatest.wealth;
+                    var aInv = aRow ? Math.round(aPrev.invested + (aRow.invested - aPrev.invested) * progress) : aLatest.invested;
+                    gi('aWealth').textContent = fmt(aW);
+                } else {
+                    gi('aWealth').textContent = 'Not started';
+                    aInv = 0;
+                }
+
+                var bLatest = getLatestRow(bRows, currentAge);
+                if (bLatest) {
+                    var bW   = bRow ? Math.round(bPrev.wealth   + (bRow.wealth   - bPrev.wealth)   * progress) : bLatest.wealth;
+                    var bInv = bRow ? Math.round(bPrev.invested + (bRow.invested - bPrev.invested) * progress) : bLatest.invested;
+                    gi('bWealth').textContent = fmt(bW);
+                } else {
+                    gi('bWealth').textContent = 'Not started';
+                    bInv = 0;
+                }
+
+                gi('invested').textContent =
+                    (typeof aInv !== 'undefined' && aInv > 0 ? fmt(aInv) : '—') +
+                    ' / ' +
+                    (typeof bInv !== 'undefined' && bInv > 0 ? fmt(bInv) : '—');
+            }
+
+            function renderFull(currentAge) {
+                drawGrid();
+                var aPts = getPts(aRows, currentAge);
+                if (aPts.length > 1) drawCurve(aPts, MAIN_COLOR, [], 'rgba(37, 99, 235, 0.08)');
+                var bPts = getPts(bRows, currentAge);
+                if (bPts.length > 1) drawCurve(bPts, '#0F6E56', [6, 4], 'rgba(15,110,86,0.08)');
+                updateCards(currentAge, 1);
+                gi('sliderLabel').textContent = 'Age ' + currentAge;
+                gi('slider').value = currentAge - globalMinAge;
+            }
+
+            function ease(t) { return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t; }
+
+            function animFrame(ts) {
+                if (!stepStart) stepStart = ts;
+                var t = Math.min((ts - stepStart) / STEP_MS, 1);
+                var e = ease(t);
+                var currentAge = globalMinAge + animStep;
+
+                drawGrid();
+
+                var aPrevPts = getPts(aRows, currentAge - 1);
+                var aRow     = getRow(aRows, currentAge);
+                var aPrevRow = getRow(aRows, currentAge - 1) || { wealth: 0 };
+                if (aRow) {
+                    var aIW = aPrevRow.wealth + (aRow.wealth - aPrevRow.wealth) * e;
+                    var aIX = xp(currentAge - 1 + e);
+                    var aPts = aPrevPts.concat([[aIX, yp(aIW)]]);
+                    if (aPts.length > 1) drawCurve(aPts, MAIN_COLOR, [], 'rgba(37, 99, 235, 0.08)');
+                } else if (aPrevPts.length > 1) {
+                    drawCurve(aPrevPts, MAIN_COLOR, [], 'rgba(37, 99, 235, 0.08)');
+                }
+
+                var bPrevPts = getPts(bRows, currentAge - 1);
+                var bRow     = getRow(bRows, currentAge);
+                var bPrevRow = getRow(bRows, currentAge - 1) || { wealth: 0 };
+                if (bRow && bPrevRow.wealth > 0) {
+                    var bIW = bPrevRow.wealth + (bRow.wealth - bPrevRow.wealth) * e;
+                    var bIX = xp(currentAge - 1 + e);
+                    var bPts = bPrevPts.concat([[bIX, yp(bIW)]]);
+                    if (bPts.length > 1) drawCurve(bPts, '#0F6E56', [6, 4], 'rgba(15,110,86,0.08)');
+                } else if (bRow && bPrevPts.length === 0 && e > 0.05) {
+                    drawCurve([[xp(currentAge - 1), yp(0)], [xp(currentAge - 1 + e), yp(bRow.wealth * e)]], '#0F6E56', [6, 4], 'rgba(15,110,86,0.08)');
+                } else if (bPrevPts.length > 1) {
+                    drawCurve(bPrevPts, '#0F6E56', [6, 4], 'rgba(15,110,86,0.08)');
+                }
+
+                updateCards(currentAge, e);
+                gi('sliderLabel').textContent = 'Age ' + currentAge;
+                gi('slider').value = animStep;
+
+                if (t < 1) {
+                    rafId = requestAnimationFrame(animFrame);
+                } else {
+                    stepStart = null;
+                    renderFull(currentAge);
+                    if (animStep < STEPS) {
+                    animStep++;
+                    rafId = requestAnimationFrame(animFrame);
+                    } else {
+                    playing = false;
+                    gi('playBtn').textContent = '▶ Play';
+                    }
+                }
+            }
+
+            function recalculate() {
+                if (playing) { cancelAnimationFrame(rafId); playing = false; stepStart = null; gi('playBtn').textContent = '▶ Play'; }
+
+                var aStart = Math.max(10, Math.min(58, parseInt(gi('aAge').value) || 20));
+                var aEnd   = Math.max(aStart + 2, Math.min(80, parseInt(gi('aEnd').value) || 60));
+                var bStart = Math.max(10, Math.min(58, parseInt(gi('bAge').value) || 27));
+                var bEnd   = Math.max(bStart + 2, Math.min(80, parseInt(gi('bEnd').value) || 60));
+
+                aRows = calcSIP(aStart, aEnd, gv('aMonthly', 5000),  gv('aIncrease', 10), gv('aReturn', 12));
+                bRows = calcSIP(bStart, bEnd, gv('bMonthly', 10000), gv('bIncrease', 10), gv('bReturn', 12));
+
+                globalMinAge = Math.min(aStart, bStart);
+                globalMaxAge = Math.max(aEnd, bEnd);
+                STEPS = globalMaxAge - globalMinAge;
+
+                var aMax = aRows.length ? aRows[aRows.length - 1].wealth : 0;
+                var bMax = bRows.length ? bRows[bRows.length - 1].wealth : 0;
+                MAX_VAL = Math.max(aMax, bMax) * 1.08;
+
+                gi('slider').min = 0;
+                gi('slider').max = STEPS;
+                gi('slider').value = 0;
+
+                var aName = gs('aName'), bName = gs('bName');
+                gi('labelA').textContent = aName + ' — total wealth';
+                gi('labelB').textContent = bName + ' — total wealth';
+                gi('legendA').textContent = aName + ' (age ' + aStart + ', PKR ' + (gv('aMonthly', 5000)).toLocaleString() + '/mo)';
+                gi('legendB').textContent = bName + ' (age ' + bStart + ', PKR ' + (gv('bMonthly', 10000)).toLocaleString() + '/mo)';
+
+                animStep = 0;
+                initCanvas();
+                renderFull(globalMinAge);
+            }
+
+            gi('applyBtn').addEventListener('click', recalculate);
+
+            gi('playBtn').addEventListener('click', function () {
+                if (playing) {
+                    cancelAnimationFrame(rafId);
+                    stepStart = null; playing = false;
+                    this.textContent = '▶ Play';
+                } else {
+                    if (animStep >= STEPS) { animStep = 0; renderFull(globalMinAge); }
+                    playing = true;
+                    this.textContent = '⏸ Pause';
+                    animStep = animStep === 0 ? 1 : animStep;
+                    stepStart = null;
+                    rafId = requestAnimationFrame(animFrame);
+                }
+            });
+
+            gi('slider').addEventListener('input', function () {
+                if (playing) { cancelAnimationFrame(rafId); stepStart = null; playing = false; gi('playBtn').textContent = '▶ Play'; }
+                animStep = parseInt(this.value);
+                renderFull(globalMinAge + animStep);
+            });
+
+            window.addEventListener('resize', function () { initCanvas(); renderFull(globalMinAge + animStep); });
+
+            initCanvas();
+            recalculate();
+        })();
+    </script>
+</body>
+</html>

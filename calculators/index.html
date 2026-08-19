@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Calculators | Financo</title>
+    <link rel="icon" type="image/png" href="../assets/logo-transparent.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Notice we use ../ to go up one folder to find the css folder -->
+    <link rel="stylesheet" href="../css/style.css">
+    <meta name="description" content="Financogram provides simple money lessons, financial calculators, and investment guides for the youth of Pakistan.">
+    <meta name="keywords" content="personal finance, investing, calculators, Pakistan, SIP, real estate, retirement">
+    <meta property="og:title" content="Financogram - Personal Finance Simplified">
+    <meta property="og:description" content="Financogram provides simple money lessons, financial calculators, and investment guides for the youth of Pakistan.">
+    <meta property="og:image" content="https://financogram.com/assets/logo-transparent.png">
+    <meta property="og:url" content="https://financogram.com">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo"><img src="../assets/logo-transparent.png" alt="Financogram Logo" style="height: 40px; width: auto; display: inline-block; vertical-align: middle; margin-right: 8px;">Financogram</a>
+            
+            <button class="menu-toggle" id="mobile-menu" aria-label="Toggle Navigation">
+                ☰
+            </button>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <!-- We add style to highlight that we are currently on the Calculators page -->
+                <li><a href="index.html" style="color: var(--primary-color); font-weight: 700;">Calculators</a></li>
+                <li><a href="../learn/index.html">Learn</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li>
+                    <a href="https://www.instagram.com/financo.gram/" target="_blank" class="btn btn-outline" style="padding: 6px 16px;">
+                        Instagram
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="container" style="margin-top: 40px; min-height: 60vh;">
+        
+        <div style="text-align: center; margin-bottom: var(--spacing-xl);">
+            <h1>Financial Calculators</h1>
+            <p style="max-width: 600px; margin: 0 auto;">Free, simple calculators to help you plan your investments, savings, and understand your money better.</p>
+        </div>
+
+        <!-- Calculators Grid -->
+        <div class="grid" style="margin-bottom: var(--spacing-xl);">
+            
+            <!-- Category: Investing -->
+            <div class="card">
+                <!-- Tiny category label above the title -->
+                <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700;">Investing</span>
+                <h3 style="color: var(--primary-color); margin-top: 5px;">Early SIP Calculator</h3>
+                <p>Calculate the future value of your Systematic Investment Plan (SIP) based on your monthly contributions.</p>
+                <a href="sip.html" class="btn btn-outline" style="width: 100%;">Calculate</a>
+            </div>
+
+            <!-- Category: Retirement -->
+            <div class="card">
+                <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700;">Retirement</span>
+                <h3 style="color: var(--primary-color); margin-top: 5px;">Step-Up SIP Calculator</h3>
+                <p>Plan your retirement by starting small and increasing your monthly SIP every year.</p>
+                <a href="step-up-retirement.html" class="btn btn-outline" style="width: 100%;">Calculate</a>
+            </div>
+            
+            <!-- Category: Real Estate -->
+            <div class="card">
+                <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700;">Real Estate</span>
+                <h3 style="color: var(--primary-color); margin-top: 5px;">Buy vs Invest & Rent</h3>
+                <p>Compare buying a property versus renting and investing your lump sum in the PSX.</p>
+                <a href="buy-vs-rent.html" class="btn btn-outline" style="width: 100%;">Calculate</a>
+            </div>
+            
+            <!-- Category: Retirement -->
+            <div class="card">
+                <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700;">Retirement</span>
+                <h3 style="color: var(--primary-color); margin-top: 5px;">Lump Sum Retirement</h3>
+                <p>Find out how much you need to invest today as a single one-time amount to fund your retirement.</p>
+                <a href="lumpsum-retirement.html" class="btn btn-outline" style="width: 100%;">Calculate</a>
+            </div>
+
+            <!-- Category: Real Estate -->
+            <div class="card">
+                <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700;">Real Estate</span>
+                <h3 style="color: var(--primary-color); margin-top: 5px;">Mortgage vs Rent</h3>
+                <p>Should you take a mortgage, or rent a house and invest the difference? Find out the math.</p>
+                <a href="mortgage-vs-rent.html" class="btn btn-outline" style="width: 100%;">Calculate</a>
+            </div>
+
+            <!-- Category: Retirement -->
+            <div class="card">
+                <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700;">Retirement</span>
+                <h3 style="color: var(--primary-color); margin-top: 5px;">Retire Today Calculator</h3>
+                <p>Discover how much corpus you need right now to stop working and retire today.</p>
+                <a href="retire-today.html" class="btn btn-outline" style="width: 100%;">Calculate</a>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>"Financo provides educational information and calculators for informational purposes only. This content is not personalized financial, investment, tax, or legal advice."</p>
+            <p style="margin-top: 1rem;">&copy; 2024 Financo. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Notice we use ../ to go up one folder to find the js folder -->
+    <script src="../js/main.js"></script>
+</body>
+</html>
