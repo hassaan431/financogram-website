@@ -29,32 +29,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const themeToggleBtn = document.getElementById('theme-toggle');
     const themeIcon = document.getElementById('theme-icon');
     
-    // Check local storage for saved theme
-    const currentTheme = localStorage.getItem('theme');
-    if (currentTheme) {
-        document.documentElement.setAttribute('data-theme', currentTheme);
-        if (currentTheme === 'dark') {
-            themeIcon.textContent = '☀️';
-        }
+    // Default to dark theme if no saved preference
+    const currentTheme = localStorage.getItem('theme') || 'dark';
+    
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    if (currentTheme === 'dark') {
+        if (themeIcon) themeIcon.textContent = '☀️';
     } else {
-        // Check system preference
-        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if (prefersDark) {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            themeIcon.textContent = '☀️';
-        }
+        if (themeIcon) themeIcon.textContent = '🌙';
     }
     
     if (themeToggleBtn) {
         themeToggleBtn.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            let targetTheme = 'light';
+            const activeTheme = document.documentElement.getAttribute('data-theme');
+            let targetTheme = activeTheme === 'dark' ? 'light' : 'dark';
             
-            if (currentTheme === 'light' || !currentTheme) {
-                targetTheme = 'dark';
+            if (targetTheme === 'dark') {
                 themeIcon.textContent = '☀️';
             } else {
-                targetTheme = 'light';
                 themeIcon.textContent = '🌙';
             }
             

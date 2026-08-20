@@ -19,3 +19,6 @@ Because the user is a beginner, the AI developer must handle all integration sea
 3. **Brand Alignment:** Modify the calculator's internal CSS and JS to use the official brand colors (e.g., `#2A9D8F` instead of default blues or greens).
 4. **Mobile Optimization (MANDATORY):** Automatically write and inject mobile-specific CSS (`@media (max-width: 600px)`) to ensure all inputs, grids, and metrics stack vertically and do not overflow on mobile screens. Do not ask the user to do this; do it proactively.
 5. **Update Routing:** Go to `index.html` and `calculators/index.html` and update the respective placeholder buttons to link to the newly created calculator page.
+
+## AI Assistant Rules
+- **NEVER push to GitHub automatically**. The user will test locally and manually give the go-ahead before any `git push` is executed.
