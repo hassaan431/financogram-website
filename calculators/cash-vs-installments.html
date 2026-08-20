@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cash vs. Installments | Financogram</title>
+<link rel="icon" type="image/png" href="../assets/logo-transparent.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  /* Mapped to global variables for dark mode support */
+  :root{
+    --cream: var(--bg-color);
+    --teal-deep: var(--text-main);
+    --teal: var(--primary-color);
+    --gold: var(--secondary-color);
+    --orange: var(--accent-orange);
+    --red: var(--accent-red);
+    --card-bg: var(--card-bg);
+    --ink: var(--text-main);
+    --muted: var(--text-muted);
+  }
+  * {box-sizing:border-box;}
+  
+  .wrap{max-width:1120px;margin: 40px auto; padding: 0 20px;}
+  header{margin-bottom:28px;}
+  .eyebrow{
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-size:12px;
+    color:var(--teal);
+    margin:0 0 8px;
+  }
+  h1{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:clamp(28px,4vw,44px);
+    margin:0 0 10px;
+    line-height:1.05;
+    color:var(--teal-deep);
+  }
+  .sub{font-size:15px;color:var(--muted);max-width:640px;line-height:1.5;margin:0;}
+
+  .panel{
+    background:var(--card-bg);
+    border-radius:16px;
+    padding:24px;
+    box-shadow:0 1px 2px rgba(0,0,0,.06), 0 8px 24px rgba(0,0,0,.05);
+    margin-bottom:24px;
+    border: 1px solid var(--border-color);
+  }
+  .panel h2{
+    font-family:'Fraunces',serif;
+    font-size:19px;
+    font-weight:600;
+    margin:0 0 18px;
+    color:var(--teal-deep);
+  }
+  .grid-inputs{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+    gap:16px;
+  }
+  .field label{
+    display:block;
+    font-size:12px;
+    font-weight:600;
+    color:var(--muted);
+    margin-bottom:6px;
+    letter-spacing:.01em;
+  }
+  .field .hint{font-size:11px;color:var(--muted);margin-top:4px;display:block;}
+  .field input[type=number]{
+    width:100%;
+    border:1.5px solid var(--border-color);
+    border-radius:10px;
+    padding:10px 12px;
+    font-family:'Inter',sans-serif;
+    font-size:15px;
+    font-weight:600;
+    color:var(--teal-deep);
+    background:var(--bg-color);
+    transition:border-color .15s;
+  }
+  .field input[type=number]:focus{
+    outline:none;
+    border-color:var(--teal);
+    background:var(--card-bg);
+  }
+  .kibor-row{display:flex;gap:10px;align-items:center;}
+  .kibor-row .field{flex:1;}
+  .kibor-plus{color:var(--muted);font-weight:600;padding-top:18px;}
+
+  .toggle-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:14px;
+    margin-top:18px;
+    padding-top:18px;
+    border-top:1px solid var(--border-color);
+  }
+  .toggle-label{font-size:13px;font-weight:600;color:var(--teal-deep);}
+  .toggle-label span{display:block;font-size:11.5px;font-weight:400;color:var(--muted);margin-top:2px;}
+  .segmented{
+    display:inline-flex;
+    background:var(--border-color);
+    border-radius:999px;
+    padding:3px;
+    gap:2px;
+  }
+  .segmented button{
+    border:none;
+    background:transparent;
+    padding:9px 18px;
+    border-radius:999px;
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+    font-weight:600;
+    color:var(--muted);
+    cursor:pointer;
+    transition:all .15s;
+  }
+  .segmented button.active{
+    background:var(--primary-color);
+    color:#fff;
+  }
+
+  .cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:18px;
+    margin-bottom:24px;
+  }
+  .card{
+    background:var(--card-bg);
+    border-radius:16px;
+    padding:22px;
+    box-shadow:0 1px 2px rgba(0,0,0,.06), 0 8px 24px rgba(0,0,0,.05);
+    border-top:5px solid var(--teal);
+    position:relative;
+    overflow:hidden;
+    border: 1px solid var(--border-color);
+  }
+  .card.loanA{border-top-color:var(--orange);}
+  .card.loanB{border-top-color:var(--red);}
+  .card .tag{
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--teal);
+  }
+  .card.loanA .tag{color:var(--orange);}
+  .card.loanB .tag{color:var(--red);}
+  .card h3{
+    font-family:'Fraunces',serif;
+    font-size:20px;
+    margin:4px 0 16px;
+    color:var(--teal-deep);
+  }
+  .row{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    padding:8px 0;
+    border-bottom:1px solid var(--border-color);
+    font-size:13.5px;
+  }
+  .row:last-of-type{border-bottom:none;}
+  .row .lbl{color:var(--muted);}
+  .row .val{font-weight:700;color:var(--teal-deep);font-variant-numeric:tabular-nums;}
+  .total-block{
+    margin-top:14px;
+    padding-top:14px;
+    border-top:2px solid var(--border-color);
+  }
+  .total-block .lbl{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;}
+  .total-block .val{
+    font-family:'Fraunces',serif;
+    font-size:28px;
+    font-weight:600;
+    color:var(--teal-deep);
+    display:block;
+    margin-top:4px;
+  }
+  .depleted-banner{
+    margin-top:14px;
+    background:rgba(231, 111, 81, 0.1);
+    border:1px solid var(--red);
+    color:var(--red);
+    font-size:12.5px;
+    font-weight:600;
+    padding:10px 12px;
+    border-radius:10px;
+    line-height:1.4;
+  }
+
+  .insight{
+    background:var(--card-bg);
+    border: 1px solid var(--primary-color);
+    color:var(--text-main);
+    border-radius:16px;
+    padding:22px 24px;
+    margin-bottom:24px;
+    font-size:15px;
+    line-height:1.55;
+  }
+  .insight b{color:var(--primary-color);}
+
+  .chart-panel canvas{max-height:360px;}
+
+  footer{text-align:center;color:var(--muted);font-size:12px;margin-top:8px;}
+  a.src{color:var(--teal);text-decoration:none;}
+</style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo"><img src="../assets/logo-transparent.png" alt="Financogram Logo" style="height: 40px; width: auto; display: inline-block; vertical-align: middle; margin-right: 8px;">Financogram</a>
+            
+            <button class="menu-toggle" id="mobile-menu" aria-label="Toggle Navigation">
+                ☰
+            </button>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="index.html" style="color: var(--primary-color); font-weight: 700;">Calculators</a></li>
+                <li><a href="../learn/index.html">Learn</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li>
+                    <button id="theme-toggle" aria-label="Toggle Dark Mode" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 6px; display: flex; align-items: center; justify-content: center; height: 36px; width: 36px;">
+                        <span id="theme-icon">🌙</span>
+                    </button>
+                </li>
+                <li>
+                    <a href="https://www.instagram.com/financo.gram/" target="_blank" aria-label="Instagram" style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 8px; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; text-decoration: none; transition: transform 0.2s;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">Financogram · Calculator</p>
+    <h1>Cash vs. Installments</h1>
+    <p class="sub">Pay for a house outright, or put down a deposit, finance the rest, and invest what's left in PSX? Change any number below and watch all three outcomes update.</p>
+  </header>
+
+  <div class="panel">
+    <h2>Your numbers</h2>
+    <div class="grid-inputs">
+      <div class="field">
+        <label for="capital">Total capital (Rs)</label>
+        <input type="number" id="capital" value="30000000" step="100000">
+        <span class="hint" id="capitalHint"></span>
+      </div>
+      <div class="field">
+        <label for="downpct">Down payment (%)</label>
+        <input type="number" id="downpct" value="20" min="0" max="100" step="1">
+      </div>
+      <div class="field">
+        <label for="tenure">Tenure (years)</label>
+        <input type="number" id="tenure" value="20" min="1" max="30" step="1">
+      </div>
+      <div class="field">
+        <label for="houseApp">House appreciation (%/yr)</label>
+        <input type="number" id="houseApp" value="10" step="0.1">
+      </div>
+      <div class="field">
+        <label for="psxReturn">PSX return (%/yr)</label>
+        <input type="number" id="psxReturn" value="15" step="0.1">
+      </div>
+    </div>
+
+    <div class="grid-inputs" style="margin-top:16px;">
+      <div class="kibor-row" style="grid-column:1/-1;max-width:420px;">
+        <div class="field">
+          <label for="kibor">1-yr KIBOR (%/yr)</label>
+          <input type="number" id="kibor" value="12.10" step="0.01">
+          <span class="hint">SBP, Aug 7, 2026 offer rate</span>
+        </div>
+        <div class="kibor-plus">+</div>
+        <div class="field">
+          <label for="spread">Bank spread (%/yr)</label>
+          <input type="number" id="spread" value="3" step="0.1">
+          <span class="hint" id="rateBHint"></span>
+        </div>
+      </div>
+    </div>
+
+    <p style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border-color);font-size:12.5px;color:var(--muted);">
+      Every installment below is paid straight out of the PSX pot — not from income. If the pot can't keep up, the shortfall is subtracted from total wealth.
+    </p>
+  </div>
+
+  <div class="insight" id="insightBox"></div>
+
+  <div class="cards" id="cardsWrap"></div>
+
+  <div class="panel chart-panel">
+    <h2>Wealth over time</h2>
+    <canvas id="wealthChart"></canvas>
+  </div>
+
+  <footer>Illustrative model for content use — not financial advice. Adjust every figure to match the story you're telling.</footer>
+</div>
+
+<script src="../js/main.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+let chart;
+
+function fmtPKR(num){
+  const sign = num < 0 ? '-' : '';
+  const abs = Math.abs(num);
+  if (abs >= 1e7) return sign + 'Rs ' + (abs/1e7).toFixed(2) + ' Cr';
+  if (abs >= 1e5) return sign + 'Rs ' + (abs/1e5).toFixed(2) + ' Lakh';
+  return sign + 'Rs ' + Math.round(abs).toLocaleString('en-PK');
+}
+function fmtPKR0(num){
+  if (Math.abs(num) >= 1e5) return fmtPKR(num);
+  return 'Rs ' + Math.round(num).toLocaleString('en-PK');
+}
+
+function computeEMI(principal, annualRatePct, months){
+  const r = (annualRatePct/100)/12;
+  if (r === 0) return principal/months;
+  const factor = Math.pow(1+r, months);
+  return principal * r * factor / (factor - 1);
+}
+
+function simulateLoan({totalCapital, downPct, tenureYears, houseAppPct, psxPct, loanRatePct}){
+  const months = tenureYears*12;
+  const downPayment = totalCapital*downPct/100;
+  const loanPrincipal = totalCapital - downPayment;
+  const invested = loanPrincipal;
+  const ih = Math.pow(1+houseAppPct/100, 1/12)-1;
+  const im = Math.pow(1+psxPct/100, 1/12)-1;
+  const emi = computeEMI(loanPrincipal, loanRatePct, months);
+
+  let houseVal = totalCapital;
+  let pot = invested;
+  let depletionMonth = null;
+  let shortfall = 0;
+  const yearly = [{year:0, total: totalCapital}];
+
+  for(let m=1;m<=months;m++){
+    houseVal *= (1+ih);
+    if(depletionMonth===null){
+      const grown = pot*(1+im);
+      const remainder = grown - emi;
+      if(remainder <= 0){
+        depletionMonth = m;
+        shortfall += (emi - grown);   // the slice of this month's installment the pot couldn't cover
+        pot = 0;
+      } else {
+        pot = remainder;
+      }
+    } else {
+      shortfall += emi;               // pot is already dry — every future installment is a shortfall
+    }
+    if(m%12===0) yearly.push({year:m/12, total: houseVal+pot-shortfall});
+  }
+  const totalPaid = emi*months;
+  return {
+    emi, totalPaid, interestPaid: totalPaid-loanPrincipal,
+    downPayment, loanPrincipal, invested,
+    finalHouse:houseVal, finalPot:pot, shortfall,
+    finalTotal: houseVal+pot-shortfall,
+    depletionMonth, yearly
+  };
+}
+
+function simulateCash({totalCapital, tenureYears, houseAppPct}){
+  const months = tenureYears*12;
+  const ih = Math.pow(1+houseAppPct/100, 1/12)-1;
+  let houseVal = totalCapital;
+  const yearly = [{year:0, total: totalCapital}];
+  for(let m=1;m<=months;m++){
+    houseVal *= (1+ih);
+    if(m%12===0) yearly.push({year:m/12, total:houseVal});
+  }
+  return {finalHouse:houseVal, finalTotal:houseVal, yearly};
+}
+
+function cardHTML(id, tag, title, r, tenureYears){
+  const depletedNote = r.depletionMonth
+    ? `<div class="depleted-banner">⚠ PSX pot fully drained in Year ${(r.depletionMonth/12).toFixed(1)} — ${(tenureYears - r.depletionMonth/12).toFixed(1)} years of installments (${fmtPKR(r.shortfall)}) still had to be paid, and are subtracted below.</div>`
+    : '';
+  const shortfallRow = r.shortfall > 0
+    ? `<div class="row"><span class="lbl">Shortfall (unpaid after pot ran dry)</span><span class="val" style="color:var(--red)">-${fmtPKR(r.shortfall)}</span></div>`
+    : '';
+  return `
+  <div class="card ${id}">
+    <div class="tag">${tag}</div>
+    <h3>${title}</h3>
+    <div class="row"><span class="lbl">Down payment</span><span class="val">${fmtPKR(r.downPayment)}</span></div>
+    <div class="row"><span class="lbl">Monthly installment</span><span class="val">${fmtPKR0(r.emi)}</span></div>
+    <div class="row"><span class="lbl">Total interest paid</span><span class="val">${fmtPKR(r.interestPaid)}</span></div>
+    <div class="row"><span class="lbl">House value, Year ${tenureYears}</span><span class="val">${fmtPKR(r.finalHouse)}</span></div>
+    <div class="row"><span class="lbl">PSX pot, Year ${tenureYears}</span><span class="val">${fmtPKR(r.finalPot)}</span></div>
+    ${shortfallRow}
+    <div class="total-block">
+      <span class="lbl">Total wealth, Year ${tenureYears}</span>
+      <span class="val">${fmtPKR(r.finalTotal)}</span>
+    </div>
+    ${depletedNote}
+  </div>`;
+}
+
+function cashCardHTML(r, tenureYears, totalCapital){
+  return `
+  <div class="card">
+    <div class="tag">Cash</div>
+    <h3>Pay upfront</h3>
+    <div class="row"><span class="lbl">Cash spent today</span><span class="val">${fmtPKR(totalCapital)}</span></div>
+    <div class="row"><span class="lbl">Monthly installment</span><span class="val">— none —</span></div>
+    <div class="row"><span class="lbl">Total interest paid</span><span class="val">Rs 0</span></div>
+    <div class="row"><span class="lbl">House value, Year ${tenureYears}</span><span class="val">${fmtPKR(r.finalHouse)}</span></div>
+    <div class="row"><span class="lbl">PSX pot, Year ${tenureYears}</span><span class="val">Rs 0</span></div>
+    <div class="total-block">
+      <span class="lbl">Total wealth, Year ${tenureYears}</span>
+      <span class="val">${fmtPKR(r.finalTotal)}</span>
+    </div>
+  </div>`;
+}
+
+function buildInsight(cash, b, tenureYears, rateB){
+  if(b.depletionMonth){
+    const worse = b.finalTotal < cash.finalTotal;
+    return `The installment here comes straight out of the PSX pot — nothing from income. At today's market rate (${rateB.toFixed(1)}%), the installment outpaces the pot's growth from month one — it runs dry in <b>Year ${(b.depletionMonth/12).toFixed(1)}</b>, and the <b>${fmtPKR(b.shortfall)}</b> still owed after that comes off the top. Final wealth: <b>${fmtPKR(b.finalTotal)}</b> — ${worse ? `<b>worse than just paying cash</b> (${fmtPKR(cash.finalTotal)})` : `still ahead of cash (${fmtPKR(cash.finalTotal)})`}.`;
+  }
+  return `The installment here comes straight out of the PSX pot — nothing from income. At ${rateB.toFixed(1)}%, the pot survives the full ${tenureYears} years and finishes at <b>${fmtPKR(b.finalTotal)}</b>, versus <b>${fmtPKR(cash.finalTotal)}</b> paying cash. Push the rate or tenure up to see where the pot starts to run dry.`;
+}
+
+function render(){
+  const totalCapital = parseFloat($('capital').value)||0;
+  const downPct = parseFloat($('downpct').value)||0;
+  const tenureYears = parseInt($('tenure').value)||1;
+  const houseAppPct = parseFloat($('houseApp').value)||0;
+  const psxPct = parseFloat($('psxReturn').value)||0;
+  const kibor = parseFloat($('kibor').value)||0;
+  const spread = parseFloat($('spread').value)||0;
+  const rateB = kibor + spread;
+
+  $('capitalHint').textContent = fmtPKR(totalCapital);
+  $('rateBHint').textContent = 'Market rate = ' + rateB.toFixed(2) + '%/yr';
+
+  const cash = simulateCash({totalCapital, tenureYears, houseAppPct});
+  const b = simulateLoan({totalCapital, downPct, tenureYears, houseAppPct, psxPct, loanRatePct:rateB});
+
+  $('cardsWrap').innerHTML =
+    cashCardHTML(cash, tenureYears, totalCapital) +
+    cardHTML('loanB','Installment','Market rate (' + rateB.toFixed(1) + '%)', b, tenureYears);
+
+  $('insightBox').innerHTML = buildInsight(cash, b, tenureYears, rateB);
+
+  const labels = cash.yearly.map(p=>p.year);
+  const dataCash = cash.yearly.map(p=>p.total/1e7);
+  const dataB = b.yearly.map(p=>p.total/1e7);
+
+  // In dark mode, chart grid lines should be subtle, text should be light
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const gridColor = isDark ? '#2a2f36' : '#EFEAE0';
+  const tickColor = isDark ? '#a0abb0' : '#6B7C80';
+  const tooltipBg = isDark ? '#1a1d24' : '#264653';
+  const tooltipText = isDark ? '#e8edf5' : '#fff';
+
+  if(chart) chart.destroy();
+  chart = new Chart($('wealthChart'), {
+    type:'line',
+    data:{
+      labels,
+      datasets:[
+        {label:'Cash purchase', data:dataCash, borderColor:'#2A9D8F', backgroundColor:'#2A9D8F22', fill:false, tension:.25, pointRadius:0, borderWidth:3},
+        {label:'Installment — market rate', data:dataB, borderColor:'#E76F51', backgroundColor:'#E76F5122', fill:false, tension:.25, pointRadius:0, borderWidth:3, borderDash: b.depletionMonth ? [6,4] : []}
+      ]
+    },
+    options:{
+      responsive:true,
+      interaction:{mode:'index', intersect:false},
+      plugins:{
+        legend:{position:'bottom', labels:{font:{family:'Inter', size:12}, color: tickColor, usePointStyle:true}},
+        tooltip:{
+          backgroundColor: tooltipBg,
+          titleColor: tooltipText,
+          bodyColor: tooltipText,
+          titleFont:{family:'Fraunces'},
+          bodyFont:{family:'Inter'},
+          callbacks:{ label: ctx => ctx.dataset.label + ': Rs ' + ctx.parsed.y.toFixed(2) + ' Cr' }
+        }
+      },
+      scales:{
+        x:{ title:{display:true, text:'Year', color: tickColor, font:{family:'Inter', size:12}}, grid:{color: gridColor}, ticks:{color: tickColor} },
+        y:{ title:{display:true, text:'Total wealth (Rs Cr)', color: tickColor, font:{family:'Inter', size:12}}, grid:{color: gridColor}, ticks:{color: tickColor} }
+      }
+    }
+  });
+}
+
+['capital','downpct','tenure','houseApp','psxReturn','kibor','spread'].forEach(id=>{
+  $(id).addEventListener('input', render);
+});
+
+// Re-render chart on theme toggle so colors match
+document.getElementById('theme-toggle').addEventListener('click', () => {
+    setTimeout(render, 50); // wait for theme attribute to update
+});
+
+render();
+</script>
+</body>
+</html>
