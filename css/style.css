@@ -1,19 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
 /* ==========================================================================
-   Financo - Global Design System
+   Financo - Modern Fintech Design System
    ========================================================================== */
 
-/* 1. CSS Variables (Design Tokens) */
 :root {
-    /* Brand Colors */
-    --brand-dark: #264653;
-    --brand-teal: #2A9D8F;
-    --brand-yellow: #E9C46A;
-    --brand-orange: #F4A261;
-    --brand-red: #E76F51;
+    /* Modern Fintech Colors */
+    --brand-dark: #0f172a;
+    --brand-teal: #0d9488;
+    --brand-yellow: #f59e0b;
+    --brand-orange: #f97316;
+    --brand-red: #ef4444;
 
-    /* Applied Colors */
+    /* Light Theme */
     --primary-color: var(--brand-teal); 
-    --primary-hover: #218276; /* Slightly darker teal for hover states */
+    --primary-hover: #0f766e;
     --text-main: var(--brand-dark); 
     --text-muted: #64748b; 
     --bg-main: #f8fafc; 
@@ -24,25 +25,31 @@
     --font-family: 'Inter', system-ui, -apple-system, sans-serif;
     
     /* Spacing & Layout */
-    --container-width: 1100px;
-    --spacing-sm: 0.5rem;
-    --spacing-md: 1rem;
-    --spacing-lg: 2rem;
-    --spacing-xl: 4rem;
+    --container-width: 1200px;
     
     /* Borders & Shadows */
-    --border-radius: 12px; 
-    --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
-    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-    --shadow-hover: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+    --border-radius: 20px; 
+    --border-radius-sm: 12px;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+    --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -2px rgba(0,0,0,0.025);
+    --shadow-hover: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
 }
 
-/* 2. Base Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+[data-theme="dark"] {
+    --brand-dark: #f8fafc;
+    --primary-color: #14b8a6;
+    --primary-hover: #0d9488;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --bg-main: #0f172a;
+    --bg-card: #1e293b;
+    --border-color: #334155;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.5);
+    --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.5);
+    --shadow-hover: 0 20px 25px -5px rgba(0,0,0,0.6);
 }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
     font-family: var(--font-family);
@@ -50,279 +57,209 @@ body {
     color: var(--text-main);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased; 
+    transition: background-color 0.3s, color 0.3s;
 }
 
-/* 3. Typography */
-h1, h2, h3, h4 {
-    font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: var(--spacing-md);
-    color: var(--text-main);
-}
+h1, h2, h3, h4 { font-weight: 800; line-height: 1.2; margin-bottom: 1rem; color: var(--text-main); letter-spacing: -0.02em; }
+p { margin-bottom: 1rem; color: var(--text-muted); }
+a { color: var(--primary-color); text-decoration: none; transition: color 0.2s; font-weight: 500; }
+a:hover { color: var(--primary-hover); }
 
-p {
-    margin-bottom: var(--spacing-md);
-    color: var(--text-muted);
-}
+.container { max-width: var(--container-width); margin: 0 auto; padding: 0 1.5rem; }
 
-/* Link styles */
-a {
-    color: var(--primary-color);
-    text-decoration: none;
-    transition: color 0.2s ease;
-}
-
-a:hover {
-    color: var(--primary-hover);
-}
-
-/* 4. Layout Containers */
-.container {
-    max-width: var(--container-width);
-    margin: 0 auto;
-    padding: 0 var(--spacing-md);
-}
-
-/* 5. Buttons */
+/* Buttons */
 .btn {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     background-color: var(--primary-color);
-    color: #ffffff;
-    padding: 12px 24px;
-    border-radius: var(--border-radius);
+    color: #ffffff !important;
+    padding: 14px 28px;
+    border-radius: 100px;
     font-weight: 600;
-    text-align: center;
     border: none;
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
+    transition: all 0.2s;
+    box-shadow: 0 4px 14px rgba(13, 148, 136, 0.3);
 }
-
 .btn:hover {
     background-color: var(--primary-hover);
-    color: #ffffff;
     transform: translateY(-2px); 
+    box-shadow: 0 6px 20px rgba(13, 148, 136, 0.4);
 }
-
 .btn-outline {
     background-color: transparent;
-    border: 2px solid var(--primary-color);
-    color: var(--primary-color);
+    border: 2px solid var(--border-color);
+    color: var(--text-main) !important;
+    box-shadow: none;
 }
-
 .btn-outline:hover {
-    background-color: var(--primary-color);
-    color: #ffffff;
+    border-color: var(--text-main);
+    background-color: transparent;
+    transform: translateY(-2px);
+    box-shadow: none;
 }
 
-/* 6. Cards (For Calculators and Articles) */
+/* Cards */
 .card {
     background-color: var(--bg-card);
     border-radius: var(--border-radius);
-    padding: var(--spacing-lg);
+    padding: 2rem;
     box-shadow: var(--shadow-md);
     border: 1px solid var(--border-color);
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    transition: all 0.3s ease;
 }
-
 .card:hover {
     box-shadow: var(--shadow-hover);
     transform: translateY(-4px); 
 }
 
-/* 7. Navigation Bar */
+/* Navbar */
 .navbar {
-    background-color: var(--bg-card);
-    box-shadow: var(--shadow-sm);
+    background-color: rgba(255,255,255,0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
     position: sticky; 
     top: 0;
     z-index: 100; 
+    transition: background-color 0.3s;
 }
-
+[data-theme="dark"] .navbar {
+    background-color: rgba(30, 41, 59, 0.85);
+}
 .nav-container {
     display: flex; 
     justify-content: space-between; 
     align-items: center;
-    padding: var(--spacing-md) var(--spacing-md);
+    padding: 1rem 1.5rem;
     max-width: var(--container-width);
     margin: 0 auto;
 }
+.logo { font-size: 1.5rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px; }
+.nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+.nav-links a { color: var(--text-muted); font-weight: 600; }
+.nav-links a:hover { color: var(--text-main); }
+.menu-toggle { display: none; font-size: 1.5rem; background: none; border: none; cursor: pointer; color: var(--text-main); }
 
-.logo {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: var(--primary-color);
-    letter-spacing: -0.5px;
+/* Forms & Inputs (Fintech Style) */
+.input-group { margin-bottom: 1.5rem; }
+.input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--text-main);
+}
+.input-group input[type="number"], .input-group select {
+    width: 100%;
+    padding: 16px;
+    border-radius: var(--border-radius-sm);
+    border: 2px solid var(--border-color);
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-family: var(--font-family);
+    transition: all 0.2s;
+    outline: none;
+}
+.input-group input:focus, .input-group select:focus {
+    border-color: var(--primary-color);
+    background-color: var(--bg-card);
+    box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.1);
 }
 
-.nav-links {
+/* Range Sliders */
+.slider-container {
     display: flex;
-    gap: var(--spacing-lg); 
-    list-style: none; 
+    align-items: center;
+    gap: 15px;
 }
-
-.nav-links a {
-    color: var(--text-main);
-    font-weight: 500;
+input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    background: transparent;
+    margin-top: 10px;
+    flex-grow: 1;
 }
-
-.nav-links a:hover {
-    color: var(--primary-color);
-}
-
-.menu-toggle {
-    display: none;
-    font-size: 1.5rem;
-    background: none;
-    border: none;
+input[type=range]:focus { outline: none; }
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 8px;
     cursor: pointer;
-    color: var(--text-main);
+    background: var(--border-color);
+    border-radius: 4px;
 }
-
-/* 8. Footer */
-.footer {
-    background-color: var(--text-main);
-    color: #ffffff;
-    padding: var(--spacing-xl) 0 var(--spacing-md);
-    text-align: center;
-    margin-top: var(--spacing-xl);
+input[type=range]::-webkit-slider-thumb {
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    border: 4px solid var(--bg-card);
+    transition: transform 0.1s;
 }
-
-.footer p {
-    color: #cbd5e1; 
-    font-size: 0.9rem;
-    margin-bottom: 0;
+input[type=range]::-webkit-slider-thumb:active {
+    transform: scale(1.2);
 }
+[data-theme="dark"] input[type=range]::-webkit-slider-thumb { border-color: var(--bg-card); }
 
-/* 9. Responsive Design (Mobile adjustments) */
-@media (max-width: 768px) {
-    .nav-links {
-        display: none; 
-        flex-direction: column; 
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        background-color: var(--bg-card);
-        padding: var(--spacing-md);
-        box-shadow: var(--shadow-md);
-    }
-    
-    .nav-links.active {
-        display: flex;
-    }
+/* Layout Utilities */
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
+.section { padding: 5rem 0; }
+.section-title { text-align: center; margin-bottom: 3rem; font-size: 2.5rem; }
 
-    .menu-toggle {
-        display: block;
-    }
-    
-    /* Make hero text slightly smaller on mobile */
-    .hero h1 {
-        font-size: 2.2rem !important;
-    }
-    
-    /* Reduce card padding on mobile so calculators fit better */
-    .card {
-        padding: var(--spacing-md);
-    }
-}
-
-/* ==========================================================================
-   Phase 3 Additions - Homepage Layout
-   ========================================================================== */
-
-/* 10. Section Spacing */
-.section {
-    padding: var(--spacing-xl) 0;
-}
-
-.section-title {
-    text-align: center;
-    margin-bottom: var(--spacing-lg);
-    font-size: 2rem;
-}
-
-/* 11. Hero Section (The top introduction) */
-.hero {
-    text-align: center;
-    padding: 6rem 0 4rem;
-    background-color: var(--bg-card); /* White background for hero */
-    border-bottom: 1px solid var(--border-color);
-}
-
-.hero h1 {
-    font-size: 3.5rem; /* Very large text for impact */
-    font-weight: 800;
-    color: var(--text-main);
-    letter-spacing: -1.5px;
-    margin-bottom: var(--spacing-md);
-    line-height: 1.1;
-}
-
-.hero p {
-    font-size: 1.25rem;
-    max-width: 600px; /* Keeps text from getting too wide to read */
-    margin: 0 auto var(--spacing-lg);
-}
-
-/* 12. Grid Layouts (For organizing cards side-by-side) */
-.grid {
+/* Dashboard / Split Layout for Calculators */
+.calc-dashboard {
     display: grid;
-    /* This automatically creates as many columns as will fit, dropping to 1 on mobile */
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: var(--spacing-lg);
+    grid-template-columns: 400px 1fr;
+    gap: 2rem;
+    align-items: start;
+    margin-top: 2rem;
 }
-
-/* 13. Instagram CTA Banner */
-.cta-banner {
-    /* Instagram-style gradient background */
-    background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045); 
-    color: white;
-    text-align: center;
-    padding: var(--spacing-xl) var(--spacing-md);
-    border-radius: var(--border-radius);
-    margin: var(--spacing-xl) 0;
-}
-
-.cta-banner h2 {
-    color: white;
-}
-
-.cta-banner p {
-    color: rgba(255, 255, 255, 0.9);
-}
-
-/* Make the button white on the colorful banner */
-.cta-banner .btn {
-    background-color: white;
-    color: #fd1d1d; /* Instagram red/orange */
-}
-
-.cta-banner .btn:hover {
-    background-color: #f8fafc;
-    transform: translateY(-2px);
-}
-
-/* Dark Mode Theme */
-[data-theme="dark"] {
-    --brand-dark: #e8edf5;
-    --text-main: #e8edf5;
-    --text-muted: #94a3b8;
-    --bg-main: #0d0f12;
-    --bg-card: #141820;
-    --border-color: #252d3d;
-    --shadow-sm: 0 1px 3px rgba(0,0,0,0.5);
-    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.5), 0 2px 4px -1px rgba(0,0,0,0.3);
-    --shadow-hover: 0 10px 15px -3px rgba(0,0,0,0.5), 0 4px 6px -2px rgba(0,0,0,0.3);
-}
-
-[data-theme="dark"] .card {
+.calc-inputs {
     background: var(--bg-card);
+    padding: 2.5rem;
+    border-radius: var(--border-radius);
     border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+    position: sticky;
+    top: 100px;
 }
-[data-theme="dark"] .navbar {
-    background: rgba(20, 24, 32, 0.95);
-    border-bottom: 1px solid var(--border-color);
+.calc-results {
+    background: var(--bg-main);
+    padding: 2.5rem;
+    border-radius: var(--border-radius);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 }
-[data-theme="dark"] .hero {
-    box-shadow: 0 20px 40px rgba(0,0,0,0.5) !important;
+
+/* Results Big Number */
+.result-box {
+    background: var(--bg-card);
+    padding: 2.5rem;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+}
+.result-box h3 { color: var(--text-muted); font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; }
+.result-box .huge-number { font-size: 3.5rem; font-weight: 800; color: var(--primary-color); }
+
+/* Footer */
+.footer { background-color: var(--bg-card); border-top: 1px solid var(--border-color); padding: 4rem 0 2rem; margin-top: 4rem; text-align: center; }
+
+@media (max-width: 900px) {
+    .calc-dashboard { grid-template-columns: 1fr; }
+    .calc-inputs { position: static; }
+}
+
+@media (max-width: 768px) {
+    .nav-links { display: none; }
+    .menu-toggle { display: block; }
 }

@@ -23,11 +23,9 @@
     <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="index.html" class="logo"><img src="assets/logo-transparent.png" alt="Financogram Logo" style="height: 40px; width: auto; display: inline-block; vertical-align: middle; margin-right: 8px;">Financogram</a>
+            <a href="index.html" class="logo"><img src="assets/logo-transparent.png" alt="Financogram Logo" style="height: 36px; width: auto;">Financogram</a>
             
-            <button class="menu-toggle" id="mobile-menu" aria-label="Toggle Navigation">
-                ☰
-            </button>
+            <button class="menu-toggle" id="mobile-menu" aria-label="Toggle Navigation">☰</button>
 
             <ul class="nav-links" id="nav-links">
                 <li><a href="index.html">Home</a></li>
@@ -52,103 +50,84 @@
         </div>
     </nav>
 
-    <!-- Main Content Area Starts -->
     <main>
-        
-        <!-- 1. Hero Section (The big introduction at the top) -->
-        <header class="hero" style="background: linear-gradient(rgba(13, 15, 18, 0.85), rgba(13, 15, 18, 0.85)), url('assets/hero_home.jpg'); background-size: cover; background-position: center; padding: 100px 20px; text-align: center; border-radius: 0 0 40px 40px; margin-bottom: 40px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
-            <div class="container" style="text-align: center; position: relative; z-index: 2;">
-                <h1 style="color: #ffffff; text-shadow: 0 2px 10px rgba(0,0,0,0.5); font-size: 3.5rem;">Understand Money.<br><span style="color: var(--primary-color);">Make Better Decisions.</span></h1>
-                <p style="margin-bottom: 2.5rem; color: #e8edf5; font-size: 1.2rem; max-width: 700px; margin-left: auto; margin-right: auto; text-shadow: 0 1px 5px rgba(0,0,0,0.5);">Financo is an educational platform designed to help young people understand personal finance through simple explanations and practical calculators.</p>
-                <div>
-                    <!-- Link to the calculators section below -->
+        <!-- Fintech Dashboard Hero -->
+        <header class="hero" style="background: linear-gradient(to bottom, rgba(13, 148, 136, 0.1), transparent); padding: 80px 20px 40px; text-align: center; border-radius: 0 0 40px 40px; margin-bottom: 60px; border-bottom: none;">
+            <div class="container" style="position: relative; z-index: 2;">
+                <div style="display: inline-block; padding: 8px 16px; background: rgba(13, 148, 136, 0.1); color: var(--primary-color); border-radius: 100px; font-weight: 600; font-size: 0.9rem; margin-bottom: 1.5rem;">✨ Smart Financial Tools</div>
+                <h1 style="font-size: 4rem;">Master your money.<br><span style="color: var(--primary-color);">Build your future.</span></h1>
+                <p style="margin-bottom: 2.5rem; font-size: 1.25rem; max-width: 650px; margin-left: auto; margin-right: auto;">Simple money lessons and smart calculators to help you make better financial decisions. No jargon, just clarity.</p>
+                
+                <div style="display: flex; gap: 1rem; justify-content: center; margin-bottom: 4rem;">
                     <a href="calculators/index.html" class="btn">Explore Calculators</a>
-                    <!-- Link to the learn section below -->
-                    <a href="learn/index.html" class="btn btn-outline" style="margin-left: 10px; color: #fff; border-color: #fff;">Read Articles</a>
+                    <a href="learn/index.html" class="btn btn-outline">Read Articles</a>
                 </div>
+                
+                <!-- Hero Image with floating effect -->
+                <img src="assets/hero_home.jpg" alt="Financial Dashboard" style="width: 100%; max-width: 1000px; border-radius: 24px; box-shadow: 0 30px 60px rgba(0,0,0,0.12); transform: translateY(20px);">
             </div>
         </header>
 
-        <!-- 2. Featured Calculators Section -->
-        <section id="calculators" class="section container">
-            <h2 class="section-title">Featured Calculators</h2>
-            
-            <!-- We use our CSS grid to line these cards up side-by-side -->
+        <section class="section container">
+            <h2 class="section-title">Popular Tools</h2>
             <div class="grid">
-                
-                <!-- Calculator Card 1 -->
-                <div class="card">
-                    <h3 style="color: var(--primary-color);">SIP Calculator</h3>
-                    <p>Calculate the future value of your Systematic Investment Plan (SIP) based on your monthly contributions.</p>
-                    <a href="calculators/sip.html" class="btn btn-outline" style="width: 100%;">Calculate</a>
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">📈</div>
+                    <h3>Early SIP Calculator</h3>
+                    <p>Calculate the future value of your Systematic Investment Plan based on your monthly contributions.</p>
+                    <a href="calculators/sip.html" class="btn" style="width: 100%; margin-top: 1rem;">Run the Numbers</a>
                 </div>
                 
-                <!-- Calculator Card 2 -->
-                <div class="card">
-                    <h3 style="color: var(--primary-color);">Compound Interest</h3>
-                    <p>See how your money grows over time with the magic of compounding interest and time.</p>
-                    <a href="#" class="btn btn-outline" style="width: 100%;">Calculate</a>
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">🏠</div>
+                    <h3>Buy vs Rent</h3>
+                    <p>Compare the long-term financial impact of buying a house versus renting and investing the difference.</p>
+                    <a href="calculators/buy-vs-rent.html" class="btn" style="width: 100%; margin-top: 1rem;">Run the Numbers</a>
                 </div>
                 
-                <!-- Calculator Card 3 -->
-                <div class="card">
-                    <h3 style="color: var(--primary-color);">Inflation Calculator</h3>
-                    <p>Understand how inflation silently affects your purchasing power and savings over the years.</p>
-                    <a href="#" class="btn btn-outline" style="width: 100%;">Calculate</a>
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">🏖️</div>
+                    <h3>Retire Today</h3>
+                    <p>Find out exactly how much you need invested today to quit your job and retire indefinitely.</p>
+                    <a href="calculators/retire-today.html" class="btn" style="width: 100%; margin-top: 1rem;">Run the Numbers</a>
                 </div>
-
             </div>
         </section>
 
-        <!-- 3. Learn / Articles Section -->
-        <!-- We wrap this in a slightly colored box to separate it from the rest of the page -->
-        <section id="learn" class="section container" style="background-color: var(--bg-card); border-radius: var(--border-radius); padding: var(--spacing-xl); box-shadow: var(--shadow-sm);">
-            <h2 class="section-title">Latest Articles</h2>
-            
-            <div class="grid">
-                <!-- Article Placeholder 1 -->
-                <div class="card" style="box-shadow: none; border-color: transparent; border-bottom: 1px solid var(--border-color); border-radius: 0; padding: var(--spacing-md) 0;">
-                    <h3>What Is Compound Interest?</h3>
-                    <p>The most powerful concept in finance, explained simply.</p>
-                    <a href="#">Read More &rarr;</a>
+        <section class="section container" style="margin-top: 2rem;">
+            <div style="background: var(--bg-card); border-radius: var(--border-radius); padding: 4rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; gap: 4rem; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 300px;">
+                    <div style="display: inline-block; padding: 6px 12px; background: rgba(249, 115, 22, 0.1); color: var(--brand-orange); border-radius: 100px; font-weight: 600; font-size: 0.85rem; margin-bottom: 1rem;">Financo Learn</div>
+                    <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem;">Financial education that actually makes sense.</h2>
+                    <p style="font-size: 1.1rem; margin-bottom: 2rem;">Stop reading boring banking blogs. We break down complex financial concepts into simple, actionable 3-minute guides designed for young professionals.</p>
+                    <a href="learn/index.html" class="btn">Start Reading</a>
                 </div>
-                
-                <!-- Article Placeholder 2 -->
-                <div class="card" style="box-shadow: none; border-color: transparent; border-bottom: 1px solid var(--border-color); border-radius: 0; padding: var(--spacing-md) 0;">
-                    <h3>SIP vs Lump Sum Investing</h3>
-                    <p>Which investment strategy makes the most sense for your financial goals?</p>
-                    <a href="#">Read More &rarr;</a>
+                <div style="flex: 1; min-width: 300px;">
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <a href="learn/retirement-planning.html" class="card" style="padding: 1.5rem; display: flex; align-items: center; gap: 1rem; text-decoration: none;">
+                            <div style="background: var(--bg-main); padding: 1rem; border-radius: 12px; font-size: 1.5rem;">🌱</div>
+                            <div>
+                                <h4 style="margin: 0; color: var(--text-main);">How to Plan Your Retirement</h4>
+                                <span style="color: var(--text-muted); font-size: 0.9rem;">4 min read</span>
+                            </div>
+                        </a>
+                        <a href="learn/before-investing.html" class="card" style="padding: 1.5rem; display: flex; align-items: center; gap: 1rem; text-decoration: none;">
+                            <div style="background: var(--bg-main); padding: 1rem; border-radius: 12px; font-size: 1.5rem;">🛡️</div>
+                            <div>
+                                <h4 style="margin: 0; color: var(--text-main);">5 Things Before Investing</h4>
+                                <span style="color: var(--text-muted); font-size: 0.9rem;">3 min read</span>
+                            </div>
+                        </a>
+                    </div>
                 </div>
-                
-                <!-- Article Placeholder 3 -->
-                <div class="card" style="box-shadow: none; border-color: transparent; border-bottom: 1px solid var(--border-color); border-radius: 0; padding: var(--spacing-md) 0;">
-                    <h3>What Is an Emergency Fund?</h3>
-                    <p>Why you absolutely need one, and exactly how much you should save.</p>
-                    <a href="#">Read More &rarr;</a>
-                </div>
-            </div>
-
-            <div style="text-align: center; margin-top: var(--spacing-lg);">
-                <a href="#" class="btn btn-outline">View All Topics</a>
-            </div>
-        </section>
-
-        <!-- 4. Instagram CTA (Call To Action) Banner -->
-        <section class="container">
-            <div class="cta-banner">
-                <h2>Join the Community</h2>
-                <p>Follow Financo on Instagram for daily bite-sized money lessons.</p>
-                <a href="https://www.instagram.com/financo.gram/" target="_blank" class="btn">Follow @financo.gram</a>
             </div>
         </section>
 
     </main>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <p>"Financo provides educational information and calculators for informational purposes only. This content is not personalized financial, investment, tax, or legal advice."</p>
-            
         </div>
     </footer>
 
