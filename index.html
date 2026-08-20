@@ -35,8 +35,12 @@
                 <li><a href="learn/index.html">Learn</a></li>
                 <li><a href="about.html">About</a></li>
                 <li>
-                    <a href="https://www.instagram.com/financo.gram/" target="_blank" class="btn btn-outline" style="padding: 6px 16px;">
-                        Instagram
+                    <a href="https://www.instagram.com/financo.gram/" target="_blank" aria-label="Instagram" style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 8px; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; text-decoration: none; transition: transform 0.2s;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
                     </a>
                 </li>
             </ul>
@@ -47,15 +51,15 @@
     <main>
         
         <!-- 1. Hero Section (The big introduction at the top) -->
-        <header class="hero">
-            <div class="container">
-                <h1>Understand Money.<br>Make Better Decisions.</h1>
-                <p>Financo is an educational platform designed to help young people understand personal finance through simple explanations and practical calculators.</p>
+        <header class="hero" style="background: linear-gradient(rgba(13, 15, 18, 0.85), rgba(13, 15, 18, 0.85)), url('assets/hero_home.jpg'); background-size: cover; background-position: center; padding: 100px 20px; text-align: center; border-radius: 0 0 40px 40px; margin-bottom: 40px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
+            <div class="container" style="text-align: center; position: relative; z-index: 2;">
+                <h1 style="color: #ffffff; text-shadow: 0 2px 10px rgba(0,0,0,0.5); font-size: 3.5rem;">Understand Money.<br><span style="color: var(--primary-color);">Make Better Decisions.</span></h1>
+                <p style="margin-bottom: 2.5rem; color: #e8edf5; font-size: 1.2rem; max-width: 700px; margin-left: auto; margin-right: auto; text-shadow: 0 1px 5px rgba(0,0,0,0.5);">Financo is an educational platform designed to help young people understand personal finance through simple explanations and practical calculators.</p>
                 <div>
                     <!-- Link to the calculators section below -->
                     <a href="calculators/index.html" class="btn">Explore Calculators</a>
                     <!-- Link to the learn section below -->
-                    <a href="#learn" class="btn btn-outline" style="margin-left: 10px;">Read Articles</a>
+                    <a href="learn/index.html" class="btn btn-outline" style="margin-left: 10px; color: #fff; border-color: #fff;">Read Articles</a>
                 </div>
             </div>
         </header>
