@@ -1,0 +1,25 @@
+
+/* Dark Mode Theme */
+[data-theme="dark"] {
+    --brand-dark: #e8edf5;
+    --text-main: #e8edf5;
+    --text-muted: #94a3b8;
+    --bg-main: #0d0f12;
+    --bg-card: #141820;
+    --border-color: #252d3d;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.5);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.5), 0 2px 4px -1px rgba(0,0,0,0.3);
+    --shadow-hover: 0 10px 15px -3px rgba(0,0,0,0.5), 0 4px 6px -2px rgba(0,0,0,0.3);
+}
+
+[data-theme="dark"] .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+}
+[data-theme="dark"] .navbar {
+    background: rgba(20, 24, 32, 0.95);
+    border-bottom: 1px solid var(--border-color);
+}
+[data-theme="dark"] .hero {
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5) !important;
+}
