@@ -6,15 +6,15 @@
 
 :root {
     /* Modern Fintech Colors */
-    --brand-dark: #0f172a;
-    --brand-teal: #0d9488;
-    --brand-yellow: #f59e0b;
-    --brand-orange: #f97316;
-    --brand-red: #ef4444;
+    --brand-dark: #264653;
+    --brand-teal: #2A9D8F;
+    --brand-yellow: #E9C46A;
+    --brand-orange: #F4A261;
+    --brand-red: #E76F51;
 
     /* Light Theme */
     --primary-color: var(--brand-teal); 
-    --primary-hover: #0f766e;
+    --primary-hover: #218276;
     --text-main: var(--brand-dark); 
     --text-muted: #64748b; 
     --bg-main: #f8fafc; 
@@ -80,12 +80,12 @@ a:hover { color: var(--primary-hover); }
     border: none;
     cursor: pointer;
     transition: all 0.2s;
-    box-shadow: 0 4px 14px rgba(13, 148, 136, 0.3);
+    box-shadow: 0 4px 14px rgba(42, 157, 143, 0.3);
 }
 .btn:hover {
     background-color: var(--primary-hover);
     transform: translateY(-2px); 
-    box-shadow: 0 6px 20px rgba(13, 148, 136, 0.4);
+    box-shadow: 0 6px 20px rgba(42, 157, 143, 0.4);
 }
 .btn-outline {
     background-color: transparent;
@@ -167,7 +167,7 @@ a:hover { color: var(--primary-hover); }
 .input-group input:focus, .input-group select:focus {
     border-color: var(--primary-color);
     background-color: var(--bg-card);
-    box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.1);
+    box-shadow: 0 0 0 4px rgba(42, 157, 143, 0.1);
 }
 
 /* Range Sliders */
