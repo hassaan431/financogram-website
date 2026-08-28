@@ -2,7 +2,7 @@
 <html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Financo | Understand Money. Make Better Decisions.</title>
     <link rel="icon" type="image/png" href="assets/logo-transparent.png">
     
@@ -11,12 +11,66 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="css/style.css">
-    <meta name="description" content="Financogram provides simple money lessons, financial calculators, and investment guides for the youth of Pakistan.">
-    <meta name="keywords" content="personal finance, investing, calculators, Pakistan, SIP, real estate, retirement">
-    <meta property="og:title" content="Financogram - Personal Finance Simplified">
-    <meta property="og:description" content="Financogram provides simple money lessons, financial calculators, and investment guides for the youth of Pakistan.">
-    <meta property="og:image" content="https://financogram.com/assets/logo-transparent.png">
-    <meta property="og:url" content="https://financogram.com">
+    <link rel="stylesheet" href="css/scrollcraft.css">
+    
+    <style>
+      :root {
+        /* Mapped to Financogram Dark Theme */
+        --sc-canvas:     #0f172a;
+        --sc-surface:    #1e293b;
+        --sc-ink:        #f8fafc;
+        --sc-ink-soft:   #94a3b8;
+        --sc-accent:     #14b8a6;
+        --sc-accent-ink: #0f172a;
+        --sc-font-display: "Inter", system-ui, sans-serif;
+        --sc-font-text:    "Inter", system-ui, sans-serif;
+      }
+      
+      /* Act 1 & 2: Cinematic Pinned Scenes */
+      .argument {
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         height: 100vh;
+         text-align: center;
+         position: relative;
+      }
+      /* 
+        CRITICAL FIX: Removed absolute positioning entirely. 
+        Each scene gets its own dedicated section so they never overlap.
+      */
+      .scene-content {
+         width: 100%;
+         max-width: 800px;
+         margin: 0 auto;
+      }
+      .dilemmas-scene {
+         display: flex;
+         flex-direction: column;
+         gap: 1.5rem;
+      }
+      
+      /* Act 3: Pan Rail */
+      .rail { display: flex; height: 100vh; align-items: center; gap: 4rem; padding: 0 10vw; width: max-content; }
+      .rail__lead { min-width: 300px; max-width: 400px; flex-shrink: 0; }
+      .item { background: var(--sc-surface); padding: 2.5rem; border-radius: 20px; min-width: 350px; max-width: 400px; flex-shrink: 0; border: 1px solid var(--border-color); box-shadow: var(--shadow-md); display: flex; flex-direction: column; gap: 1rem; transition: transform 0.2s, box-shadow 0.2s; }
+      .item:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+      .item h3 { color: var(--sc-ink); font-size: 1.5rem; margin: 0; }
+      .item p { color: var(--sc-ink-soft); margin: 0; line-height: 1.5; font-size: 1rem; }
+      .item .btn { margin-top: 1rem; align-self: flex-start; }
+
+      /* Finale & Footer */
+      .close { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; text-align: center; position: relative; }
+      .close__inner { max-width: 600px; margin-bottom: 3rem; }
+      .cta-large { display: inline-block; background: var(--sc-accent); color: var(--sc-accent-ink) !important; padding: 1.5rem 3rem; border-radius: 100px; font-weight: 800; font-size: 1.25rem; text-decoration: none; box-shadow: 0 8px 25px rgba(20, 184, 166, 0.4); transition: transform 0.2s, box-shadow 0.2s; }
+      .cta-large:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(20, 184, 166, 0.5); }
+      
+      /* Removed absolute positioning to close the dead space */
+      .foot { color: var(--sc-ink-soft); font-size: 0.85rem; padding: 0 1.5rem; max-width: 600px; }
+      
+      /* Make sure Navbar is above everything and fixed properly */
+      .navbar { z-index: 1000; position: fixed; width: 100%; top: 0; left: 0; }
+    </style>
 </head>
 <body>
 
@@ -50,86 +104,101 @@
         </div>
     </nav>
 
-    <main>
-        <!-- Fintech Dashboard Hero -->
-        <header class="hero" style="background: linear-gradient(to bottom, rgba(42, 157, 143, 0.1), transparent); padding: 80px 20px 40px; text-align: center; border-radius: 0 0 40px 40px; margin-bottom: 60px; border-bottom: none;">
-            <div class="container" style="position: relative; z-index: 2;">
-                <div style="display: inline-block; padding: 8px 16px; background: rgba(42, 157, 143, 0.1); color: var(--primary-color); border-radius: 100px; font-weight: 600; font-size: 0.9rem; margin-bottom: 1.5rem;">✨ Smart Financial Tools</div>
-                <h1 style="font-size: 4rem;">Master your money.<br><span style="color: var(--primary-color);">Build your future.</span></h1>
-                <p style="margin-bottom: 2.5rem; font-size: 1.25rem; max-width: 650px; margin-left: auto; margin-right: auto;">Simple money lessons and smart calculators to help you make better financial decisions. No jargon, just clarity.</p>
-                
-                <div style="display: flex; gap: 1rem; justify-content: center; margin-bottom: 4rem;">
-                    <a href="calculators/index.html" class="btn">Explore Calculators</a>
-                    <a href="learn/index.html" class="btn btn-outline">Read Articles</a>
-                </div>
-                
-                <!-- Hero Image with floating effect -->
-            </div>
-        </header>
+    <span data-sc-progress></span>
+    <div class="sc-grain" aria-hidden="true"></div>
 
-        <section class="section container">
-            <h2 class="section-title">Popular Tools</h2>
-            <div class="grid">
-                <div class="card" style="text-align: center;">
-                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">📈</div>
-                    <h3>Early SIP Calculator</h3>
-                    <p>Calculate the future value of your Systematic Investment Plan based on your monthly contributions.</p>
-                    <a href="calculators/sip.html" class="btn" style="width: 100%; margin-top: 1rem;">Run the Numbers</a>
-                </div>
-                
-                <div class="card" style="text-align: center;">
-                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">🏠</div>
-                    <h3>Buy vs Rent</h3>
-                    <p>Compare the long-term financial impact of buying a house versus renting and investing the difference.</p>
-                    <a href="calculators/buy-vs-rent.html" class="btn" style="width: 100%; margin-top: 1rem;">Run the Numbers</a>
-                </div>
-                
-                <div class="card" style="text-align: center;">
-                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">🏖️</div>
-                    <h3>Retire Today</h3>
-                    <p>Find out exactly how much you need invested today to quit your job and retire indefinitely.</p>
-                    <a href="calculators/retire-today.html" class="btn" style="width: 100%; margin-top: 1rem;">Run the Numbers</a>
-                </div>
-            </div>
-        </section>
+    <main id="top">
+      
+      <!-- Frame 1: Hero -->
+      <section data-sc-act="pin" data-sc-span="1.0" data-sc-drift="#0f172a">
+        <div data-sc-stage class="argument">
+          <div class="scene-content" data-sc-cue="0 0.8 0">
+            <div style="display: inline-block; padding: 8px 16px; background: rgba(20, 184, 166, 0.1); color: var(--sc-accent); border-radius: 100px; font-weight: 600; font-size: 0.9rem; margin-bottom: 1.5rem;">✨ Smart Financial Tools</div>
+            <h1 class="sc-display sc-display--xl" data-sc-kinetic="lines">Master your money.<br><span style="color: var(--sc-accent);">Build your future.</span></h1>
+          </div>
+        </div>
+      </section>
 
-        <section class="section container" style="margin-top: 2rem;">
-            <div style="background: var(--bg-card); border-radius: var(--border-radius); padding: 4rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; gap: 4rem; flex-wrap: wrap;">
-                <div style="flex: 1; min-width: 300px;">
-                    <div style="display: inline-block; padding: 6px 12px; background: rgba(244, 162, 97, 0.1); color: var(--brand-orange); border-radius: 100px; font-weight: 600; font-size: 0.85rem; margin-bottom: 1rem;">Financo Learn</div>
-                    <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem;">Financial education that actually makes sense.</h2>
-                    <p style="font-size: 1.1rem; margin-bottom: 2rem;">Stop reading boring banking blogs. We break down complex financial concepts into simple, actionable 3-minute guides designed for young professionals.</p>
-                    <a href="learn/index.html" class="btn">Start Reading</a>
-                </div>
-                <div style="flex: 1; min-width: 300px;">
-                    <div style="display: flex; flex-direction: column; gap: 1rem;">
-                        <a href="learn/retirement-planning.html" class="card" style="padding: 1.5rem; display: flex; align-items: center; gap: 1rem; text-decoration: none;">
-                            <div style="background: var(--bg-main); padding: 1rem; border-radius: 12px; font-size: 1.5rem;">🌱</div>
-                            <div>
-                                <h4 style="margin: 0; color: var(--text-main);">How to Plan Your Retirement</h4>
-                                <span style="color: var(--text-muted); font-size: 0.9rem;">4 min read</span>
-                            </div>
-                        </a>
-                        <a href="learn/before-investing.html" class="card" style="padding: 1.5rem; display: flex; align-items: center; gap: 1rem; text-decoration: none;">
-                            <div style="background: var(--bg-main); padding: 1rem; border-radius: 12px; font-size: 1.5rem;">🛡️</div>
-                            <div>
-                                <h4 style="margin: 0; color: var(--text-main);">5 Things Before Investing</h4>
-                                <span style="color: var(--text-muted); font-size: 0.9rem;">3 min read</span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
+      <!-- Frame 2: Dilemmas -->
+      <section data-sc-act="pin" data-sc-span="1.0" data-sc-drift="#1e293b">
+        <div data-sc-stage class="argument">
+          <div class="scene-content dilemmas-scene" data-sc-cue="0 0.8 0">
+            <p class="sc-display sc-display--md">Is it better to buy or rent?</p>
+            <p class="sc-display sc-display--md">How much do I need to retire?</p>
+            <h2 class="sc-display sc-display--lg" style="color: var(--sc-accent); margin-top: 1rem;">Stop guessing.<br>Let's run the numbers.</h2>
+          </div>
+        </div>
+      </section>
+
+      <!-- Act 2: Turn (Flow) - Tighter margins to prevent dead scroll -->
+      <section class="sc-section" data-sc-act="flow" data-sc-drift="#1e293b">
+        <div class="sc-wrap" style="max-width: 800px; text-align: center; margin: 2rem auto;">
+          <div class="sc-stack" data-sc-in data-sc-stagger="50">
+            <div style="display: inline-block; padding: 6px 12px; background: rgba(244, 162, 97, 0.1); color: var(--brand-orange); border-radius: 100px; font-weight: 600; font-size: 0.85rem; margin-bottom: 1rem;">Financo Learn</div>
+            <h2 class="sc-display sc-display--lg">Financial education that actually makes sense.</h2>
+            <p class="sc-body" style="margin: 1.5rem auto; font-size: 1.2rem;">Stop reading boring banking blogs. We break down complex financial concepts into simple, actionable 3-minute guides designed for young professionals.</p>
+            <a href="learn/index.html" class="btn btn-outline" style="border-color: var(--sc-accent); color: var(--sc-accent) !important; font-size: 1.1rem; padding: 12px 24px;">Start Reading</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Act 3: Interactive Growth Engine (Pan) -->
+      <!-- Adjusted span and pan values to feel smoother -->
+      <section data-sc-act="pan" data-sc-span="3.0" data-sc-drift="#1e293b">
+        <div data-sc-stage>
+          <div class="rail" data-sc-pan="0.08">
+            <div class="rail__lead sc-stack">
+              <h2 class="sc-display sc-display--lg">Interactive<br>Calculators</h2>
+              <p class="sc-body" style="font-size: 1.1rem;">First-class tools. Build your scenario and see the math unfold.</p>
             </div>
-        </section>
+            
+            <article class="item" data-sc-tilt="4">
+              <h3>📈 Early SIP Calculator</h3>
+              <p>Calculate the future value of your Systematic Investment Plan based on your monthly contributions.</p>
+              <a href="calculators/sip.html" class="btn">Run Numbers</a>
+            </article>
+
+            <article class="item" data-sc-tilt="4">
+              <h3>🏠 Buy vs Rent</h3>
+              <p>Compare the long-term financial impact of buying a house versus renting and investing the difference.</p>
+              <a href="calculators/buy-vs-rent.html" class="btn">Run Numbers</a>
+            </article>
+
+            <article class="item" data-sc-tilt="4">
+              <h3>🏖️ Retire Today</h3>
+              <p>Find out exactly how much you need invested today to quit your job and retire indefinitely.</p>
+              <a href="calculators/retire-today.html" class="btn">Run Numbers</a>
+            </article>
+            
+            <article class="item" data-sc-tilt="4">
+              <h3>💵 Cash vs Installments</h3>
+              <p>Understand the true cost of buying a house on installments versus saving up and paying cash upfront.</p>
+              <a href="calculators/cash-vs-installments.html" class="btn">Run Numbers</a>
+            </article>
+
+            <div style="min-width: 5vw;"></div> <!-- padding element for the end of rail -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Act 4: Spotlight Finale (Flow) -->
+      <section class="sc-section" data-sc-act="flow" data-sc-drift="#0f172a">
+        <div class="close sc-wrap">
+          <div class="close__inner sc-stack" data-sc-in data-sc-stagger="100">
+            <h2 class="sc-display sc-display--lg">Ready to take control?</h2>
+            <p class="sc-body" style="margin: 1.5rem auto 3rem; font-size: 1.2rem;">Join thousands of others making smarter financial decisions.</p>
+            <a class="cta-large" href="calculators/index.html">Explore Calculators</a>
+          </div>
+          <footer class="foot">
+            <p>"Financo provides educational information and calculators for informational purposes only. This content is not personalized financial, investment, tax, or legal advice."</p>
+          </footer>
+        </div>
+      </section>
 
     </main>
 
-    <footer class="footer">
-        <div class="container">
-            <p>"Financo provides educational information and calculators for informational purposes only. This content is not personalized financial, investment, tax, or legal advice."</p>
-        </div>
-    </footer>
-
     <script src="js/main.js"></script>
+    <script src="js/scrollcraft.js"></script>
+    <script>ScrollCraft.mount(document.body);</script>
 </body>
 </html>
