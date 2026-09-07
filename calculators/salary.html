@@ -117,7 +117,6 @@
     border-color:var(--teal);
     box-shadow:0 0 0 3px rgba(42,157,143,0.15);
   }
-  /* Fix options text color in standard light dropdown menus for system selects */
   select option { color: initial; background: initial; }
 
   .toggle-field{
@@ -375,18 +374,18 @@
     <div class="field" id="bonusMonthField" style="display:none;">
       <label for="bonusMonth">Bonus month</label>
       <select id="bonusMonth" onchange="calculate()">
-        <option value="0">January</option>
-        <option value="1">February</option>
-        <option value="2">March</option>
-        <option value="3">April</option>
-        <option value="4">May</option>
-        <option value="5">June</option>
-        <option value="6" selected>July</option>
-        <option value="7">August</option>
-        <option value="8">September</option>
-        <option value="9">October</option>
-        <option value="10">November</option>
-        <option value="11">December</option>
+        <option value="0">July</option>
+        <option value="1">August</option>
+        <option value="2">September</option>
+        <option value="3">October</option>
+        <option value="4">November</option>
+        <option value="5">December</option>
+        <option value="6">January</option>
+        <option value="7">February</option>
+        <option value="8" selected>March</option>
+        <option value="9">April</option>
+        <option value="10">May</option>
+        <option value="11">June</option>
       </select>
       <p class="hint">Which month the bonus actually lands in — used for the month-by-month breakdown below.</p>
     </div>
@@ -466,8 +465,8 @@ const slabLabels = [
 ];
 const slabRates = ["0%","1%","11%","20%","25%","29%","32%","35%"];
 
-const monthNames = ["January","February","March","April","May","June",
-                     "July","August","September","October","November","December"];
+const monthNames = ["July","August","September","October","November","December",
+                     "January","February","March","April","May","June"];
 
 function fmt(n){
   return "Rs " + Math.round(n).toLocaleString('en-PK');
@@ -502,15 +501,45 @@ function statCard(cls,label,value){
   return `<div class="stat ${cls||''}"><div class="label">${label}</div><div class="value">${value}</div></div>`;
 }
 
-function renderMonthlyTable(monthlyPay, monthlyPF, monthlyTaxOnSalary, annualBonus, bonusTax, bonusMonthIdx, separate, totalAnnualTax){
+function renderMonthlyTable(monthlyPay, monthlyPF, annualSalaryOnly, annualBonus, bonusMonthIdx, separate, totalAnnualTax, taxOnSalaryOnly){
   const tbody = document.querySelector('#monthlyTable tbody');
   tbody.innerHTML = '';
 
   let totalTax = 0, totalInHand = 0;
 
+  // Pre-bonus monthly tax: employer's best estimate before the bonus is known — tax on salary-only annual income.
+  const preBonusMonthlyTax = taxOnSalaryOnly / 12;
+
+  // Post-bonus monthly tax: once annual income is re-estimated to include the bonus, remaining salary
+  // months are taxed at the new (possibly higher-slab) rate. The bonus month itself absorbs the catch-up.
+  const monthsBeforeBonus = separate ? bonusMonthIdx : 0;
+  const monthsAfterBonus = separate ? (11 - bonusMonthIdx) : 0;
+  const taxPaidPreBonusMonths = preBonusMonthlyTax * monthsBeforeBonus;
+
+  // Whatever tax remains after the pre-bonus months and the bonus month's own salary-tax share
+  // gets spread evenly across the remaining months, so the year still totals correctly.
+  const postBonusMonthlyTax = monthsAfterBonus > 0
+    ? (totalAnnualTax - taxPaidPreBonusMonths - preBonusMonthlyTax) / monthsAfterBonus
+    : 0;
+
+  const bonusMonthTax = separate
+    ? (totalAnnualTax - taxPaidPreBonusMonths - (postBonusMonthlyTax * monthsAfterBonus))
+    : 0;
+
   for(let i=0;i<12;i++){
     const isBonusMonth = separate && annualBonus > 0 && i === bonusMonthIdx;
-    const taxThisMonth = monthlyTaxOnSalary + (isBonusMonth ? bonusTax : 0);
+    let taxThisMonth;
+
+    if(!separate){
+      taxThisMonth = totalAnnualTax / 12;
+    } else if(i < bonusMonthIdx){
+      taxThisMonth = preBonusMonthlyTax;
+    } else if(i === bonusMonthIdx){
+      taxThisMonth = bonusMonthTax;
+    } else {
+      taxThisMonth = postBonusMonthlyTax;
+    }
+
     const grossThisMonth = monthlyPay + (isBonusMonth ? annualBonus : 0);
     const inHand = grossThisMonth - monthlyPF - taxThisMonth;
 
@@ -570,9 +599,9 @@ function calculate(){
       statCard('good', 'Take-home, bonus month', fmt(bonusMonthNet));
 
     document.getElementById('methodNote').innerHTML =
-      `<strong>How this is split:</strong> tax on your Rs ${Math.round(annualSalaryOnly).toLocaleString('en-PK')} annual salary alone is Rs ${Math.round(taxOnSalaryOnly).toLocaleString('en-PK')}, spread evenly across 12 months. Your bonus then gets taxed on top, at your marginal rate, so the total for the year still matches the full slab calculation on Rs ${Math.round(annualGross).toLocaleString('en-PK')}.`;
+      `<strong>How this is split:</strong> tax on your Rs ${Math.round(annualSalaryOnly).toLocaleString('en-PK')} annual salary alone is Rs ${Math.round(taxOnSalaryOnly).toLocaleString('en-PK')}, spread evenly across the months before your bonus. Your bonus then gets taxed on top, at your marginal rate, in the month it lands. If the bonus pushes your annual income into a higher slab, months <em>after</em> the bonus are taxed at that new, higher rate too — see the month-by-month breakdown below. Everything still totals to the same annual figure calculated on Rs ${Math.round(annualGross).toLocaleString('en-PK')}.`;
 
-    renderMonthlyTable(monthlyPay, monthlyPF, monthlyTaxOnSalary, annualBonus, bonusTax, bonusMonthIdx, true, totalAnnualTax);
+    renderMonthlyTable(monthlyPay, monthlyPF, annualSalaryOnly, annualBonus, bonusMonthIdx, true, totalAnnualTax, taxOnSalaryOnly);
 
   }else{
     // Blended: total annual tax spread evenly across all 12 months regardless of bonus timing.
@@ -593,7 +622,7 @@ function calculate(){
     document.getElementById('methodNote').innerHTML =
       `<strong>How this is split:</strong> total annual tax is spread evenly across all 12 months, so the same amount is deducted whether or not the bonus lands that month.`;
 
-    renderMonthlyTable(monthlyPay, monthlyPF, monthlyTax, annualBonus, 0, bonusMonthIdx, false, totalAnnualTax);
+    renderMonthlyTable(monthlyPay, monthlyPF, annualSalaryOnly, annualBonus, bonusMonthIdx, false, totalAnnualTax, taxOnSalaryOnly);
   }
 
   renderSlabTable(findSlabIndex(annualGross));
