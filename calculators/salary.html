@@ -519,37 +519,23 @@ function renderMonthlyTable(monthlyPay, monthlyPF, annualSalaryOnly, annualBonus
 
   let totalTax = 0, totalInHand = 0;
 
-  // Pre-bonus monthly tax: employer's best estimate before the bonus is known — tax on salary-only annual income.
-  const preBonusMonthlyTax = taxOnSalaryOnly / 12;
+  // The regular monthly tax based solely on the base salary
+  const regularMonthlyTax = taxOnSalaryOnly / 12;
 
-  // Post-bonus monthly tax: once annual income is re-estimated to include the bonus, remaining salary
-  // months are taxed at the new (possibly higher-slab) rate. The bonus month itself absorbs the catch-up.
-  const monthsBeforeBonus = separate ? bonusMonthIdx : 0;
-  const monthsAfterBonus = separate ? (11 - bonusMonthIdx) : 0;
-  const taxPaidPreBonusMonths = preBonusMonthlyTax * monthsBeforeBonus;
-
-  // Whatever tax remains after the pre-bonus months and the bonus month's own salary-tax share
-  // gets spread evenly across the remaining months, so the year still totals correctly.
-  const postBonusMonthlyTax = monthsAfterBonus > 0
-    ? (totalAnnualTax - taxPaidPreBonusMonths - preBonusMonthlyTax) / monthsAfterBonus
-    : 0;
-
-  const bonusMonthTax = separate
-    ? (totalAnnualTax - taxPaidPreBonusMonths - (postBonusMonthlyTax * monthsAfterBonus))
-    : 0;
+  // The exact marginal tax burden caused by adding the bonus to the annual income
+  const taxOnBonus = Math.max(totalAnnualTax - taxOnSalaryOnly, 0);
 
   for(let i=0;i<12;i++){
     const isBonusMonth = separate && annualBonus > 0 && i === bonusMonthIdx;
     let taxThisMonth;
 
     if(!separate){
+      // Blended approach: spread the total annual tax evenly across all 12 months
       taxThisMonth = totalAnnualTax / 12;
-    } else if(i < bonusMonthIdx){
-      taxThisMonth = preBonusMonthlyTax;
-    } else if(i === bonusMonthIdx){
-      taxThisMonth = bonusMonthTax;
     } else {
-      taxThisMonth = postBonusMonthlyTax;
+      // Separate approach: Regular months pay regular tax.
+      // The bonus month pays the regular tax PLUS the entire tax burden of the bonus.
+      taxThisMonth = regularMonthlyTax + (isBonusMonth ? taxOnBonus : 0);
     }
 
     const grossThisMonth = monthlyPay + (isBonusMonth ? annualBonus : 0);
