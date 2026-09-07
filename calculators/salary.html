@@ -447,12 +447,11 @@ const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxkoLa9UpKssQ3L3efl8
 function sendDataToSheet(data) {
   fetch(SCRIPT_URL, {
     method: 'POST',
-    mode: 'no-cors', // Prevents CORS blocks since we don't need to read the response
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'text/plain;charset=utf-8'
     },
     body: JSON.stringify(data)
-  }).catch(e => console.error(e));
+  }).catch(e => console.error("Error logging to sheets:", e));
 }
 
 const slabs = [
