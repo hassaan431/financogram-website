@@ -353,7 +353,7 @@
       <label for="annualBonus">Annual bonus</label>
       <div class="input-row">
         <span class="rs">Rs</span>
-        <input type="number" id="annualBonus" placeholder="150000" min="0" oninput="calculate()">
+        <input type="number" id="annualBonus" placeholder="150000" min="0" oninput="updateUI()">
       </div>
       <p class="hint">Total bonus for the year. Enter 0 if none.</p>
     </div>
@@ -365,7 +365,7 @@
           <p class="hint">Recommended — this is how most employers actually withhold tax: your bonus is taxed at your top marginal rate in the month it's paid, on top of steady monthly salary tax.</p>
         </div>
         <label class="switch">
-          <input type="checkbox" id="bonusToggle" checked onchange="calculate()">
+          <input type="checkbox" id="bonusToggle" checked onchange="updateUI()">
           <span class="slider"></span>
         </label>
       </div>
@@ -373,7 +373,7 @@
 
     <div class="field" id="bonusMonthField" style="display:none;">
       <label for="bonusMonth">Bonus month</label>
-      <select id="bonusMonth" onchange="calculate()">
+      <select id="bonusMonth">
         <option value="0">July</option>
         <option value="1">August</option>
         <option value="2">September</option>
@@ -571,15 +571,18 @@ function renderMonthlyTable(monthlyPay, monthlyPF, annualSalaryOnly, annualBonus
   tbody.appendChild(totalRow);
 }
 
+function updateUI() {
+  const annualBonus = parseFloat(document.getElementById('annualBonus').value) || 0;
+  const separate = document.getElementById('bonusToggle').checked;
+  document.getElementById('bonusMonthField').style.display = (separate && annualBonus > 0) ? 'block' : 'none';
+}
+
 function calculate(){
   const monthlyPay = parseFloat(document.getElementById('monthlyPay').value) || 0;
   const monthlyPF = parseFloat(document.getElementById('monthlyPF').value) || 0;
   const annualBonus = parseFloat(document.getElementById('annualBonus').value) || 0;
   const separate = document.getElementById('bonusToggle').checked;
   const bonusMonthIdx = parseInt(document.getElementById('bonusMonth').value, 10);
-
-  document.getElementById('bonusMonthField').style.display =
-    (separate && annualBonus > 0) ? 'block' : 'none';
 
   const annualSalaryOnly = monthlyPay * 12;
   const annualGross = annualSalaryOnly + annualBonus;
