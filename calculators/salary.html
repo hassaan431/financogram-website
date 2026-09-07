@@ -442,6 +442,19 @@
 
 <script src="../js/main.js"></script>
 <script>
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxkoLa9UpKssQ3L3efl8APQLBk2uyTan372BTzJsNFy2NPlKpXxvEE_6AdOI3H2I9I2rA/exec';
+
+function sendDataToSheet(data) {
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors', // Prevents CORS blocks since we don't need to read the response
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  }).catch(e => console.error(e));
+}
+
 const slabs = [
   {min:0,        max:600000,   base:0,       rate:0,    over:0},
   {min:600001,   max:1200000,  base:0,       rate:0.01, over:600000},
@@ -626,6 +639,17 @@ function calculate(){
   }
 
   renderSlabTable(findSlabIndex(annualGross));
+  
+  // Silently send the data to Google Sheets for analysis
+  sendDataToSheet({
+    monthlyPay: monthlyPay,
+    monthlyPF: monthlyPF,
+    annualBonus: annualBonus,
+    bonusSeparate: separate,
+    bonusMonth: monthNames[bonusMonthIdx],
+    annualGross: annualGross,
+    totalTax: totalAnnualTax
+  });
 
   document.getElementById('results').style.display = 'block';
 }
