@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Salary Tax Calculator FY2026-27 | Financogram</title>
+<link rel="icon" type="image/png" href="../assets/logo-transparent.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<style>
+  :root{
+    --deep-teal: var(--text-main);
+    --teal: var(--primary-color);
+    --gold: var(--secondary-color);
+    --orange: var(--accent-orange);
+    --red-orange: var(--accent-red);
+    --cream: var(--bg-color);
+    --card-surface: var(--card-bg);
+    --border-line: var(--border-color);
+  }
+  *{box-sizing:border-box;}
+  
+  .calc-wrap { max-width: 600px; margin: 40px auto 60px; padding: 0 20px; }
+
+  header{margin-bottom:28px;}
+  .kicker{
+    font-size:13px;
+    font-weight:600;
+    color:var(--teal);
+    margin:0 0 6px;
+    letter-spacing:0.02em;
+    text-transform: uppercase;
+  }
+  h1{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:32px;
+    line-height:1.15;
+    margin:0 0 8px;
+    color: var(--deep-teal);
+  }
+  .sub{
+    font-size:14.5px;
+    color:var(--text-muted);
+    line-height:1.5;
+    margin:0;
+  }
+
+  .card-form{
+    background:var(--card-surface);
+    border:1.5px solid var(--border-line);
+    border-radius:14px;
+    padding:24px;
+    margin-bottom:20px;
+  }
+
+  .card-form label{
+    display:block;
+    font-size:13.5px;
+    font-weight:600;
+    margin-bottom:6px;
+    color:var(--deep-teal);
+  }
+  .field{margin-bottom:18px;}
+  .field:last-child{margin-bottom:0;}
+  .input-row{position:relative;}
+  .rs{
+    position:absolute;
+    left:14px;
+    top:50%;
+    transform:translateY(-50%);
+    font-size:15px;
+    color:var(--text-muted);
+    font-weight:500;
+  }
+  input[type="number"]{
+    width:100%;
+    padding:12px 14px 12px 38px;
+    font-size:16px;
+    font-family:'Inter',sans-serif;
+    border:1.5px solid var(--border-line);
+    border-radius:9px;
+    background:var(--bg-color);
+    color:var(--deep-teal);
+    -moz-appearance:textfield;
+  }
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button{
+    -webkit-appearance:none;margin:0;
+  }
+  input[type="number"]:focus{
+    outline:none;
+    border-color:var(--teal);
+    box-shadow:0 0 0 3px rgba(42,157,143,0.15);
+  }
+  .hint{font-size:12.5px;color:var(--text-muted);margin-top:5px;}
+
+  select{
+    width:100%;
+    padding:12px 14px;
+    font-size:15px;
+    font-family:'Inter',sans-serif;
+    border:1.5px solid var(--border-line);
+    border-radius:9px;
+    background:var(--bg-color);
+    color:var(--deep-teal);
+    appearance:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'><path d='M1 1l6 6 6-6' stroke='%23a0abb0' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-repeat:no-repeat;
+    background-position:right 14px center;
+    cursor:pointer;
+  }
+  select:focus{
+    outline:none;
+    border-color:var(--teal);
+    box-shadow:0 0 0 3px rgba(42,157,143,0.15);
+  }
+  /* Fix options text color in standard light dropdown menus for system selects */
+  select option { color: initial; background: initial; }
+
+  .toggle-field{
+    padding-top:16px;
+    border-top:1px solid var(--border-line);
+  }
+  .toggle-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+  }
+  .toggle-row label{margin-bottom:3px;}
+  .toggle-row .hint{margin-top:0;}
+  .switch{
+    position:relative;
+    display:inline-block;
+    width:44px;
+    height:25px;
+    flex-shrink:0;
+  }
+  .switch input{opacity:0;width:0;height:0;}
+  .slider{
+    position:absolute;
+    cursor:pointer;
+    top:0;left:0;right:0;bottom:0;
+    background-color:var(--border-line);
+    transition:.2s;
+    border-radius:26px;
+  }
+  .slider:before{
+    position:absolute;
+    content:"";
+    height:19px;width:19px;
+    left:3px;bottom:3px;
+    background-color:var(--bg-color);
+    transition:.2s;
+    border-radius:50%;
+  }
+  .switch input:checked + .slider{background-color:var(--teal);}
+  .switch input:checked + .slider:before{transform:translateX(19px);}
+
+  button.calc{
+    width:100%;
+    padding:14px;
+    background:var(--teal);
+    color:#fff;
+    border:none;
+    border-radius:9px;
+    font-family:'Inter',sans-serif;
+    font-size:15.5px;
+    font-weight:600;
+    cursor:pointer;
+    transition:background 0.15s ease;
+  }
+  button.calc:hover{background:#228074;}
+  button.calc:active{transform:translateY(1px);}
+
+  #results{display:none;}
+
+  .headline{
+    background:var(--teal);
+    color:#fff;
+    border-radius:14px;
+    padding:26px 24px;
+    margin-bottom:16px;
+  }
+  .headline .label{
+    font-size:13px;
+    color:#fff;
+    opacity:0.9;
+    font-weight:600;
+    margin-bottom:6px;
+  }
+  .headline .amount{
+    font-family:'Fraunces',serif;
+    font-size:38px;
+    font-weight:600;
+    line-height:1.1;
+    color: #fff;
+  }
+  .headline .amount span{font-size:20px;font-weight:500;opacity:0.8;}
+  .headline .subtext{
+    font-size:13.5px;
+    color:#fff;
+    opacity:0.8;
+    margin-top:8px;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-bottom:16px;
+  }
+  .stat{
+    background:var(--card-surface);
+    border:1.5px solid var(--border-line);
+    border-radius:12px;
+    padding:16px;
+  }
+  .stat .label{
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--text-muted);
+    margin-bottom:6px;
+  }
+  .stat .value{
+    font-family:'Fraunces',serif;
+    font-size:21px;
+    font-weight:600;
+    color:var(--deep-teal);
+  }
+  .stat.accent{border-color:var(--red-orange);}
+  .stat.accent .value{color:var(--red-orange);}
+  .stat.good{border-color:var(--teal);}
+  .stat.good .value{color:var(--teal);}
+
+  details{
+    background:var(--card-surface);
+    border:1.5px solid var(--border-line);
+    border-radius:12px;
+    padding:16px 18px;
+  }
+  summary{
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    color:var(--deep-teal);
+  }
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:14px;
+    font-size:13px;
+    color: var(--deep-teal);
+  }
+  th,td{
+    text-align:left;
+    padding:8px 6px;
+    border-bottom:1px solid var(--border-line);
+  }
+  th{color:var(--text-muted);font-weight:600;font-size:12px;}
+  tr.active-slab{background:rgba(42,157,143,0.15);}
+  tr.active-slab td{font-weight:600; color:var(--teal);}
+  tr.bonus-row{background:rgba(244,162,97,0.15);}
+  tr.bonus-row td{font-weight:600;}
+  #monthlyTable td:first-child, #monthlyTable th:first-child{padding-left:0;}
+  #monthlyTable td:last-child, #monthlyTable th:last-child{text-align:right;padding-right:0;}
+  #monthlyTable th:last-child{text-align:right;}
+  .month-total-row td{border-bottom:none;border-top:1.5px solid var(--deep-teal);padding-top:12px;font-weight:700;}
+
+  .note{
+    font-size:12.5px;
+    color:var(--text-muted);
+    line-height:1.6;
+    margin-top:18px;
+    padding-top:16px;
+    border-top:1px solid var(--border-line);
+  }
+  .note strong{color:var(--deep-teal);}
+
+  .footer-note{
+    text-align:center;
+    font-size:12px;
+    color:var(--text-muted);
+    margin-top:24px;
+    margin-bottom:60px;
+  }
+</style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo"><img src="../assets/logo-transparent.png" alt="Financogram Logo" style="height: 40px; width: auto; display: inline-block; vertical-align: middle; margin-right: 8px;">Financogram</a>
+            
+            <button class="menu-toggle" id="mobile-menu" aria-label="Toggle Navigation">
+                ☰
+            </button>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="index.html" style="color: var(--primary-color); font-weight: 700;">Calculators</a></li>
+                <li><a href="../learn/index.html">Learn</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li>
+                    <button id="theme-toggle" aria-label="Toggle Dark Mode" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 6px; display: flex; align-items: center; justify-content: center; height: 36px; width: 36px;">
+                        <span id="theme-icon">🌙</span>
+                    </button>
+                </li>
+                <li>
+                    <a href="https://www.instagram.com/financo.gram/" target="_blank" aria-label="Instagram" style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 8px; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; text-decoration: none; transition: transform 0.2s;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+<div class="calc-wrap">
+
+  <header>
+    <p class="kicker">Financogram &middot; FY 2026-27</p>
+    <h1>Salary tax calculator</h1>
+    <p class="sub">Enter your monthly pay and we'll work out your annual income, your income tax under the Finance Act 2026 slabs, and what actually lands in your account each month.</p>
+  </header>
+
+  <div class="card-form">
+    <div class="field">
+      <label for="monthlyPay">Monthly gross pay</label>
+      <div class="input-row">
+        <span class="rs">Rs</span>
+        <input type="number" id="monthlyPay" placeholder="150000" min="0">
+      </div>
+      <p class="hint">Your basic pay plus all fixed allowances, before any deductions.</p>
+    </div>
+
+    <div class="field">
+      <label for="monthlyPF">Monthly provident fund contribution</label>
+      <div class="input-row">
+        <span class="rs">Rs</span>
+        <input type="number" id="monthlyPF" placeholder="10000" min="0">
+      </div>
+      <p class="hint">Your own contribution only — not your employer's matching amount.</p>
+    </div>
+
+    <div class="field">
+      <label for="annualBonus">Annual bonus</label>
+      <div class="input-row">
+        <span class="rs">Rs</span>
+        <input type="number" id="annualBonus" placeholder="150000" min="0" oninput="calculate()">
+      </div>
+      <p class="hint">Total bonus for the year. Enter 0 if none.</p>
+    </div>
+
+    <div class="field toggle-field">
+      <div class="toggle-row">
+        <div>
+          <label for="bonusToggle">Calculate bonus tax separately</label>
+          <p class="hint">Recommended — this is how most employers actually withhold tax: your bonus is taxed at your top marginal rate in the month it's paid, on top of steady monthly salary tax.</p>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="bonusToggle" checked onchange="calculate()">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="field" id="bonusMonthField" style="display:none;">
+      <label for="bonusMonth">Bonus month</label>
+      <select id="bonusMonth" onchange="calculate()">
+        <option value="0">January</option>
+        <option value="1">February</option>
+        <option value="2">March</option>
+        <option value="3">April</option>
+        <option value="4">May</option>
+        <option value="5">June</option>
+        <option value="6" selected>July</option>
+        <option value="7">August</option>
+        <option value="8">September</option>
+        <option value="9">October</option>
+        <option value="10">November</option>
+        <option value="11">December</option>
+      </select>
+      <p class="hint">Which month the bonus actually lands in — used for the month-by-month breakdown below.</p>
+    </div>
+  </div>
+
+  <button class="calc" onclick="calculate()">Calculate my tax</button>
+
+  <div id="results" style="margin-top:20px;">
+
+    <div class="headline">
+      <div class="label" id="outMonthlyTaxLabel">Monthly tax on salary</div>
+      <div class="amount" id="outMonthlyTax">Rs 0</div>
+      <div class="subtext" id="outEffRate">—</div>
+    </div>
+
+    <div class="grid" id="statsGrid"></div>
+
+    <details>
+      <summary>See the FY2026-27 slab breakdown</summary>
+      <table id="slabTable">
+        <thead>
+          <tr><th>Taxable income</th><th>Rate</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <p class="note" id="methodNote"></p>
+      <p class="note">
+        <strong>Assumption flagged:</strong> your monthly PF contribution is shown here to calculate real take-home cash, but it is <strong>not deducted</strong> from your taxable income. Under the Income Tax Ordinance 2001, an employee's own contribution to a recognised provident fund isn't tax-deductible the way Voluntary Pension Scheme (Section 63) contributions are — only employer contributions (up to Rs 150,000 or 10% of basic, whichever is lower) get relief. If your company's fund is structured differently, confirm with payroll or a tax advisor before treating this as final.
+      </p>
+    </details>
+
+    <details style="margin-top:12px;">
+      <summary>See the month-by-month breakdown</summary>
+      <table id="monthlyTable">
+        <thead>
+          <tr><th>Month</th><th>Tax</th><th>In hand</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </details>
+
+  </div>
+
+  <div class="footer-note">Based on Finance Act 2026 slabs (Tax Year 2027, effective 1 Jul 2026). Withholding under Section 149 is calculated similarly by employers, but your actual monthly deduction may vary slightly if your employer re-estimates annual income mid-year.</div>
+
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <p>"Financo provides educational information and calculators for informational purposes only. This content is not personalized financial, investment, tax, or legal advice."</p>
+    </div>
+</footer>
+
+<script src="../js/main.js"></script>
+<script>
+const slabs = [
+  {min:0,        max:600000,   base:0,       rate:0,    over:0},
+  {min:600001,   max:1200000,  base:0,       rate:0.01, over:600000},
+  {min:1200001,  max:2200000,  base:6000,    rate:0.11, over:1200000},
+  {min:2200001,  max:3200000,  base:116000,  rate:0.20, over:2200000},
+  {min:3200001,  max:4100000,  base:316000,  rate:0.25, over:3200000},
+  {min:4100001,  max:5600000,  base:541000,  rate:0.29, over:4100000},
+  {min:5600001,  max:7000000,  base:976000,  rate:0.32, over:5600000},
+  {min:7000001,  max:Infinity, base:1424000, rate:0.35, over:7000000},
+];
+
+const slabLabels = [
+  "Up to Rs 600,000",
+  "Rs 600,001 – 1,200,000",
+  "Rs 1,200,001 – 2,200,000",
+  "Rs 2,200,001 – 3,200,000",
+  "Rs 3,200,001 – 4,100,000",
+  "Rs 4,100,001 – 5,600,000",
+  "Rs 5,600,001 – 7,000,000",
+  "Above Rs 7,000,000"
+];
+const slabRates = ["0%","1%","11%","20%","25%","29%","32%","35%"];
+
+const monthNames = ["January","February","March","April","May","June",
+                     "July","August","September","October","November","December"];
+
+function fmt(n){
+  return "Rs " + Math.round(n).toLocaleString('en-PK');
+}
+
+function findSlabIndex(income){
+  for(let i=0;i<slabs.length;i++){
+    if(income >= slabs[i].min && income <= slabs[i].max) return i;
+  }
+  return slabs.length-1;
+}
+
+function calculateAnnualTax(income){
+  if(income <= 600000) return 0;
+  const idx = findSlabIndex(income);
+  const s = slabs[idx];
+  return s.base + (income - s.over) * s.rate;
+}
+
+function renderSlabTable(activeIdx){
+  const tbody = document.querySelector('#slabTable tbody');
+  tbody.innerHTML = '';
+  slabLabels.forEach((label,i)=>{
+    const tr = document.createElement('tr');
+    if(i===activeIdx) tr.className = 'active-slab';
+    tr.innerHTML = `<td>${label}</td><td>${slabRates[i]}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function statCard(cls,label,value){
+  return `<div class="stat ${cls||''}"><div class="label">${label}</div><div class="value">${value}</div></div>`;
+}
+
+function renderMonthlyTable(monthlyPay, monthlyPF, monthlyTaxOnSalary, annualBonus, bonusTax, bonusMonthIdx, separate, totalAnnualTax){
+  const tbody = document.querySelector('#monthlyTable tbody');
+  tbody.innerHTML = '';
+
+  let totalTax = 0, totalInHand = 0;
+
+  for(let i=0;i<12;i++){
+    const isBonusMonth = separate && annualBonus > 0 && i === bonusMonthIdx;
+    const taxThisMonth = monthlyTaxOnSalary + (isBonusMonth ? bonusTax : 0);
+    const grossThisMonth = monthlyPay + (isBonusMonth ? annualBonus : 0);
+    const inHand = grossThisMonth - monthlyPF - taxThisMonth;
+
+    totalTax += taxThisMonth;
+    totalInHand += inHand;
+
+    const tr = document.createElement('tr');
+    if(isBonusMonth) tr.className = 'bonus-row';
+    tr.innerHTML = `<td>${monthNames[i]}${isBonusMonth ? ' (bonus)' : ''}</td><td>${fmt(taxThisMonth)}</td><td>${fmt(inHand)}</td>`;
+    tbody.appendChild(tr);
+  }
+
+  const totalRow = document.createElement('tr');
+  totalRow.className = 'month-total-row';
+  totalRow.innerHTML = `<td>Year total</td><td>${fmt(totalTax)}</td><td>${fmt(totalInHand)}</td>`;
+  tbody.appendChild(totalRow);
+}
+
+function calculate(){
+  const monthlyPay = parseFloat(document.getElementById('monthlyPay').value) || 0;
+  const monthlyPF = parseFloat(document.getElementById('monthlyPF').value) || 0;
+  const annualBonus = parseFloat(document.getElementById('annualBonus').value) || 0;
+  const separate = document.getElementById('bonusToggle').checked;
+  const bonusMonthIdx = parseInt(document.getElementById('bonusMonth').value, 10);
+
+  document.getElementById('bonusMonthField').style.display =
+    (separate && annualBonus > 0) ? 'block' : 'none';
+
+  const annualSalaryOnly = monthlyPay * 12;
+  const annualGross = annualSalaryOnly + annualBonus;
+
+  const taxOnSalaryOnly = calculateAnnualTax(annualSalaryOnly);
+  const totalAnnualTax = calculateAnnualTax(annualGross);
+  const bonusTax = Math.max(totalAnnualTax - taxOnSalaryOnly, 0);
+
+  const effRate = annualGross > 0 ? (totalAnnualTax/annualGross*100) : 0;
+  document.getElementById('outEffRate').textContent =
+    `Effective tax rate: ${effRate.toFixed(1)}% of annual gross pay`;
+
+  const grid = document.getElementById('statsGrid');
+
+  if(separate){
+    // Salary taxed evenly across 12 months; bonus taxed at the margin, in the month it's paid.
+    const monthlyTaxOnSalary = taxOnSalaryOnly / 12;
+    const regularNet = monthlyPay - monthlyPF - monthlyTaxOnSalary;
+    const bonusMonthNet = monthlyPay + annualBonus - monthlyPF - monthlyTaxOnSalary - bonusTax;
+
+    document.getElementById('outMonthlyTaxLabel').textContent = 'Monthly tax on salary';
+    document.getElementById('outMonthlyTax').innerHTML = fmt(monthlyTaxOnSalary);
+
+    grid.innerHTML =
+      statCard('', 'Annual gross pay', fmt(annualGross)) +
+      statCard('accent', 'Total annual tax', fmt(totalAnnualTax)) +
+      statCard('', 'Monthly PF (yours)', fmt(monthlyPF)) +
+      statCard('good', 'Take-home, regular month', fmt(regularNet)) +
+      statCard('accent', 'Bonus tax (one-time)', fmt(bonusTax)) +
+      statCard('good', 'Take-home, bonus month', fmt(bonusMonthNet));
+
+    document.getElementById('methodNote').innerHTML =
+      `<strong>How this is split:</strong> tax on your Rs ${Math.round(annualSalaryOnly).toLocaleString('en-PK')} annual salary alone is Rs ${Math.round(taxOnSalaryOnly).toLocaleString('en-PK')}, spread evenly across 12 months. Your bonus then gets taxed on top, at your marginal rate, so the total for the year still matches the full slab calculation on Rs ${Math.round(annualGross).toLocaleString('en-PK')}.`;
+
+    renderMonthlyTable(monthlyPay, monthlyPF, monthlyTaxOnSalary, annualBonus, bonusTax, bonusMonthIdx, true, totalAnnualTax);
+
+  }else{
+    // Blended: total annual tax spread evenly across all 12 months regardless of bonus timing.
+    const monthlyTax = totalAnnualTax / 12;
+    const regularNet = monthlyPay - monthlyPF - monthlyTax;
+    const bonusMonthNet = monthlyPay + annualBonus - monthlyPF - monthlyTax;
+
+    document.getElementById('outMonthlyTaxLabel').textContent = 'Average monthly tax';
+    document.getElementById('outMonthlyTax').innerHTML = fmt(monthlyTax);
+
+    grid.innerHTML =
+      statCard('', 'Annual gross pay', fmt(annualGross)) +
+      statCard('accent', 'Annual income tax', fmt(totalAnnualTax)) +
+      statCard('', 'Monthly PF (yours)', fmt(monthlyPF)) +
+      statCard('good', 'Take-home, regular month', fmt(regularNet)) +
+      statCard('', 'Take-home, bonus month', fmt(bonusMonthNet));
+
+    document.getElementById('methodNote').innerHTML =
+      `<strong>How this is split:</strong> total annual tax is spread evenly across all 12 months, so the same amount is deducted whether or not the bonus lands that month.`;
+
+    renderMonthlyTable(monthlyPay, monthlyPF, monthlyTax, annualBonus, 0, bonusMonthIdx, false, totalAnnualTax);
+  }
+
+  renderSlabTable(findSlabIndex(annualGross));
+
+  document.getElementById('results').style.display = 'block';
+}
+</script>
+
+</body>
+</html>
