@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Salary Advance Profit Calculator | Financogram</title>
+<link rel="icon" type="image/png" href="../assets/logo-transparent.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<style>
+  :root{
+    --deep-teal: var(--text-main);
+    --teal: var(--primary-color);
+    --gold: var(--secondary-color);
+    --orange: var(--accent-orange);
+    --red-orange: var(--accent-red);
+    --cream: var(--bg-color);
+    --card-surface: var(--card-bg);
+    --border-line: var(--border-color);
+  }
+  *{box-sizing:border-box;}
+  
+  .calc-wrap { max-width: 600px; margin: 40px auto 60px; padding: 0 20px; }
+
+  header{margin-bottom:28px;}
+  .kicker{
+    font-size:13px;
+    font-weight:600;
+    color:var(--teal);
+    margin:0 0 6px;
+    letter-spacing:0.02em;
+    text-transform: uppercase;
+  }
+  h1{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:32px;
+    line-height:1.15;
+    margin:0 0 8px;
+    color: var(--deep-teal);
+  }
+  .sub{
+    font-size:14.5px;
+    color:var(--text-muted);
+    line-height:1.5;
+    margin:0;
+  }
+
+  .card-form{
+    background:var(--card-surface);
+    border:1.5px solid var(--border-line);
+    border-radius:14px;
+    padding:24px;
+    margin-bottom:20px;
+  }
+
+  .card-form label{
+    display:block;
+    font-size:13.5px;
+    font-weight:600;
+    margin-bottom:6px;
+    color:var(--deep-teal);
+  }
+  .field{margin-bottom:18px;}
+  .field:last-child{margin-bottom:0;}
+  .input-row{position:relative;}
+  .rs{
+    position:absolute;
+    left:14px;
+    top:50%;
+    transform:translateY(-50%);
+    font-size:15px;
+    color:var(--text-muted);
+    font-weight:500;
+  }
+  .pct{
+    position:absolute;
+    right:14px;
+    top:50%;
+    transform:translateY(-50%);
+    font-size:15px;
+    color:var(--text-muted);
+    font-weight:500;
+  }
+  input[type="number"]{
+    width:100%;
+    padding:12px 14px 12px 38px;
+    font-size:16px;
+    font-family:'Inter',sans-serif;
+    border:1.5px solid var(--border-line);
+    border-radius:9px;
+    background:var(--bg-color);
+    color:var(--deep-teal);
+    -moz-appearance:textfield;
+  }
+  input[type="number"].pct-input {
+    padding-left: 14px;
+    padding-right: 38px;
+  }
+  input[type="number"].mo-input {
+    padding-left: 14px;
+  }
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button{
+    -webkit-appearance:none;margin:0;
+  }
+  input[type="number"]:focus{
+    outline:none;
+    border-color:var(--teal);
+    box-shadow:0 0 0 3px rgba(42,157,143,0.15);
+  }
+  .hint{font-size:12.5px;color:var(--text-muted);margin-top:5px;}
+
+  button.calc{
+    width:100%;
+    padding:14px;
+    background:var(--teal);
+    color:#fff;
+    border:none;
+    border-radius:9px;
+    font-family:'Inter',sans-serif;
+    font-size:15.5px;
+    font-weight:600;
+    cursor:pointer;
+    transition:background 0.15s ease;
+  }
+  button.calc:hover{background:#228074;}
+  button.calc:active{transform:translateY(1px);}
+
+  #results{display:none;}
+
+  .headline{
+    background:var(--teal);
+    color:#fff;
+    border-radius:14px;
+    padding:26px 24px;
+    margin-bottom:16px;
+  }
+  .headline .label{
+    font-size:13px;
+    color:#fff;
+    opacity:0.9;
+    font-weight:600;
+    margin-bottom:6px;
+  }
+  .headline .amount{
+    font-family:'Fraunces',serif;
+    font-size:38px;
+    font-weight:600;
+    line-height:1.1;
+    color: #fff;
+  }
+  .headline .amount span{font-size:20px;font-weight:500;opacity:0.8;}
+  .headline .subtext{
+    font-size:13.5px;
+    color:#fff;
+    opacity:0.8;
+    margin-top:8px;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-bottom:16px;
+  }
+  .stat{
+    background:var(--card-surface);
+    border:1.5px solid var(--border-line);
+    border-radius:12px;
+    padding:16px;
+  }
+  .stat .label{
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--text-muted);
+    margin-bottom:6px;
+  }
+  .stat .value{
+    font-family:'Fraunces',serif;
+    font-size:21px;
+    font-weight:600;
+    color:var(--deep-teal);
+  }
+  .stat.accent{border-color:var(--red-orange);}
+  .stat.accent .value{color:var(--red-orange);}
+  .stat.good{border-color:var(--teal);}
+  .stat.good .value{color:var(--teal);}
+
+  details{
+    background:var(--card-surface);
+    border:1.5px solid var(--border-line);
+    border-radius:12px;
+    padding:16px 18px;
+  }
+  summary{
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    color:var(--deep-teal);
+  }
+  
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  table{
+    width:100%;
+    min-width: 500px;
+    border-collapse:collapse;
+    margin-top:14px;
+    font-size:13px;
+    color: var(--deep-teal);
+  }
+  th,td{
+    text-align:left;
+    padding:10px 6px;
+    border-bottom:1px solid var(--border-line);
+  }
+  th{color:var(--text-muted);font-weight:600;font-size:12px;}
+  #monthlyTable td:first-child, #monthlyTable th:first-child{padding-left:0;}
+  #monthlyTable td:last-child, #monthlyTable th:last-child{text-align:right;padding-right:0;}
+  #monthlyTable th:last-child{text-align:right;}
+
+  .footer-note{
+    text-align:center;
+    font-size:12px;
+    color:var(--text-muted);
+    margin-top:24px;
+    margin-bottom:60px;
+  }
+</style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo"><img src="../assets/logo-transparent.png" alt="Financogram Logo" style="height: 40px; width: auto; display: inline-block; vertical-align: middle; margin-right: 8px;">Financogram</a>
+            
+            <button class="menu-toggle" id="mobile-menu" aria-label="Toggle Navigation">
+                ☰
+            </button>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="index.html" style="color: var(--primary-color); font-weight: 700;">Calculators</a></li>
+                <li><a href="../learn/index.html">Learn</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li>
+                    <button id="theme-toggle" aria-label="Toggle Dark Mode" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 6px; display: flex; align-items: center; justify-content: center; height: 36px; width: 36px;">
+                        <span id="theme-icon">🌙</span>
+                    </button>
+                </li>
+                <li>
+                    <a href="https://www.instagram.com/financo.gram/" target="_blank" aria-label="Instagram" style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 8px; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; text-decoration: none; transition: transform 0.2s;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+<div class="calc-wrap">
+
+  <header>
+    <p class="kicker">Financogram &middot; Investing</p>
+    <h1>Salary Advance Profit</h1>
+    <p class="sub">Find out exactly how much net profit you can earn by investing a lump-sum salary advance and repaying it monthly.</p>
+  </header>
+
+  <div class="card-form">
+    <div class="field">
+      <label for="advanceInput">Advance Salary Amount</label>
+      <div class="input-row">
+        <span class="rs">Rs</span>
+        <input type="number" id="advanceInput" value="200000" min="0">
+      </div>
+      <p class="hint">Total advance received from your employer.</p>
+    </div>
+
+    <div class="field">
+      <label for="rateInput">Fund Return (Annual)</label>
+      <div class="input-row">
+        <input type="number" id="rateInput" value="10" min="0" step="0.5" class="pct-input">
+        <span class="pct">%</span>
+      </div>
+      <p class="hint">The expected yearly return of your mutual fund or savings account.</p>
+    </div>
+
+    <div class="field">
+      <label for="monthsInput">Repayment Tenure</label>
+      <div class="input-row">
+        <input type="number" id="monthsInput" value="24" min="1" class="mo-input">
+      </div>
+      <p class="hint">How many months will the advance be deducted from your salary?</p>
+    </div>
+  </div>
+
+  <button class="calc" onclick="calculate()">Calculate profit</button>
+
+  <div id="results" style="margin-top:20px;">
+
+    <div class="headline">
+      <div class="label">Net Profit Earned (After 15% Tax)</div>
+      <div class="amount" id="outTotalProfit">Rs 0</div>
+      <div class="subtext">This is the free money generated by the arbitrage.</div>
+    </div>
+
+    <div class="grid" id="statsGrid"></div>
+
+    <details style="margin-top:12px;">
+      <summary>See the month-by-month breakdown</summary>
+      <div class="table-responsive">
+        <table id="monthlyTable">
+          <thead>
+            <tr>
+              <th>Month</th>
+              <th>Start Balance</th>
+              <th>Gross Return</th>
+              <th>15% WHT</th>
+              <th>Net Profit</th>
+              <th>Installment</th>
+              <th>End Balance</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </details>
+
+  </div>
+
+  <div class="footer-note">Note: A standard 15% Withholding Tax (WHT) is deducted on mutual fund and savings account profits for filers.</div>
+
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <p>"Financo provides educational information and calculators for informational purposes only. This content is not personalized financial, investment, tax, or legal advice."</p>
+    </div>
+</footer>
+
+<script src="../js/main.js"></script>
+<script>
+function fmt(n){
+  return "Rs " + Math.round(n).toLocaleString('en-PK');
+}
+
+function calculate(){
+  const totalAdvance = parseFloat(document.getElementById('advanceInput').value) || 0;
+  const yearlyRate = parseFloat(document.getElementById('rateInput').value) || 0;
+  const months = parseInt(document.getElementById('monthsInput').value, 10) || 1;
+
+  if(totalAdvance <= 0 || months <= 0) return;
+
+  const TAX_RATE = 0.15; // 15% Withholding Tax
+  const monthlyRateDecimal = (yearlyRate / 100) / 12;
+  const monthlyInstallment = totalAdvance / months;
+
+  let currentFundBalance = totalAdvance;
+  let totalGrossProfitEarned = 0;
+  let totalTaxDeducted = 0;
+  let totalNetProfitEarned = 0;
+  
+  let monthOneNetProfit = 0;
+
+  const tbody = document.querySelector('#monthlyTable tbody');
+  tbody.innerHTML = '';
+
+  for (let m = 1; m <= months; m++) {
+      const startBalance = currentFundBalance;
+      
+      const monthlyGrossProfit = startBalance * monthlyRateDecimal;
+      const monthlyTax = monthlyGrossProfit * TAX_RATE;
+      const monthlyNetProfit = monthlyGrossProfit - monthlyTax;
+
+      totalGrossProfitEarned += monthlyGrossProfit;
+      totalTaxDeducted += monthlyTax;
+      totalNetProfitEarned += monthlyNetProfit;
+
+      if (m === 1) {
+          monthOneNetProfit = monthlyNetProfit;
+      }
+
+      // Balance earns net profit, and installment is deducted
+      currentFundBalance = currentFundBalance + monthlyNetProfit - monthlyInstallment;
+      const endBalance = Math.max(0, currentFundBalance);
+
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+          <td>${m}</td>
+          <td>${fmt(startBalance)}</td>
+          <td style="color: var(--primary-color);">${fmt(monthlyGrossProfit)}</td>
+          <td style="color: var(--accent-red);">${fmt(monthlyTax)}</td>
+          <td style="font-weight:600;">${fmt(monthlyNetProfit)}</td>
+          <td>${fmt(monthlyInstallment)}</td>
+          <td>${fmt(endBalance)}</td>
+      `;
+      tbody.appendChild(tr);
+  }
+
+  document.getElementById('outTotalProfit').innerHTML = fmt(totalNetProfitEarned);
+
+  // Re-use the statCard logic
+  function statCard(cls,label,value){
+    return `<div class="stat ${cls||''}"><div class="label">${label}</div><div class="value">${value}</div></div>`;
+  }
+
+  const grid = document.getElementById('statsGrid');
+  grid.innerHTML =
+    statCard('', 'Total Gross Profit', fmt(totalGrossProfitEarned)) +
+    statCard('accent', '15% WHT Deducted', fmt(totalTaxDeducted)) +
+    statCard('good', 'Month 1 Net Profit', fmt(monthOneNetProfit)) +
+    statCard('', 'Monthly Repayment', fmt(monthlyInstallment));
+
+  document.getElementById('results').style.display = 'block';
+}
+</script>
+
+</body>
+</html>
