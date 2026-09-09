@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gold vs Stocks | Financogram</title>
+    <link rel="icon" type="image/png" href="../assets/logo-transparent.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Financogram Global Styles -->
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        .calc-container { margin: 0 auto; max-width: 880px; }
+        
+        header { margin-bottom: 28px; }
+        .kicker { font-size: 13px; font-weight: 600; color: var(--primary-color); margin: 0 0 6px; letter-spacing: 0.02em; text-transform: uppercase; }
+        h1 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 32px; line-height: 1.15; margin: 0 0 8px; color: var(--text-main); }
+        h1 em { font-style: italic; color: var(--primary-color); }
+        .sub { font-size: 14.5px; color: var(--text-muted); line-height: 1.5; margin: 0; }
+
+        .hero-stat {
+            background: rgba(42, 157, 143, 0.1);
+            border: 1px solid rgba(42, 157, 143, 0.2);
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            font-size: 1.05rem;
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+        .hero-stat b { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.3em; }
+        .hero-stat .g { color: #E9C46A; }
+        .hero-stat .s { color: var(--primary-color); }
+
+        .card-form { margin-bottom: 24px; background: var(--bg-main); border: 1.5px solid var(--border-color); border-radius: 14px; padding: 24px; }
+        
+        label { display: block; font-size: 13.5px; font-weight: 600; margin-bottom: 6px; color: var(--text-main); }
+        .hint { font-size: 12.5px; color: var(--text-muted); margin-top: 5px; }
+        
+        .controls-row { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; }
+        .field { flex: 1; min-width: 150px; }
+        
+        select, input[type="number"] { width: 100%; padding: 12px 14px; font-size: 16px; font-family: 'Inter', sans-serif; border: 1.5px solid var(--border-color); border-radius: 9px; background: var(--bg-card); color: var(--text-main); }
+        select:focus, input[type="number"]:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(42,157,143,0.15); }
+        
+        .rate-inline { display: flex; align-items: center; gap: 8px; }
+        .rate-inline input { flex: 1; }
+        .actual-note { font-size: 12px; color: var(--text-muted); }
+        .reset-btn { background: none; border: none; color: var(--primary-color); font-size: 12px; cursor: pointer; text-decoration: underline; padding: 0; }
+        .reset-btn:hover { color: #E9C46A; }
+        .custom-flag { font-size: 10px; font-weight: 600; color: #E9C46A; text-transform: uppercase; background: rgba(233,196,106,0.1); padding: 2px 6px; border-radius: 4px; }
+
+        .chart-box { position: relative; height: 380px; margin-bottom: 24px; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 16px; }
+        .stat { background: var(--bg-main); border: 1.5px solid var(--border-color); border-radius: 12px; padding: 16px; }
+        .stat .label { font-size: 12.5px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; }
+        .stat .value { font-family: 'Fraunces', serif; font-size: 24px; font-weight: 600; color: var(--text-main); line-height: 1.2; }
+        .stat .sub-line { font-size: 12px; color: var(--text-muted); margin-top: 6px; line-height: 1.4; }
+        .stat.gold .value { color: #E9C46A; }
+        .stat.stocks .value { color: var(--primary-color); }
+        .stat.inflation .value { color: #E76F51; }
+
+        .notes { font-size: 13px; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 16px; line-height: 1.6; }
+        .notes p { margin-bottom: 8px; }
+        .notes strong { color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo"><img src="../assets/logo-transparent.png" alt="Financogram Logo" style="height: 40px; width: auto; display: inline-block; vertical-align: middle; margin-right: 8px;">Financogram</a>
+            <button class="menu-toggle" id="mobile-menu" aria-label="Toggle Navigation">☰</button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="index.html" style="color: var(--primary-color); font-weight: 700;">Calculators</a></li>
+                <li><a href="../learn/index.html">Learn</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li>
+                    <button id="theme-toggle" aria-label="Toggle Dark Mode" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 6px; display: flex; align-items: center; justify-content: center; height: 36px; width: 36px;">
+                        <span id="theme-icon">🌙</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container" style="margin-top: 40px; margin-bottom: 60px;">
+        <a href="index.html" style="display: inline-block; margin-bottom: 20px;">&larr; Back to all calculators</a>
+        
+        <div class="card calc-container">
+            <header>
+                <p class="kicker">Financogram &middot; Investing</p>
+                <h1>Gold vs <em>Stocks</em></h1>
+                <p class="sub">Compare 20 years of real Pakistani returns. Same starting rupees, two assets, one honest scoreboard — with inflation drawn in as the line you actually have to beat.</p>
+            </header>
+
+            <div class="hero-stat" id="heroStat">Loading…</div>
+
+            <div class="card-form">
+                <div class="controls-row">
+                    <div class="field">
+                        <label for="startYear">From Year</label>
+                        <select id="startYear"></select>
+                    </div>
+                    <div class="field">
+                        <label for="endYear">To Year</label>
+                        <select id="endYear"></select>
+                    </div>
+                    <div class="field" style="flex: 2;">
+                        <label for="investment">Starting investment (Rs)</label>
+                        <input type="number" id="investment" min="1000" step="1000">
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-box">
+                <canvas id="chart"></canvas>
+            </div>
+
+            <div class="card-form">
+                <label style="margin-bottom: 12px;">Assumed annual return (auto-filled from real data, editable for what-ifs)</label>
+                <div class="controls-row">
+                    <div class="field">
+                        <div class="rate-inline">
+                            <div>
+                                <label for="goldRate">Gold % / yr</label>
+                                <input type="number" id="goldRate" step="0.1">
+                            </div>
+                            <div style="padding-top: 24px;">
+                                <span class="actual-note" id="goldActualNote"></span>
+                                <br><button type="button" class="reset-btn" id="goldReset">Reset</button>
+                                <span class="custom-flag" id="goldFlag" style="display:none">Custom</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="rate-inline">
+                            <div>
+                                <label for="stockRate">Stocks % / yr</label>
+                                <input type="number" id="stockRate" step="0.1">
+                            </div>
+                            <div style="padding-top: 24px;">
+                                <span class="actual-note" id="stockActualNote"></span>
+                                <br><button type="button" class="reset-btn" id="stockReset">Reset</button>
+                                <span class="custom-flag" id="stockFlag" style="display:none">Custom</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="stat gold">
+                    <div class="label">Gold Final Value</div>
+                    <div class="value" id="sumGoldValue">—</div>
+                    <div class="sub-line" id="sumGoldSub">—</div>
+                </div>
+                <div class="stat stocks">
+                    <div class="label">Stocks (KSE-100)</div>
+                    <div class="value" id="sumStockValue">—</div>
+                    <div class="sub-line" id="sumStockSub">—</div>
+                </div>
+                <div class="stat inflation">
+                    <div class="label">Inflation Benchmark</div>
+                    <div class="value" id="sumInflValue">—</div>
+                    <div class="sub-line" id="sumInflSub">—</div>
+                </div>
+            </div>
+
+            <div class="notes">
+                <p><strong>What "actual" means here:</strong> the gold line uses annual average 24K gold price per tola; the stocks line uses KSE-100 year-end close — both from 2005 to 2025. Editing a return % switches that line from real history to a smooth custom projection (dashed), useful for what-if scenarios.</p>
+                <p><strong>Dividends:</strong> the KSE-100 line is a price index — it excludes dividends. Pakistani equities have historically paid meaningful dividend yields on top of this, so real stock returns for a dividend-reinvesting investor would run higher than shown.</p>
+                <p><strong>Gold data:</strong> unlike KSE-100 (PSX official data), there's no single authoritative historical archive for Pakistani gold prices. These are directional/consensus averages.</p>
+                <p><strong>Sources:</strong> KSE-100 — Pakistan Stock Exchange. Gold — market-average 24K tola rates. Inflation — Pakistan Bureau of Statistics / World Bank CPI annual averages.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>"Financo provides educational information and calculators for informational purposes only. This content is not personalized financial, investment, tax, or legal advice."</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>
+    (function(){
+      var GOLD = {
+        2005:19056, 2006:24304, 2007:27046, 2008:36159, 2009:37319,
+        2010:52620, 2011:74895, 2012:84345, 2013:72599, 2014:65292,
+        2015:57529, 2016:57252, 2017:55997, 2018:63914, 2019:82065,
+        2020:98166, 2021:102175, 2022:127067, 2023:172934, 2024:248756, 2025:356798
+      };
+
+      var KSE = {
+        2005:9556.61, 2006:10040.50, 2007:14075.83, 2008:5865.01, 2009:9386.92,
+        2010:12022.46, 2011:11347.66, 2012:16905.33, 2013:25261.14, 2014:32131.28,
+        2015:32816.31, 2016:47806.97, 2017:40471.48, 2018:37066.67, 2019:40735.08,
+        2020:43755.38, 2021:44596.07, 2022:40420.45, 2023:64661.78, 2024:115127, 2025:174054
+      };
+
+      var CPI_RATE = {
+        2006:7.92, 2007:7.78, 2008:12.00, 2009:19.56, 2010:10.11,
+        2011:13.66, 2012:11.00, 2013:7.36, 2014:8.62, 2015:4.53,
+        2016:2.86, 2017:4.78, 2018:4.70, 2019:6.80, 2020:10.74,
+        2021:8.90, 2022:12.15, 2023:29.18, 2024:23.41, 2025:4.49
+      };
+
+      var YEARS = Object.keys(GOLD).map(Number).sort(function(a,b){return a-b;});
+      var MIN_YEAR = YEARS[0], MAX_YEAR = YEARS[YEARS.length-1];
+
+      function cagr(start, end, n){ return Math.pow(end/start, 1/n) - 1; }
+
+      function cpiIndexSeries(startYear){
+        var idx = {};
+        idx[startYear] = 100;
+        for(var y = startYear+1; y <= MAX_YEAR; y++){
+          idx[y] = idx[y-1] * (1 + CPI_RATE[y]/100);
+        }
+        return idx;
+      }
+
+      function fmtPKR(n){
+        n = Math.round(n);
+        var s = Math.abs(n).toLocaleString('en-IN');
+        return (n<0?'-':'') + 'Rs ' + s;
+      }
+      function fmtLakhCrore(n){
+        var abs = Math.abs(n);
+        if(abs >= 1e7) return (n/1e7).toFixed(2) + ' crore';
+        if(abs >= 1e5) return (n/1e5).toFixed(2) + ' lakh';
+        return fmtPKR(n);
+      }
+      function fmtPct(x){ return (x*100).toFixed(1) + '%'; }
+
+      var els = {};
+      var state = {
+        startYear: MIN_YEAR,
+        endYear: MAX_YEAR,
+        investment: 100000,
+        goldRate: null,
+        stockRate: null,
+        goldDirty: false,
+        stockDirty: false
+      };
+
+      var chart = null;
+
+      function autoCAGR(field, s, e){
+        var n = e - s;
+        if(field === 'gold') return cagr(GOLD[s], GOLD[e], n);
+        if(field === 'stock') return cagr(KSE[s], KSE[e], n);
+        if(field === 'cpi'){
+          var idx = cpiIndexSeries(s);
+          return cagr(100, idx[e], n);
+        }
+      }
+
+      function buildSeries(){
+        var s = state.startYear, e = state.endYear, inv = state.investment;
+        var years = [];
+        for(var y=s; y<=e; y++) years.push(y);
+
+        var goldAuto = autoCAGR('gold', s, e);
+        var stockAuto = autoCAGR('stock', s, e);
+        var cpiAuto = autoCAGR('cpi', s, e);
+        var cpiIdx = cpiIndexSeries(s);
+
+        var goldUsingActual = !state.goldDirty;
+        var stockUsingActual = !state.stockDirty;
+
+        var goldRate = state.goldDirty ? state.goldRate : goldAuto;
+        var stockRate = state.stockDirty ? state.stockRate : stockAuto;
+
+        var unitsGold = inv / GOLD[s];
+        var unitsStock = inv / KSE[s];
+
+        var goldSeries = years.map(function(y){
+          if(goldUsingActual) return unitsGold * GOLD[y];
+          return inv * Math.pow(1+goldRate, y-s);
+        });
+        var stockSeries = years.map(function(y){
+          if(stockUsingActual) return unitsStock * KSE[y];
+          return inv * Math.pow(1+stockRate, y-s);
+        });
+        var inflationSeries = years.map(function(y){
+          return inv * (cpiIdx[y]/100);
+        });
+
+        return {
+          years: years,
+          gold: goldSeries, stock: stockSeries, inflation: inflationSeries,
+          goldAuto: goldAuto, stockAuto: stockAuto, cpiAuto: cpiAuto,
+          goldRate: goldRate, stockRate: stockRate,
+          goldUsingActual: goldUsingActual, stockUsingActual: stockUsingActual
+        };
+      }
+
+      function render(){
+        var d = buildSeries();
+
+        var ctx = els.canvas.getContext('2d');
+        var datasets = [
+          {
+            label: 'Gold' + (d.goldUsingActual ? '' : ' (custom rate)'),
+            data: d.gold,
+            borderColor: '#E9C46A',
+            backgroundColor: '#E9C46A',
+            borderWidth: 3.2,
+            borderDash: d.goldUsingActual ? [] : [6,4],
+            pointRadius: d.goldUsingActual ? 3 : 0,
+            pointBackgroundColor: '#E9C46A',
+            pointBorderColor: '#264653',
+            pointBorderWidth: 1,
+            tension: 0.15,
+            fill: false
+          },
+          {
+            label: 'Stocks (KSE-100)' + (d.stockUsingActual ? '' : ' (custom rate)'),
+            data: d.stock,
+            borderColor: '#2A9D8F',
+            backgroundColor: '#2A9D8F',
+            borderWidth: 2.4,
+            borderDash: d.stockUsingActual ? [] : [6,4],
+            pointRadius: d.stockUsingActual ? 2.5 : 0,
+            pointBackgroundColor: '#2A9D8F',
+            tension: 0.15,
+            fill: false
+          },
+          {
+            label: 'Just keeping up with inflation',
+            data: d.inflation,
+            borderColor: '#E76F51',
+            backgroundColor: '#E76F51',
+            borderWidth: 1.8,
+            borderDash: [2,3],
+            pointRadius: 0,
+            tension: 0.15,
+            fill: false
+          }
+        ];
+
+        // Custom plugin to draw legend natively since we hid the Chart.js one
+        const customLegend = {
+            id: 'customLegend',
+            afterDraw: (chart) => {
+                const ctx = chart.ctx;
+                ctx.save();
+                ctx.font = "12px Inter";
+                ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--text-muted').trim() || "#888";
+                
+                // Manual Legend Drawing
+                const drawLegendItem = (x, y, color, label, dashed) => {
+                    ctx.beginPath();
+                    if(dashed) ctx.setLineDash([4, 4]);
+                    ctx.moveTo(x, y-4);
+                    ctx.lineTo(x + 20, y-4);
+                    ctx.strokeStyle = color;
+                    ctx.lineWidth = 3;
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                    
+                    ctx.fillText(label, x + 28, y);
+                    return x + 28 + ctx.measureText(label).width + 20;
+                };
+
+                const width = chart.width;
+                const height = chart.height;
+                let startX = width / 2 - 140; 
+                if (startX < 10) startX = 10;
+                
+                let curX = startX;
+                curX = drawLegendItem(curX, height - 10, '#E9C46A', 'Gold', !d.goldUsingActual);
+                curX = drawLegendItem(curX, height - 10, '#2A9D8F', 'Stocks (KSE-100)', !d.stockUsingActual);
+                drawLegendItem(curX, height - 10, '#E76F51', 'Inflation', true);
+
+                ctx.restore();
+            }
+        };
+
+        if(chart){ chart.destroy(); }
+        Chart.defaults.color = getComputedStyle(document.body).getPropertyValue('--text-muted').trim() || "#888";
+        Chart.defaults.font.family = 'Inter';
+        
+        chart = new Chart(ctx, {
+          type: 'line',
+          data: { labels: d.years, datasets: datasets },
+          plugins: [customLegend],
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            layout: {
+                padding: { bottom: 30 }
+            },
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                backgroundColor: '#1E293B',
+                titleColor: '#F8FAFC',
+                bodyColor: '#E2E8F0',
+                titleFont: { family: 'Inter', weight: 'bold' },
+                bodyFont: { family: 'Inter' },
+                padding: 12,
+                borderColor: '#334155',
+                borderWidth: 1,
+                callbacks: {
+                  label: function(ctx){
+                    return ctx.dataset.label + ': ' + fmtPKR(ctx.parsed.y);
+                  }
+                }
+              }
+            },
+            scales: {
+              x: {
+                grid: { display: false },
+                ticks: { font: { family: 'Inter', size: 11 } }
+              },
+              y: {
+                grid: { color: 'rgba(148, 163, 184, 0.1)' },
+                ticks: {
+                  font: { family: 'Inter', size: 11 },
+                  callback: function(v){ return fmtLakhCrore(v); }
+                }
+              }
+            }
+          }
+        });
+
+        var goldEnd = d.gold[d.gold.length-1];
+        var stockEnd = d.stock[d.stock.length-1];
+        els.hero.innerHTML =
+          fmtPKR(state.investment) + ' put into <span class="g">gold</span> in ' + state.startYear +
+          ' would be worth <b class="g">' + fmtLakhCrore(goldEnd) + '</b> by ' + state.endYear +
+          '. The same amount in <span class="s">PSX stocks</span> (KSE-100)? <b class="s">' + fmtLakhCrore(stockEnd) + '</b>.';
+
+        if(!state.goldDirty) els.goldRate.value = (d.goldAuto*100).toFixed(1);
+        if(!state.stockDirty) els.stockRate.value = (d.stockAuto*100).toFixed(1);
+        els.goldActualNote.textContent = 'actual: ' + fmtPct(d.goldAuto);
+        els.stockActualNote.textContent = 'actual: ' + fmtPct(d.stockAuto);
+        els.goldFlag.style.display = state.goldDirty ? 'inline' : 'none';
+        els.stockFlag.style.display = state.stockDirty ? 'inline' : 'none';
+
+        var realGold = (1+d.goldRate)/(1+d.cpiAuto) - 1;
+        var realStock = (1+d.stockRate)/(1+d.cpiAuto) - 1;
+
+        els.sumGoldValue.textContent = fmtPKR(goldEnd);
+        els.sumGoldSub.textContent = 'CAGR ' + fmtPct(d.goldRate) + ' · real return ' + fmtPct(realGold) + ' above inflation';
+
+        els.sumStockValue.textContent = fmtPKR(stockEnd);
+        els.sumStockSub.textContent = 'CAGR ' + fmtPct(d.stockRate) + ' · real return ' + fmtPct(realStock) + ' above inflation (price only)';
+
+        els.sumInflValue.textContent = fmtPKR(d.inflation[d.inflation.length-1]);
+        els.sumInflSub.textContent = 'CAGR ' + fmtPct(d.cpiAuto) + ' · what it took just to stand still';
+      }
+
+      function populateYearSelects(){
+        YEARS.slice(0, YEARS.length-1).forEach(function(y){
+          var o = document.createElement('option'); o.value=y; o.textContent=y;
+          els.startYear.appendChild(o);
+        });
+        YEARS.slice(1).forEach(function(y){
+          var o = document.createElement('option'); o.value=y; o.textContent=y;
+          els.endYear.appendChild(o);
+        });
+        els.startYear.value = state.startYear;
+        els.endYear.value = state.endYear;
+      }
+
+      function onStartChange(){
+        var s = +els.startYear.value;
+        if(s >= state.endYear){
+          var newEnd = Math.min(s+1, MAX_YEAR);
+          state.endYear = newEnd;
+          els.endYear.value = newEnd;
+        }
+        state.startYear = s;
+        render();
+      }
+      function onEndChange(){
+        var e = +els.endYear.value;
+        if(e <= state.startYear){
+          var newStart = Math.max(e-1, MIN_YEAR);
+          state.startYear = newStart;
+          els.startYear.value = newStart;
+        }
+        state.endYear = e;
+        render();
+      }
+      function onInvestChange(){
+        var v = parseFloat(els.invest.value);
+        if(isNaN(v) || v <= 0) v = 100000;
+        state.investment = v;
+        render();
+      }
+      function onGoldRateInput(){
+        state.goldDirty = true;
+        state.goldRate = (parseFloat(els.goldRate.value)||0)/100;
+        render();
+      }
+      function onStockRateInput(){
+        state.stockDirty = true;
+        state.stockRate = (parseFloat(els.stockRate.value)||0)/100;
+        render();
+      }
+      function resetGold(){ state.goldDirty = false; state.goldRate = null; render(); }
+      function resetStock(){ state.stockDirty = false; state.stockRate = null; render(); }
+
+      function init(){
+        els.canvas = document.getElementById('chart');
+        els.hero = document.getElementById('heroStat');
+        els.startYear = document.getElementById('startYear');
+        els.endYear = document.getElementById('endYear');
+        els.invest = document.getElementById('investment');
+        els.goldRate = document.getElementById('goldRate');
+        els.stockRate = document.getElementById('stockRate');
+        els.goldActualNote = document.getElementById('goldActualNote');
+        els.stockActualNote = document.getElementById('stockActualNote');
+        els.goldFlag = document.getElementById('goldFlag');
+        els.stockFlag = document.getElementById('stockFlag');
+        els.sumGoldValue = document.getElementById('sumGoldValue');
+        els.sumGoldSub = document.getElementById('sumGoldSub');
+        els.sumStockValue = document.getElementById('sumStockValue');
+        els.sumStockSub = document.getElementById('sumStockSub');
+        els.sumInflValue = document.getElementById('sumInflValue');
+        els.sumInflSub = document.getElementById('sumInflSub');
+
+        populateYearSelects();
+        els.invest.value = state.investment;
+
+        els.startYear.addEventListener('change', onStartChange);
+        els.endYear.addEventListener('change', onEndChange);
+        els.invest.addEventListener('input', onInvestChange);
+        els.goldRate.addEventListener('input', onGoldRateInput);
+        els.stockRate.addEventListener('input', onStockRateInput);
+        document.getElementById('goldReset').addEventListener('click', resetGold);
+        document.getElementById('stockReset').addEventListener('click', resetStock);
+
+        render();
+      }
+
+      document.addEventListener('DOMContentLoaded', init);
+    })();
+    </script>
+</body>
+</html>
