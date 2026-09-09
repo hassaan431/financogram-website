@@ -107,6 +107,30 @@
             line-height: 1.5;
             color: var(--text-muted);
         }
+    
+    @media (max-width: 600px) {
+        .article-container {
+            padding: 20px 16px;
+        }
+        .article-header h1 {
+            font-size: 2rem;
+        }
+        .card-form {
+            padding: 16px;
+        }
+        .controls-row {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+        }
+        .rate-inline {
+            flex-wrap: wrap;
+        }
+        .chart-box {
+            height: 300px; /* slightly smaller on mobile */
+        }
+    }
+
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -512,13 +536,21 @@
 
                 const width = chart.width;
                 const height = chart.height;
-                let startX = width / 2 - 140; 
-                if (startX < 10) startX = 10;
                 
-                let curX = startX;
-                curX = drawLegendItem(curX, height - 10, '#E9C46A', 'Gold', !d.goldUsingActual);
-                curX = drawLegendItem(curX, height - 10, '#2A9D8F', 'Stocks (KSE-100)', !d.stockUsingActual);
-                drawLegendItem(curX, height - 10, '#E76F51', 'Inflation', true);
+                // Responsive legend positioning
+                if (width < 400) {
+                    let startX = 10;
+                    drawLegendItem(startX, height - 24, '#E9C46A', 'Gold', !d.goldUsingActual);
+                    drawLegendItem(startX + 100, height - 24, '#2A9D8F', 'Stocks', !d.stockUsingActual);
+                    drawLegendItem(startX, height - 6, '#E76F51', 'Inflation', true);
+                } else {
+                    let startX = width / 2 - 160; 
+                    if (startX < 10) startX = 10;
+                    let curX = startX;
+                    curX = drawLegendItem(curX, height - 10, '#E9C46A', 'Gold', !d.goldUsingActual);
+                    curX = drawLegendItem(curX, height - 10, '#2A9D8F', 'Stocks (KSE-100)', !d.stockUsingActual);
+                    drawLegendItem(curX, height - 10, '#E76F51', 'Inflation', true);
+                }
 
                 ctx.restore();
             }
@@ -536,7 +568,7 @@
             responsive: true,
             maintainAspectRatio: false,
             layout: {
-                padding: { bottom: 30 }
+                padding: { bottom: window.innerWidth < 400 ? 50 : 30 }
             },
             interaction: { mode: 'index', intersect: false },
             plugins: {
@@ -545,9 +577,9 @@
                 backgroundColor: '#1E293B',
                 titleColor: '#F8FAFC',
                 bodyColor: '#E2E8F0',
-                titleFont: { family: 'Inter', weight: 'bold' },
-                bodyFont: { family: 'Inter' },
-                padding: 12,
+                titleFont: { family: 'Inter', weight: 'bold', size: window.innerWidth < 600 ? 11 : 13 },
+                bodyFont: { family: 'Inter', size: window.innerWidth < 600 ? 11 : 13 },
+                padding: window.innerWidth < 600 ? 8 : 12,
                 borderColor: '#334155',
                 borderWidth: 1,
                 callbacks: {
