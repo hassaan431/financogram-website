@@ -327,9 +327,9 @@
 
             <div class="notes">
                 <p><strong>What "actual" means here:</strong> the gold line uses annual average 24K gold price per tola; the stocks line uses KSE-100 year-end close — both from 2005 to 2025. Editing a return % switches that line from real history to a smooth custom projection (dashed), useful for what-if scenarios.</p>
-                <p><strong>Dividends:</strong> the KSE-100 line is a price index — it excludes dividends. Pakistani equities have historically paid meaningful dividend yields on top of this, so real stock returns for a dividend-reinvesting investor would run higher than shown.</p>
-                <p><strong>Gold data:</strong> unlike KSE-100 (PSX official data), there's no single authoritative historical archive for Pakistani gold prices. These are directional/consensus averages.</p>
-                <p><strong>Sources:</strong> KSE-100 — Pakistan Stock Exchange. Gold — market-average 24K tola rates. Inflation — Pakistan Bureau of Statistics / World Bank CPI annual averages.</p>
+                <p><strong>On dividends:</strong> unlike the S&P 500 (where the quoted number is price-only), the standard KSE-100 — used here — is a total return index by design. PSX adjusts it for cash dividends, bonus shares and rights issues, so dividend income is already built into these numbers. The price-only version, KSE100PR, is a separate, newer index PSX introduced later.</p>
+                <p><strong>Caveat on gold data:</strong> unlike KSE-100 (PSX official data), there's no single authoritative historical archive for Pakistani gold prices — secondary sources disagree by 10–15% for some years, especially pre-2015. These are directional/consensus averages; verify exact figures against Sarafa Association or Business Recorder archives before quoting a specific year on camera.</p>
+                <p><strong>Sources:</strong> KSE-100 — Pakistan Stock Exchange year-end closes. Gold — market-average 24K tola rates compiled from Pakistani gold-rate trackers. Inflation — Pakistan Bureau of Statistics / World Bank CPI annual averages.</p>
             </div>
         
     </div>
@@ -337,7 +337,7 @@
 
                 <div class="fine-print">
                     <p><strong>The fine print:</strong></p>
-                    <p>• <strong>Stocks</strong> are the KSE-100 price index and don't include dividends — real equity returns for a dividend-reinvesting investor would run a bit higher than shown.<br>
+                    <p>• <strong>Stocks</strong>: unlike the S&P 500 (where the quoted number is price-only), Pakistan's standard KSE-100 is a total return index by design — PSX adjusts it for cash dividends, so dividend income is already built into this number. The price-only version, KSE100PR, is a separate, newer index.<br>
                     • <strong>Gold</strong> prices vary somewhat between sources in Pakistan since there's no single official historical archive — treat these as directional, solid-consensus figures rather than exact-to-the-rupee.<br>
                     • Inflation figures are Pakistan Bureau of Statistics / World Bank annual CPI averages.<br>
                     <em>*This is educational content, not investment advice. Past performance doesn't guarantee future returns.</em></p>
@@ -626,7 +626,7 @@
         els.sumGoldSub.textContent = 'CAGR ' + fmtPct(d.goldRate) + ' · real return ' + fmtPct(realGold) + ' above inflation';
 
         els.sumStockValue.textContent = fmtPKR(stockEnd);
-        els.sumStockSub.textContent = 'CAGR ' + fmtPct(d.stockRate) + ' · real return ' + fmtPct(realStock) + ' above inflation (price only)';
+        els.sumStockSub.textContent = 'CAGR ' + fmtPct(d.stockRate) + ' · real return ' + fmtPct(realStock) + ' above inflation (dividends included)';
 
         els.sumInflValue.textContent = fmtPKR(d.inflation[d.inflation.length-1]);
         els.sumInflSub.textContent = 'CAGR ' + fmtPct(d.cpiAuto) + ' · what it took just to stand still';
