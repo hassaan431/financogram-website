@@ -372,7 +372,7 @@
   [feeEl, semEl, yrsEl, infEl, retEl, initEl, oneTimeEl].forEach(el => {
     el.addEventListener('input', () => {
       document.querySelectorAll('#invest-toggle .toggle-btn').forEach(x => x.classList.remove('active'));
-      const match = document.querySelector(\`#invest-toggle .toggle-btn[data-return="\${retEl.value}"]\`);
+      const match = document.querySelector(`#invest-toggle .toggle-btn[data-return="${retEl.value}"]`);
       if (match) match.classList.add('active');
       render();
     });
