@@ -12,46 +12,48 @@
     <link rel="stylesheet" href="../css/style.css">
 
     <style>
-        .toggle-group {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-top: 8px;
-        }
-        .toggle-btn {
-            background: var(--bg-card);
-            border: 1.5px solid var(--border-color);
-            color: var(--text-muted);
-            font-size: 13px;
-            font-weight: 600;
-            text-align: center;
-            padding: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            user-select: none;
-        }
-        .toggle-btn:hover {
-            border-color: var(--primary-color);
-            color: var(--text-main);
-        }
-        .toggle-btn.active {
-            background: var(--primary-color);
-            border-color: var(--primary-color);
-            color: #fff;
-        }
-        .lump-sum-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-        @media (max-width: 600px) {
-            .toggle-group {
-                grid-template-columns: 1fr;
-            }
-        }
+        .calc-container { margin: 0 auto; max-width: 600px; }
+        
+        header { margin-bottom: 28px; }
+        .kicker { font-size: 13px; font-weight: 600; color: var(--primary-color); margin: 0 0 6px; letter-spacing: 0.02em; text-transform: uppercase; }
+        h1 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 32px; line-height: 1.15; margin: 0 0 8px; color: var(--text-main); }
+        .sub { font-size: 14.5px; color: var(--text-muted); line-height: 1.5; margin: 0; }
+
+        .card-form { margin-bottom: 24px; background: var(--bg-main); border-radius: 14px; }
+        .field { margin-bottom: 18px; }
+        .field:last-child { margin-bottom: 0; }
+        
+        label { display: block; font-size: 13.5px; font-weight: 600; margin-bottom: 6px; color: var(--text-main); }
+        .hint { font-size: 12.5px; color: var(--text-muted); margin-top: 5px; }
+        
+        .input-row { position: relative; }
+        .prefix, .suffix { position: absolute; top: 50%; transform: translateY(-50%); font-size: 15px; color: var(--text-muted); font-weight: 500; }
+        .prefix { left: 14px; }
+        .suffix { right: 14px; }
+        
+        input[type="number"], select { width: 100%; padding: 12px 14px; font-size: 16px; font-family: 'Inter', sans-serif; border: 1.5px solid var(--border-color); border-radius: 9px; background: var(--bg-card); color: var(--text-main); transition: 0.2s; }
+        input.has-prefix { padding-left: 38px; }
+        input.has-suffix { padding-right: 38px; }
+        input[type="number"]:focus, select:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(42,157,143,0.15); }
+        input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type="number"] { -moz-appearance: textfield; }
+        
+        .headline { background: var(--primary-color); color: #fff; border-radius: 14px; padding: 26px 24px; margin-bottom: 16px; position: relative; overflow: hidden; }
+        .headline .label { font-size: 13px; font-weight: 600; margin-bottom: 6px; opacity: 0.9; }
+        .headline .amount { font-family: 'Fraunces', serif; font-size: 38px; font-weight: 600; line-height: 1.1; color: #fff; }
+        .headline .subtext { font-size: 13.5px; color: #fff; opacity: 0.8; margin-top: 8px; }
+        
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+        .stat { background: var(--bg-card); border: 1.5px solid var(--border-color); border-radius: 12px; padding: 16px; }
+        .stat .label { font-size: 12.5px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; }
+        .stat .value { font-family: 'Fraunces', serif; font-size: 24px; font-weight: 600; color: var(--text-main); line-height: 1.2; }
+
+        .toggle-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
+        .toggle-btn { background: var(--bg-card); border: 1.5px solid var(--border-color); color: var(--text-muted); font-size: 13px; font-weight: 600; text-align: center; padding: 10px; border-radius: 8px; cursor: pointer; transition: all 0.2s; user-select: none; }
+        .toggle-btn:hover { border-color: var(--primary-color); color: var(--text-main); }
+        .toggle-btn.active { background: var(--primary-color); border-color: var(--primary-color); color: #fff; }
+        .lump-sum-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+        @media (max-width: 600px) { .toggle-group { grid-template-columns: 1fr; } .grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -93,8 +95,8 @@
           <div class="field">
             <label for="fee">Semester fee today</label>
             <div class="input-row">
-              <span class="rs">Rs</span>
-              <input type="number" id="fee" value="150000" min="0" step="1000">
+              <span class="prefix">Rs</span>
+              <input type="number" id="fee" class="has-prefix" value="150000" min="0" step="1000">
             </div>
           </div>
 
@@ -117,15 +119,15 @@
               <div style="flex: 1;">
                 <label for="inflation">Expected fee inflation</label>
                 <div class="input-row">
-                  <input type="number" id="inflation" value="7" min="0" step="0.5" class="pct-input">
-                  <span class="pct">%</span>
+                  <input type="number" id="inflation" class="has-suffix" value="7" min="0" step="0.5">
+                  <span class="suffix">%</span>
                 </div>
               </div>
               <div style="flex: 1;">
                 <label for="return">Expected annual return</label>
                 <div class="input-row">
-                  <input type="number" id="return" value="9" min="0" step="0.5" class="pct-input">
-                  <span class="pct">%</span>
+                  <input type="number" id="return" class="has-suffix" value="9" min="0" step="0.5">
+                  <span class="suffix">%</span>
                 </div>
               </div>
           </div>
@@ -143,15 +145,15 @@
               <div style="flex: 1; min-width: 200px;">
                 <label for="onetime">One-time expenses (laptop, etc.)</label>
                 <div class="input-row">
-                  <span class="rs">Rs</span>
-                  <input type="number" id="onetime" value="75000" min="0" step="1000">
+                  <span class="prefix">Rs</span>
+                  <input type="number" id="onetime" class="has-prefix" value="75000" min="0" step="1000">
                 </div>
               </div>
               <div style="flex: 1; min-width: 200px;">
                 <label for="initial">Already saved (optional)</label>
                 <div class="input-row">
-                  <span class="rs">Rs</span>
-                  <input type="number" id="initial" value="0" min="0" step="1000">
+                  <span class="prefix">Rs</span>
+                  <input type="number" id="initial" class="has-prefix" value="0" min="0" step="1000">
                 </div>
               </div>
           </div>
@@ -162,9 +164,9 @@
       </div>
 
       <div id="results">
-          <div class="headline" style="position: relative; overflow: hidden;">
+          <div class="headline">
               <div class="label">Put away every month, starting today</div>
-              <div class="amount" id="sip-out" style="color: var(--accent-orange);">Rs 0</div>
+              <div class="amount" id="sip-out">Rs 0</div>
               <div class="subtext" id="sip-sub">This grows at your chosen return until the first semester is due, then keeps working while you draw it down.</div>
           </div>
 
@@ -329,7 +331,7 @@
 
     const isLumpsumOnly = res.n === 0;
     $('warn').style.display = isLumpsumOnly ? 'block' : 'none';
-    $('sip-out').innerHTML = (isLumpsumOnly ? 'Rs 0' : fmt(res.sip)) + '<span style="font-size: 0.4em; font-weight: 500; margin-left: 8px; color: var(--text-muted);">/month</span>';
+    $('sip-out').innerHTML = (isLumpsumOnly ? 'Rs 0' : fmt(res.sip)) + ' <span style="font-size: 20px; font-weight: 500; opacity: 0.8;">/month</span>';
     $('sip-sub').textContent = isLumpsumOnly
       ? 'With university starting now, a monthly plan can\'t build up in time — see the lump sum figure instead.'
       : 'This grows at your chosen return until the first semester is due, then keeps working while you draw it down.';
