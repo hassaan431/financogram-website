@@ -5,6 +5,10 @@
    ========================================================================== */
 
 :root {
+    --spacing-xl: 64px;
+    --spacing-lg: 48px;
+    --spacing-md: 32px;
+
     /* Revolut Design Tokens */
     --primary-color: #494fdf; /* Cobalt Violet */
     --primary-hover: #3a40c4;
