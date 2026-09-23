@@ -1,3 +1,5 @@
+import { rise, reveal } from "https://esm.sh/cube-motion";
+
 // Wait for the HTML document to be fully loaded before running the script
 document.addEventListener('DOMContentLoaded', function() {
     
@@ -54,4 +56,13 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('theme', targetTheme);
         });
     }
+});
+
+// Cube Motion Animations
+document.addEventListener('DOMContentLoaded', () => {
+    // Animate hero text on load
+    rise('h1, p', { targets: 'self', stagger: 40 });
+    
+    // Reveal cards and sections on scroll
+    reveal('.card, .calc-inputs, .calc-results', { targets: 'self', stagger: 60 });
 });
