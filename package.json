@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "cube-motion": "^0.1.0",
     "puppeteer": "^25.9.0"
   }
 }
