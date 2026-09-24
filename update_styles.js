@@ -1,14 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+const fs = require('fs');
+
+const newCSS = `@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 /* ==========================================================================
    Financo - Revolut-Inspired Fintech Design System
    ========================================================================== */
 
 :root {
-    --spacing-xl: 64px;
-    --spacing-lg: 48px;
-    --spacing-md: 32px;
-
     /* Revolut Design Tokens */
     --primary-color: #494fdf; /* Cobalt Violet */
     --primary-hover: #3a40c4;
@@ -250,15 +248,7 @@ input[type=range]::-webkit-slider-thumb:active {
     .nav-links { display: none; }
     .menu-toggle { display: block; }
 }
+\`;
 
-
-/* Swup Page Transition Styles */
-html.is-animating .transition-fade {
-    opacity: 0;
-    transform: translateY(10px);
-}
-.transition-fade {
-    transition: opacity 300ms ease-out, transform 300ms ease-out;
-    opacity: 1;
-    transform: translateY(0);
-}
+fs.writeFileSync('css/style.css', newCSS);
+console.log('Revolut design system applied to style.css!');

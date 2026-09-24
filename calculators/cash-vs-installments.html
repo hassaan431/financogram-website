@@ -218,6 +218,10 @@
   footer{text-align:center;color:var(--muted);font-size:12px;margin-top:8px;}
   a.src{color:var(--teal);text-decoration:none;}
 </style>
+
+    <!-- AOS & Alpine.js -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body>
 
@@ -232,7 +236,7 @@
 
             <ul class="nav-links" id="nav-links">
                 <li><a href="../index.html">Home</a></li>
-                <li><a href="index.html" style="color: var(--primary-color); font-weight: 700;">Calculators</a></li>
+                <li><a href="index.html">Calculators</a></li>
                 <li><a href="../learn/index.html">Learn</a></li>
                 <li><a href="../about.html">About</a></li>
                 <li>
@@ -254,7 +258,7 @@
     </nav>
 
 
-<div class="wrap">
+<main id="swup" class="wrap transition-fade">
 
   <header>
     <p class="eyebrow">Financogram · Calculator</p>
@@ -316,14 +320,14 @@
   <div class="panel chart-panel">
     <h2>Wealth over time</h2>
     <canvas id="wealthChart"></canvas>
-  </div>
+  </main>
 
-  <footer>Illustrative model for content use — not financial advice. Adjust every figure to match the story you're telling.</footer>
+<footer>Illustrative model for content use — not financial advice. Adjust every figure to match the story you're telling.</footer>
 </div>
 
 <script src="../js/main.js"></script>
-<script>
-const $ = id => document.getElementById(id);
+<script data-swup-reload-script>
+        const $ = id => document.getElementById(id);
 let chart;
 
 function fmtPKR(num){
@@ -426,7 +430,7 @@ function cardHTML(id, tag, title, r, tenureYears){
 
 function cashCardHTML(r, tenureYears, totalCapital){
   return `
-  <div class="card">
+  <div class="card" data-aos="fade-up" data-aos-duration="600" data-aos="fade-up" data-aos-duration="600">
     <div class="tag">Cash</div>
     <h3>Pay upfront</h3>
     <div class="row"><span class="lbl">Cash spent today</span><span class="val">${fmtPKR(totalCapital)}</span></div>
@@ -525,5 +529,10 @@ document.getElementById('theme-toggle').addEventListener('click', () => {
 
 render();
 </script>
+
+    <!-- Swup & AOS Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/swup@4"></script>
+    <script src="https://unpkg.com/@swup/scripts-plugin@3"></script>
 </body>
 </html>

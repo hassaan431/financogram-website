@@ -55,3 +55,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+
+// Initialize AOS (Animate On Scroll)
+document.addEventListener("DOMContentLoaded", () => {
+    AOS.init({ once: true, offset: 50, duration: 600, easing: 'ease-out-cubic' });
+});
+
+// Initialize Swup for SPA page transitions
+document.addEventListener("DOMContentLoaded", () => {
+    if (typeof Swup !== 'undefined') {
+        const swup = new Swup({
+            plugins: [new SwupScriptsPlugin({ optin: true })]
+        });
+        
+        swup.hooks.on('page:view', () => {
+            AOS.refresh();
+        });
+    }
+});

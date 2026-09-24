@@ -17,6 +17,10 @@
     <meta property="og:description" content="Financogram provides simple money lessons, financial calculators, and investment guides for the youth of Pakistan.">
     <meta property="og:image" content="https://financogram.com/assets/logo-transparent.png">
     <meta property="og:url" content="https://financogram.com">
+
+    <!-- AOS & Alpine.js -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body>
 
@@ -50,7 +54,7 @@
         </div>
     </nav>
 
-    <main>
+    <main id="swup" class="transition-fade">
         <!-- Fintech Dashboard Hero -->
         <header class="hero" style="background: linear-gradient(to bottom, rgba(42, 157, 143, 0.1), transparent); padding: 80px 20px 40px; text-align: center; border-radius: 0 0 40px 40px; margin-bottom: 60px; border-bottom: none;">
             <div class="container" style="position: relative; z-index: 2;">
@@ -69,21 +73,21 @@
         <section class="section container">
             <h2 class="section-title">Popular Tools</h2>
             <div class="grid">
-                <div class="card" style="text-align: center;">
+                <div class="card" data-aos="fade-up" data-aos-duration="600" data-aos="fade-up" data-aos-duration="600" style="text-align: center;">
                     <div style="font-size: 2.5rem; margin-bottom: 1rem;">📈</div>
                     <h3>Early SIP Calculator</h3>
                     <p>Calculate the future value of your Systematic Investment Plan based on your monthly contributions.</p>
                     <a href="calculators/sip.html" class="btn" style="width: 100%; margin-top: 1rem;">Run the Numbers</a>
                 </div>
                 
-                <div class="card" style="text-align: center;">
+                <div class="card" data-aos="fade-up" data-aos-duration="600" data-aos="fade-up" data-aos-duration="600" style="text-align: center;">
                     <div style="font-size: 2.5rem; margin-bottom: 1rem;">🏠</div>
                     <h3>Buy vs Rent</h3>
                     <p>Compare the long-term financial impact of buying a house versus renting and investing the difference.</p>
                     <a href="calculators/buy-vs-rent.html" class="btn" style="width: 100%; margin-top: 1rem;">Run the Numbers</a>
                 </div>
                 
-                <div class="card" style="text-align: center;">
+                <div class="card" data-aos="fade-up" data-aos-duration="600" data-aos="fade-up" data-aos-duration="600" style="text-align: center;">
                     <div style="font-size: 2.5rem; margin-bottom: 1rem;">🏖️</div>
                     <h3>Retire Today</h3>
                     <p>Find out exactly how much you need invested today to quit your job and retire indefinitely.</p>
@@ -102,14 +106,14 @@
                 </div>
                 <div style="flex: 1; min-width: 300px;">
                     <div style="display: flex; flex-direction: column; gap: 1rem;">
-                        <a href="learn/retirement-planning.html" class="card" style="padding: 1.5rem; display: flex; align-items: center; gap: 1rem; text-decoration: none;">
+                        <a href="learn/retirement-planning.html" class="card" data-aos="fade-up" data-aos-duration="600" data-aos="fade-up" data-aos-duration="600" style="padding: 1.5rem; display: flex; align-items: center; gap: 1rem; text-decoration: none;">
                             <div style="background: var(--bg-main); padding: 1rem; border-radius: 12px; font-size: 1.5rem;">🌱</div>
                             <div>
                                 <h4 style="margin: 0; color: var(--text-main);">How to Plan Your Retirement</h4>
                                 <span style="color: var(--text-muted); font-size: 0.9rem;">4 min read</span>
                             </div>
                         </a>
-                        <a href="learn/before-investing.html" class="card" style="padding: 1.5rem; display: flex; align-items: center; gap: 1rem; text-decoration: none;">
+                        <a href="learn/before-investing.html" class="card" data-aos="fade-up" data-aos-duration="600" data-aos="fade-up" data-aos-duration="600" style="padding: 1.5rem; display: flex; align-items: center; gap: 1rem; text-decoration: none;">
                             <div style="background: var(--bg-main); padding: 1rem; border-radius: 12px; font-size: 1.5rem;">🛡️</div>
                             <div>
                                 <h4 style="margin: 0; color: var(--text-main);">5 Things Before Investing</h4>
@@ -130,5 +134,10 @@
     </footer>
 
     <script src="js/main.js"></script>
+
+    <!-- Swup & AOS Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/swup@4"></script>
+    <script src="https://unpkg.com/@swup/scripts-plugin@3"></script>
 </body>
 </html>

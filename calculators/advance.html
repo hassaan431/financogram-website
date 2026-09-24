@@ -228,6 +228,10 @@
     margin-bottom:60px;
   }
 </style>
+
+    <!-- AOS & Alpine.js -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body>
 
@@ -242,7 +246,7 @@
 
             <ul class="nav-links" id="nav-links">
                 <li><a href="../index.html">Home</a></li>
-                <li><a href="index.html" style="color: var(--primary-color); font-weight: 700;">Calculators</a></li>
+                <li><a href="index.html">Calculators</a></li>
                 <li><a href="../learn/index.html">Learn</a></li>
                 <li><a href="../about.html">About</a></li>
                 <li>
@@ -356,8 +360,8 @@
 </footer>
 
 <script src="../js/main.js"></script>
-<script>
-function fmt(n){
+<script data-swup-reload-script>
+        function fmt(n){
   return "Rs " + Math.round(n).toLocaleString('en-PK');
 }
 
@@ -432,5 +436,10 @@ function calculate(){
 }
 </script>
 
+
+    <!-- Swup & AOS Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/swup@4"></script>
+    <script src="https://unpkg.com/@swup/scripts-plugin@3"></script>
 </body>
 </html>
