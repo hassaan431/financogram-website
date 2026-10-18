@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>1-1 Session | Money Snapshot | Financogram</title>
+    <link rel="icon" type="image/png" href="assets/logo-transparent.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Financogram Global Styles -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <meta name="description" content="Share your financial snapshot for a personalized 1-1 session with Financogram.">
+
+    <!-- AOS & Alpine.js -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <style>
+        .consult-wrapper {
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        /* Progress Card */
+        .progress-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 18px 20px;
+            margin-bottom: 20px;
+        }
+
+        .progress-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .progress-meta .badge {
+            background: rgba(73, 79, 223, 0.12);
+            color: var(--primary-color);
+            padding: 4px 10px;
+            border-radius: 100px;
+            font-size: 12px;
+        }
+
+        [data-theme="dark"] .progress-meta .badge {
+            background: rgba(73, 79, 223, 0.25);
+            color: #8c90ff;
+        }
+
+        .progress-track {
+            height: 7px;
+            background: var(--bg-main);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--primary-color);
+            border-radius: 10px;
+            transition: width 0.35s cubic-bezier(0.2, 0, 0, 1);
+        }
+
+        [data-theme="dark"] .progress-fill {
+            background: #8c90ff;
+        }
+
+        /* Question Card */
+        .step-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 28px 24px;
+            animation: fadeIn 0.25s ease-out;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step-card h1 {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--text-main);
+            line-height: 1.25;
+            margin: 0 0 8px 0;
+            letter-spacing: -0.4px;
+        }
+
+        .step-hint {
+            color: var(--text-muted);
+            font-size: 14.5px;
+            line-height: 1.5;
+            margin: 0 0 22px 0;
+        }
+
+        /* Selection Chips */
+        .opt-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .opt-grid.g3 { grid-template-columns: repeat(3, 1fr); }
+        .opt-grid.g4 { grid-template-columns: repeat(4, 1fr); }
+
+        @media (max-width: 520px) {
+            .opt-grid:not(.g4) { grid-template-columns: 1fr; }
+            .opt-grid.g4 { grid-template-columns: 1fr 1fr; }
+            .step-card { padding: 22px 18px; }
+            .step-card h1 { font-size: 22px; }
+        }
+
+        .opt-chip {
+            text-align: left;
+            border: 1.5px solid var(--border-color);
+            background: var(--bg-main);
+            border-radius: 14px;
+            padding: 14px 16px;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.15s ease;
+            position: relative;
+            user-select: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .opt-chip b {
+            font-size: 14.5px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .opt-chip small {
+            display: block;
+            color: var(--text-muted);
+            font-size: 12.5px;
+            margin-top: 4px;
+            line-height: 1.4;
+            font-weight: 400;
+        }
+
+        .opt-chip:hover {
+            border-color: var(--primary-color);
+        }
+
+        .opt-chip.active {
+            border-color: var(--primary-color);
+            background: rgba(73, 79, 223, 0.08);
+            color: var(--primary-color);
+        }
+
+        [data-theme="dark"] .opt-chip.active {
+            border-color: #8c90ff;
+            background: rgba(73, 79, 223, 0.22);
+            color: #ffffff;
+        }
+
+        .opt-chip.active b::after {
+            content: "✓";
+            color: var(--primary-color);
+            font-size: 14px;
+            margin-left: 6px;
+        }
+
+        [data-theme="dark"] .opt-chip.active b::after {
+            color: #8c90ff;
+        }
+
+        /* Form Inputs */
+        .field-label {
+            display: block;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin: 18px 0 6px 0;
+        }
+
+        .text-input, .select-input, .textarea-input {
+            width: 100%;
+            padding: 13px 15px;
+            border-radius: 12px;
+            border: 1.5px solid var(--border-color);
+            background: var(--bg-main);
+            color: var(--text-main);
+            font-size: 16px;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.2s;
+            box-sizing: border-box;
+        }
+
+        .textarea-input {
+            min-height: 110px;
+            resize: vertical;
+            line-height: 1.5;
+        }
+
+        .text-input:focus, .select-input:focus, .textarea-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(73, 79, 223, 0.15);
+        }
+
+        /* Custom Range Slider */
+        .range-container {
+            margin: 16px 0 8px 0;
+        }
+
+        .range-readout {
+            font-family: 'Space Grotesk', 'Inter', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        [data-theme="dark"] .range-readout {
+            color: #8c90ff;
+        }
+
+        .range-input {
+            width: 100%;
+            height: 6px;
+            border-radius: 6px;
+            background: var(--border-color);
+            -webkit-appearance: none;
+            appearance: none;
+            outline: none;
+            margin: 10px 0;
+        }
+
+        .range-input::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            border: 3px solid var(--bg-card);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+            cursor: pointer;
+            transition: transform 0.1s ease;
+        }
+
+        .range-input::-webkit-slider-thumb:active {
+            transform: scale(1.15);
+        }
+
+        .range-input::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            border: 3px solid var(--bg-card);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+            cursor: pointer;
+        }
+
+        /* Stepper for Dependents */
+        .stepper-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 8px;
+        }
+
+        .step-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            border: 1.5px solid var(--border-color);
+            background: var(--bg-main);
+            color: var(--text-main);
+            font-size: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+        }
+
+        .step-btn:hover {
+            border-color: var(--primary-color);
+        }
+
+        /* Sub-sections for assets */
+        .asset-subcard {
+            margin-top: 14px;
+            padding: 16px;
+            border-left: 3px solid var(--primary-color);
+            background: var(--bg-main);
+            border-radius: 12px;
+        }
+
+        .asset-subcard h3 {
+            margin: 0 0 10px 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        /* Error state */
+        .step-error {
+            color: #e63946;
+            font-size: 13.5px;
+            font-weight: 600;
+            min-height: 20px;
+            margin-top: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Nav Buttons */
+        .action-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .btn-prev {
+            flex: 0 0 100px;
+            height: 50px;
+            border-radius: 12px;
+            background: transparent;
+            border: 1.5px solid var(--border-color);
+            color: var(--text-main);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-prev:hover {
+            background: var(--bg-main);
+        }
+
+        .btn-next {
+            flex: 1;
+            height: 50px;
+            border-radius: 12px;
+            background: var(--primary-color);
+            border: none;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 15.5px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-next:hover {
+            background: var(--primary-hover);
+        }
+
+        /* Final Summary Snapshot View */
+        .snapshot-table {
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            background: var(--bg-main);
+            padding: 6px 18px;
+            margin-bottom: 16px;
+            max-height: 440px;
+            overflow-y: auto;
+        }
+
+        .snapshot-table::-webkit-scrollbar {
+            width: 6px;
+        }
+        .snapshot-table::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .snapshot-table::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 10px;
+        }
+
+        .snap-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 13.5px;
+            gap: 16px;
+        }
+
+        .snap-row:last-child {
+            border-bottom: none;
+        }
+
+        .snap-label {
+            color: var(--text-muted);
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .snap-value {
+            color: var(--text-main);
+            font-weight: 600;
+            text-align: right;
+            flex: 1.2;
+            word-break: break-word;
+        }
+
+        .consent-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 14px;
+            line-height: 1.5;
+            color: var(--text-main);
+            margin: 18px 0 20px 0;
+            padding: 14px 16px;
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            cursor: pointer;
+            user-select: none;
+            transition: border-color 0.2s;
+        }
+
+        .consent-box:hover {
+            border-color: var(--primary-color);
+        }
+
+        .consent-box input {
+            margin-top: 3px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+            accent-color: var(--primary-color);
+        }
+
+        /* Snapshot Button Layout */
+        .snapshot-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 6px;
+        }
+
+        .btn-action-primary {
+            width: 100%;
+            height: 50px;
+            border-radius: 100px;
+            background: var(--primary-color);
+            border: none;
+            color: #ffffff !important;
+            font-size: 15.5px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 14px rgba(73, 79, 223, 0.2);
+        }
+
+        .btn-action-primary:hover:not(:disabled) {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-action-wa {
+            width: 100%;
+            height: 50px;
+            border-radius: 100px;
+            background: #25D366;
+            border: none;
+            color: #ffffff !important;
+            font-size: 15.5px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 14px rgba(37, 211, 102, 0.2);
+        }
+
+        .btn-action-wa:hover:not(:disabled) {
+            background: #20ba5a;
+            transform: translateY(-1px);
+        }
+
+        .snapshot-secondary-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 4px;
+        }
+
+        .btn-action-csv {
+            flex: 1;
+            height: 44px;
+            border-radius: 100px;
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            font-size: 13.5px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.15s ease;
+        }
+
+        .btn-action-csv:hover:not(:disabled) {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-action-edit {
+            flex: 1;
+            height: 44px;
+            border-radius: 100px;
+            background: transparent;
+            border: 1px dashed var(--border-color);
+            color: var(--text-muted);
+            font-size: 13.5px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.15s ease;
+        }
+
+        .btn-action-edit:hover {
+            color: var(--text-main);
+            border-color: var(--text-main);
+        }
+
+        @media (max-width: 480px) {
+            .snapshot-secondary-actions {
+                flex-direction: column;
+            }
+            .btn-action-csv, .btn-action-edit {
+                width: 100%;
+            }
+        }
+
+        .submission-status {
+            padding: 14px 16px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            font-weight: 600;
+            display: none;
+        }
+
+        .submission-status.success {
+            display: block;
+            background: rgba(42, 157, 143, 0.15);
+            color: #2a9d8f;
+            border: 1px solid #2a9d8f;
+        }
+
+        .submission-status.error {
+            display: block;
+            background: rgba(230, 57, 70, 0.15);
+            color: #e63946;
+            border: 1px solid #e63946;
+        }
+
+        .page-footer-note {
+            font-size: 12.5px;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 24px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo"><img src="assets/logo-transparent.png" alt="Financogram Logo" style="height: 40px; width: auto; display: inline-block; vertical-align: middle; margin-right: 8px;">Financogram</a>
+            
+            <button class="menu-toggle" id="mobile-menu" aria-label="Toggle Navigation">
+                ☰
+            </button>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="calculators/index.html">Calculators</a></li>
+                <li><a href="learn/index.html">Learn</a></li>
+                <li><a href="consultancy.html">Consultancy</a></li>
+                <li><a href="about.html">About</a></li>
+                <li>
+                    <button id="theme-toggle" aria-label="Toggle Dark Mode" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 6px; display: flex; align-items: center; justify-content: center; height: 36px; width: 36px;">
+                        <span id="theme-icon">🌙</span>
+                    </button>
+                </li>
+                <li>
+                    <a href="https://www.instagram.com/financo.gram/" target="_blank" aria-label="Instagram" style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 8px; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; text-decoration: none; transition: transform 0.2s;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main id="swup" class="container transition-fade" style="margin-top: 40px; margin-bottom: 60px;">
+        <div class="consult-wrapper">
+            
+            <!-- Progress Tracker -->
+            <div class="progress-box">
+                <div class="progress-meta">
+                    <span id="progressStepText">Question 1 of 11</span>
+                    <span class="badge" id="progressPctText">9% complete</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill" id="progressBar"></div>
+                </div>
+            </div>
+
+            <!-- Dynamic Interactive Form Screen -->
+            <div id="formMount"></div>
+
+            <p class="page-footer-note">
+                🔒 <strong>Privacy First:</strong> Educational session onboarding. Your information is encrypted and kept strictly confidential.
+            </p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>"Financo provides educational information and calculators for informational purposes only. This content is not personalized financial, investment, tax, or legal advice."</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+
+    <script data-swup-reload-script>
+    (function initConsultancyForm() {
+        // Configuration
+        const RECEIVER_EMAIL = "hassaan431@gmail.com"; // Email receiving the snapshot submissions
+        const WA_NUMBER = "923071533234"; // WhatsApp number for client snapshot messages
+
+        const EXP_LEVELS = [
+            "Total beginner",
+            "Just starting out",
+            "Comfortable",
+            "Experienced",
+            "I read annual reports for fun"
+        ];
+
+        const MONTHLY_AMOUNTS = [
+            5000, 10000, 15000, 20000, 25000, 30000, 40000, 
+            50000, 75000, 100000, 150000, 200000, 300000, 500000
+        ];
+
+        const fmt = n => Number(n).toLocaleString("en-PK");
+
+        const LABELS = {
+            years: v => v == 0 ? "Less than 1 year" : v == 1 ? "1 year" : v + " years",
+            mi: i => "PKR " + fmt(MONTHLY_AMOUNTS[i]) + (i == MONTHLY_AMOUNTS.length - 1 ? "+" : ""),
+            mo: v => v == 0 ? "None yet" : v == 12 ? "12+ months" : v + " months",
+            exp: v => EXP_LEVELS[v]
+        };
+
+        // Form State
+        const S = {
+            name: "",
+            phone: "+92",
+            age: "",
+            goal: "",
+            years: 10,
+            target: "",
+            inc: "",
+            dep: 0,
+            mi: 4,
+            mo: 3,
+            ins: [],
+            debts: [],
+            rate: "",
+            assets: [],
+            ad: {},
+            react: "",
+            sh: "",
+            fl: "",
+            exp: 1, // 0 = Total beginner, 1 = Just starting out
+            wish: "",
+            ok: false
+        };
+
+        let currentStep = 0;
+        let isSubmitting = false;
+
+        const esc = s => String(s).replace(/[&<>"']/g, c => ({
+            "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+        }[c]));
+
+        // Asset Schema
+        const amtField = ["amt", "Amount (PKR)", "n"];
+        const ASSET_TYPES = [
+            { k: "bank", l: "Bank Savings", f: [amtField, ["rate", "Profit rate (%)", "n"]] },
+            { k: "nss", l: "National Savings (NSS)", f: [amtField, ["kind", "Scheme", "s", ["Regular Income", "Special Savings", "Behbood", "Defence Savings", "Not sure"]]] },
+            { k: "gold", l: "Gold", f: [amtField, ["kind", "Form", "s", ["Jewellery", "Bars or coins", "Digital", "Mixed"]]] },
+            { k: "psx", l: "PSX Shares", f: [amtField, ["num", "Companies held", "n"], ["since", "Investing since (year)", "n"], ["how", "How you pick", "s", ["Own research", "Tips or groups", "An advisor", "A mix"]]] },
+            { k: "mf", l: "Mutual Funds", f: [amtField, ["kind", "Fund types", "m", ["Money market", "Income", "Equity", "Islamic", "Balanced", "Not sure"]]] },
+            { k: "cmt", l: "Committee (BC)", f: [["amt", "Monthly amount (PKR)", "n"], ["left", "Months left", "n"]] },
+            { k: "prop", l: "Property / Real Estate", f: [amtField, ["kind", "Type", "s", ["Own home", "Rented out", "Plot or land", "Under construction"]]] },
+            { k: "pf", l: "Provident Fund / Gratuity", f: [amtField] },
+            { k: "biz", l: "Own Business", f: [["amt", "Capital invested (PKR)", "n"]] },
+            { k: "fx", l: "Foreign Currency / Crypto", f: [amtField, ["kind", "Type", "s", ["Foreign cash", "Crypto", "Both"]]] },
+            { k: "none", l: "Nothing yet", f: [] }
+        ];
+
+        // UI Builders
+        const buildChip = (g, v, l, s, m, x) => {
+            const on = m ? S[g].includes(v) : S[g] === v;
+            return `<button type="button" class="opt-chip${on ? " active" : ""}" data-g="${g}" data-v="${esc(v)}"${m ? ` data-m="1" data-x="${x || ""}"` : ""}>
+                <b>${l}</b>
+                ${s ? `<small>${s}</small>` : ""}
+            </button>`;
+        };
+
+        const buildGrid = (g, arr, m, x, c) => `
+            <div class="opt-grid ${c || ""}">
+                ${arr.map(a => Array.isArray(a) ? buildChip(g, a[0], a[0], a[1], m, x) : buildChip(g, a, a, "", m, x)).join("")}
+            </div>
+        `;
+
+        const buildRange = (k, min, max) => `
+            <div class="range-container">
+                <div class="range-readout" id="out_${k}">${LABELS[k](S[k])}</div>
+                <input type="range" class="range-input" min="${min}" max="${max}" value="${S[k]}" data-k="${k}">
+            </div>
+        `;
+
+        const buildAssetField = (k, [id, l, t, o]) => {
+            const v = (S.ad[k] || {})[id];
+            const nameKey = k + "." + id;
+            if (t === "n") {
+                return `<label class="field-label">${l}<input type="number" class="text-input" inputmode="numeric" data-a="${nameKey}" value="${v ?? ""}"></label>`;
+            }
+            if (t === "s") {
+                return `<label class="field-label">${l}<select class="select-input" data-a="${nameKey}"><option value="">Select an option</option>${o.map(x => `<option${v === x ? " selected" : ""}>${x}</option>`).join("")}</select></label>`;
+            }
+            return `<div class="field-label">${l}</div><div class="opt-grid g3" style="margin-top:6px">${o.map(x => `<button type="button" class="opt-chip${(v || []).includes(x) ? " active" : ""}" data-am="${nameKey}" data-v="${x}"><b>${x}</b></button>`).join("")}</div>`;
+        };
+
+        // 11 Form Steps
+        const STEPS = [
+            {
+                t: "Let’s start with you",
+                h: "Eleven quick questions, about three minutes. Rough numbers are totally fine.",
+                render: () => `
+                    <label class="field-label">Your Name</label>
+                    <input type="text" class="text-input" data-k="name" placeholder="Muhammad Ali" autocomplete="name" value="${esc(S.name || "")}">
+                    
+                    <label class="field-label">WhatsApp Number</label>
+                    <input type="tel" class="text-input" id="phoneInput" data-k="phone" placeholder="+923XXXXXXXXX" autocomplete="tel" value="${esc(S.phone || "+92")}">
+                    <small style="color:var(--text-muted); font-size:12px; display:block; margin-top:4px;">No space after +92 (e.g. +923071234567).</small>
+                    
+                    <div class="field-label">Your Age Range</div>
+                    ${buildGrid("age", ["20s", "30s", "40s", "50+"], 0, "", "g4")}
+                `,
+                validate: () => {
+                    if (!(S.name || "").trim()) return "Please enter your name to continue.";
+                    const digits = (S.phone || "").replace(/\D/g, "");
+                    if (digits.length !== 12 || !digits.startsWith("923")) {
+                        return "Please enter a valid 10-digit WhatsApp number without spaces (e.g. +923071234567).";
+                    }
+                    if (!S.age) return "Please pick your age range.";
+                    return "";
+                }
+            },
+            {
+                t: "What is this money for?",
+                h: "Pick the goal that matters most to you right now.",
+                render: () => buildGrid("goal", [
+                    ["House", "Buy or build your own home"],
+                    ["Kids’ education", "School now, university later"],
+                    ["Hajj, Umrah or wedding", "A major planned life milestone"],
+                    ["Retirement", "Financial freedom when you stop working"],
+                    ["Safety cushion", "Emergency buffer & peace of mind"],
+                    ["Grow my wealth", "Beat inflation & compound capital"]
+                ]),
+                validate: () => S.goal ? "" : "Please pick one goal to continue."
+            },
+            {
+                t: "When will you need this money?",
+                h: "Slide to how many years this capital can remain invested.",
+                render: () => `
+                    ${buildRange("years", 0, 50)}
+                    <label class="field-label">Rough target amount in PKR (optional)</label>
+                    <input type="number" class="text-input" inputmode="numeric" data-k="target" placeholder="e.g. 10000000" value="${esc(S.target || "")}">
+                `,
+                validate: () => ""
+            },
+            {
+                t: "How do you earn, and who depends on you?",
+                h: "This shapes how much risk and liquidity make sense for your situation.",
+                render: () => `
+                    ${buildGrid("inc", ["Salaried", "Business", "Freelance", "Mixed"])}
+                    <div class="field-label">People who depend financially on your income</div>
+                    <div class="stepper-row">
+                        <button type="button" class="step-btn" data-dep="-1" aria-label="Decrease dependents">−</button>
+                        <div class="range-readout" id="depVal" style="margin:0">${S.dep}</div>
+                        <button type="button" class="step-btn" data-dep="1" aria-label="Increase dependents">+</button>
+                    </div>
+                `,
+                validate: () => S.inc ? "" : "Please choose your primary income source."
+            },
+            {
+                t: "What can you set aside every month?",
+                h: "An amount you can comfortably invest without feeling pinched.",
+                render: () => buildRange("mi", 0, MONTHLY_AMOUNTS.length - 1),
+                validate: () => ""
+            },
+            {
+                t: "What does your safety net look like?",
+                h: "If your income stopped today, how many months could you comfortably survive?",
+                render: () => `
+                    ${buildRange("mo", 0, 12)}
+                    <div class="field-label">Insurance policies you hold</div>
+                    <div style="margin-top:6px">${buildGrid("ins", ["Health", "Life", "None yet"], 1, "None yet", "g3")}</div>
+                `,
+                validate: () => S.ins.length ? "" : "Please pick at least one insurance option."
+            },
+            {
+                t: "Do you have any active debts or loans?",
+                h: "Select all that currently apply to you.",
+                render: () => `
+                    ${buildGrid("debts", ["None", "Car loan", "House loan", "Credit card", "Personal loan", "Family loan"], 1, "None")}
+                    ${(S.debts.length && !S.debts.includes("None")) ? `
+                        <label class="field-label">Highest annual interest rate you pay (%) (optional)</label>
+                        <input type="number" class="text-input" inputmode="decimal" data-k="rate" placeholder="e.g. 24" value="${esc(S.rate || "")}">
+                    ` : ""}
+                `,
+                validate: () => S.debts.length ? "" : "Please select at least one debt option."
+            },
+            {
+                t: "What do you already own?",
+                h: "Select everything you have. Rough numbers allow us to give targeted advice.",
+                render: () => `
+                    <div class="opt-grid g3">${ASSET_TYPES.map(a => buildChip("assets", a.k, a.l, "", 1, "none")).join("")}</div>
+                    ${S.assets.filter(k => k !== "none").map(k => {
+                        const a = ASSET_TYPES.find(x => x.k === k);
+                        return `<div class="asset-subcard"><h3>${a.l}</h3>${a.f.map(f => buildAssetField(k, f)).join("")}</div>`;
+                    }).join("")}
+                `,
+                validate: () => S.assets.length ? "" : "Please select at least one asset option."
+            },
+            {
+                t: "Your investment drops 20% in a month. What do you do?",
+                h: "Be 100% honest. There is no wrong answer — it reveals your true risk tolerance.",
+                render: () => buildGrid("react", [
+                    ["Sell everything", "I lose sleep when market drops"],
+                    ["Sell some", "De-risk and take some cash off table"],
+                    ["Sit tight", "Hold and wait for market recovery"],
+                    ["Buy more", "Discount sale — cheaper is better!"]
+                ]),
+                validate: () => S.react ? "" : "Please select one reaction to continue."
+            },
+            {
+                t: "A few quick preferences",
+                h: "Three quick taps and you’re nearly finished.",
+                render: () => `
+                    <div class="field-label">Shariah-compliant options only?</div>
+                    <div style="margin-top:6px">${buildGrid("sh", ["Yes", "No", "Not sure"], 0, "", "g3")}</div>
+                    
+                    <div class="field-label">Are you an active FBR tax filer?</div>
+                    <div style="margin-top:6px">${buildGrid("fl", ["Filer", "Non-filer", "Not sure"], 0, "", "g3")}</div>
+                    
+                    <div class="field-label">Your investing experience</div>
+                    ${buildRange("exp", 0, 4)}
+                `,
+                validate: () => (S.sh && S.fl) ? "" : "Please answer the Shariah and Tax filer questions."
+            },
+            {
+                t: "What is your main wish for our session?",
+                h: "Optional. Tell us the #1 financial question or roadblock on your mind.",
+                render: () => `
+                    <textarea class="textarea-input" data-k="wish" placeholder="For example: I have 20 Lakhs sitting in a savings account and want a step-by-step mutual fund / PSX investment plan.">${esc(S.wish || "")}</textarea>
+                `,
+                validate: () => ""
+            }
+        ];
+
+        // Format asset details
+        const getAssetDetails = k => {
+            const assetObj = ASSET_TYPES.find(x => x.k === k);
+            if (!assetObj || !assetObj.f.length) return "None";
+            return assetObj.f.map(([id, l, t]) => {
+                let v = (S.ad[k] || {})[id];
+                if (Array.isArray(v)) v = v.join("/");
+                return v ? `${l}: ${t === "n" && /amt/.test(id) ? fmt(v) : v}` : "";
+            }).filter(Boolean).join(" | ") || "No extra numbers provided";
+        };
+
+        // Snapshot representation
+        function snap() {
+            const assetRows = S.assets.includes("none") 
+                ? [["Existing Assets", "Nothing yet"]] 
+                : S.assets.map(k => [ASSET_TYPES.find(x => x.k === k).l, getAssetDetails(k)]);
+
+            return [
+                ["Full Name", S.name.trim()],
+                ["WhatsApp Number", S.phone.trim()],
+                ["Age Range", S.age],
+                ["Primary Goal", S.goal],
+                ["Investment Horizon", LABELS.years(S.years)],
+                ["Target Amount", S.target ? "PKR " + fmt(S.target) : "Not specified"],
+                ["Income Type", S.inc],
+                ["Dependents", S.dep],
+                ["Monthly Investable", LABELS.mi(S.mi)],
+                ["Emergency Cover", LABELS.mo(S.mo)],
+                ["Insurance", S.ins.join(", ")],
+                ["Debts & Liabilities", S.debts.join(", ") + (S.rate && !S.debts.includes("None") ? ` (Highest rate: ${S.rate}%)` : "")],
+                ...assetRows,
+                ["Reaction to 20% Dip", S.react],
+                ["Shariah Compliant", S.sh],
+                ["Tax Filer", S.fl],
+                ["Investing Experience", EXP_LEVELS[S.exp]],
+                ["Session Wish", (S.wish || "").trim() || "None"]
+            ];
+        }
+
+        // Render current step
+        function render(animate = true) {
+            const mount = document.getElementById("formMount");
+            if (!mount) return;
+
+            const total = STEPS.length;
+            const isFinished = currentStep >= total;
+
+            // Update Progress Bar
+            const pct = Math.round((isFinished ? total : currentStep) / total * 100);
+            const pBar = document.getElementById("progressBar");
+            const pStep = document.getElementById("progressStepText");
+            const pPct = document.getElementById("progressPctText");
+
+            if (pBar) pBar.style.width = pct + "%";
+            if (pStep) pStep.textContent = isFinished ? "Completed" : `Question ${currentStep + 1} of ${total}`;
+            if (pPct) pPct.textContent = isFinished ? "100% complete" : `${pct}% complete`;
+
+            let cardHtml = "";
+
+            if (!isFinished) {
+                const s = STEPS[currentStep];
+                cardHtml = `
+                    <div class="step-card">
+                        <h1>${s.t}</h1>
+                        <p class="step-hint">${s.h}</p>
+                        ${s.render()}
+                        <div class="step-error" id="stepError"></div>
+                        <div class="action-row">
+                            ${currentStep > 0 ? `<button type="button" class="btn-prev" data-nav="back">&larr; Back</button>` : ""}
+                            <button type="button" class="btn-next" data-nav="next">
+                                ${currentStep === total - 1 ? "Review My Snapshot &rarr;" : "Next Question &rarr;"}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Final Snapshot Review Screen
+                const snapshotData = snap();
+                cardHtml = `
+                    <div class="step-card">
+                        <h1>Your Money Snapshot</h1>
+                        <p class="step-hint">Review your responses below. When you click Submit, your details will be sent directly to our team via Email and WhatsApp.</p>
+                        
+                        <div id="submitStatus" class="submission-status"></div>
+
+                        <div class="snapshot-table">
+                            ${snapshotData.map(([k, v]) => `
+                                <div class="snap-row">
+                                    <span class="snap-label">${esc(k)}</span>
+                                    <span class="snap-value">${esc(v)}</span>
+                                </div>
+                            `).join("")}
+                        </div>
+
+                        <label class="consent-box">
+                            <input type="checkbox" id="consentCheck" ${S.ok ? "checked" : ""}>
+                            <span>I confirm these details are accurate and agree to share them for my personalized 1-1 session.</span>
+                        </label>
+
+                        <div class="snapshot-actions">
+                            <button type="button" class="btn-action-primary" id="btnSubmitEmail" ${S.ok ? "" : "disabled"} style="${S.ok ? "" : "opacity:0.5; cursor:not-allowed;"}">
+                                ✉️ Submit Snapshot via Email
+                            </button>
+                            <button type="button" class="btn-action-wa" id="btnSubmitWa" ${S.ok ? "" : "disabled"} style="${S.ok ? "" : "opacity:0.5; cursor:not-allowed;"}">
+                                💬 Send on WhatsApp
+                            </button>
+                            <div class="snapshot-secondary-actions">
+                                <button type="button" class="btn-action-csv" id="btnDownloadCsv" ${S.ok ? "" : "disabled"} style="${S.ok ? "" : "opacity:0.5; cursor:not-allowed;"}">
+                                    📥 Download CSV
+                                </button>
+                                <button type="button" class="btn-action-edit" data-nav="edit">
+                                    ✏️ Edit Answers
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            mount.innerHTML = cardHtml;
+            setupPhoneAutoFormat();
+        }
+
+        // Preload and format phone number with +92 (no space)
+        function setupPhoneAutoFormat() {
+            const phoneInput = document.getElementById("phoneInput");
+            if (!phoneInput) return;
+
+            phoneInput.addEventListener("focus", function() {
+                if (!this.value || this.value.trim() === "") {
+                    this.value = "+92";
+                }
+            });
+
+            phoneInput.addEventListener("input", function() {
+                let raw = this.value.replace(/\s+/g, ""); // Remove all spaces
+                if (!raw.startsWith("+92")) {
+                    const digitsOnly = raw.replace(/\D/g, "");
+                    if (digitsOnly.startsWith("92")) {
+                        raw = "+" + digitsOnly;
+                    } else if (digitsOnly.startsWith("0")) {
+                        raw = "+92" + digitsOnly.substring(1);
+                    } else {
+                        raw = "+92" + digitsOnly;
+                    }
+                } else {
+                    const digitsAfter = raw.substring(3).replace(/\D/g, "");
+                    raw = "+92" + digitsAfter;
+                }
+                if (raw.length > 13) {
+                    raw = raw.substring(0, 13);
+                }
+                this.value = raw;
+                S.phone = raw;
+            });
+        }
+
+        // Navigation
+        function navigate(dir) {
+            if (dir === "back") {
+                if (currentStep > 0) currentStep--;
+                render();
+                window.scrollTo({ top: 120, behavior: "smooth" });
+                return;
+            }
+            if (dir === "edit") {
+                currentStep = 0;
+                render();
+                window.scrollTo({ top: 120, behavior: "smooth" });
+                return;
+            }
+            if (dir === "next") {
+                const err = STEPS[currentStep].validate();
+                const errBox = document.getElementById("stepError");
+                if (err) {
+                    if (errBox) errBox.innerHTML = `⚠️ ${err}`;
+                    return;
+                }
+                currentStep++;
+                render();
+                window.scrollTo({ top: 120, behavior: "smooth" });
+            }
+        }
+
+        // Listeners on Mount
+        const mount = document.getElementById("formMount");
+        if (mount) {
+            mount.addEventListener("input", e => {
+                const t = e.target;
+                const d = t.dataset;
+
+                if (t.id === "consentCheck") {
+                    S.ok = t.checked;
+                    const bEmail = document.getElementById("btnSubmitEmail");
+                    const bWa = document.getElementById("btnSubmitWa");
+                    const bCsv = document.getElementById("btnDownloadCsv");
+                    [bEmail, bWa, bCsv].forEach(b => {
+                        if (b) {
+                            b.disabled = !t.checked;
+                            b.style.opacity = t.checked ? "1" : "0.5";
+                            b.style.cursor = t.checked ? "pointer" : "not-allowed";
+                        }
+                    });
+                    return;
+                }
+
+                if (d.k) {
+                    S[d.k] = t.type === "range" ? Number(t.value) : t.value;
+                    const out = document.getElementById("out_" + d.k);
+                    if (out && LABELS[d.k]) out.textContent = LABELS[d.k](S[d.k]);
+                } else if (d.a) {
+                    const [k, f] = d.a.split(".");
+                    S.ad[k] = S.ad[k] || {};
+                    S.ad[k][f] = t.value;
+                }
+            });
+
+            mount.addEventListener("click", e => {
+                const b = e.target.closest("button");
+                if (!b) return;
+                const d = b.dataset;
+
+                // Nav
+                if (d.nav) {
+                    navigate(d.nav);
+                    return;
+                }
+
+                // Grid option chips
+                if (d.g) {
+                    const group = d.g;
+                    const val = d.v;
+                    if (d.m) {
+                        // Multi-select
+                        const currentArr = S[group] || [];
+                        if (val === d.x) {
+                            S[group] = currentArr.includes(val) ? [] : [val];
+                        } else {
+                            const withoutExclusive = currentArr.filter(z => z !== d.x);
+                            S[group] = withoutExclusive.includes(val) 
+                                ? withoutExclusive.filter(z => z !== val) 
+                                : [...withoutExclusive, val];
+                        }
+                    } else {
+                        // Single-select
+                        S[group] = val;
+                    }
+                    render(false);
+                    return;
+                }
+
+                // Multi-select sub-fields (mutual funds, etc.)
+                if (d.am) {
+                    const [k, f] = d.am.split(".");
+                    S.ad[k] = S.ad[k] || {};
+                    const currentArr = S.ad[k][f] || [];
+                    S.ad[k][f] = currentArr.includes(d.v)
+                        ? currentArr.filter(z => z !== d.v)
+                        : [...currentArr, d.v];
+                    render(false);
+                    return;
+                }
+
+                // Dependents stepper
+                if (d.dep) {
+                    S.dep = Math.max(0, S.dep + Number(d.dep));
+                    const depVal = document.getElementById("depVal");
+                    if (depVal) depVal.textContent = S.dep;
+                    return;
+                }
+
+                // Action: Submit via Email
+                if (b.id === "btnSubmitEmail") {
+                    sendEmailSubmission();
+                    return;
+                }
+
+                // Action: Send on WhatsApp
+                if (b.id === "btnSubmitWa") {
+                    openWhatsApp();
+                    return;
+                }
+
+                // Action: Download CSV
+                if (b.id === "btnDownloadCsv") {
+                    downloadCsvFile();
+                    return;
+                }
+            });
+        }
+
+        // Email Submission via FormSubmit.co
+        async function sendEmailSubmission() {
+            if (isSubmitting) return;
+            const btn = document.getElementById("btnSubmitEmail");
+            const statusBox = document.getElementById("submitStatus");
+
+            isSubmitting = true;
+            if (btn) btn.innerHTML = "⏳ Sending details...";
+            if (statusBox) {
+                statusBox.className = "submission-status";
+                statusBox.style.display = "none";
+            }
+
+            try {
+                const payload = {
+                    _subject: `New Money Snapshot: ${S.name.trim()} (${S.phone.trim()})`,
+                    _template: "table",
+                    _captcha: "false",
+                    "Client Name": S.name.trim(),
+                    "WhatsApp": S.phone.trim(),
+                    "Age Range": S.age,
+                    "Primary Goal": S.goal,
+                    "Investment Horizon": LABELS.years(S.years),
+                    "Target Amount": S.target ? fmt(S.target) + " PKR" : "Not specified",
+                    "Income Source": S.inc,
+                    "Dependents": S.dep,
+                    "Monthly Investable": LABELS.mi(S.mi),
+                    "Emergency Buffer": LABELS.mo(S.mo),
+                    "Insurance": S.ins.join(", "),
+                    "Debts": S.debts.join(", ") + (S.rate && !S.debts.includes("None") ? ` (Highest rate: ${S.rate}%)` : ""),
+                    "Existing Assets": snap().filter(([k]) => !["Full Name","WhatsApp Number","Age Range","Primary Goal","Investment Horizon","Target Amount","Income Type","Dependents","Monthly Investable","Emergency Cover","Insurance","Debts & Liabilities","Reaction to 20% Dip","Shariah Compliant","Tax Filer","Investing Experience","Session Wish"].includes(k)).map(([k, v]) => `${k} -> ${v}`).join("\n") || "Nothing yet",
+                    "Reaction to Drop": S.react,
+                    "Shariah Compliant": S.sh,
+                    "Tax Filer": S.fl,
+                    "Experience": EXP_LEVELS[S.exp],
+                    "Session Wish": (S.wish || "").trim() || "None"
+                };
+
+                const res = await fetch(`https://formsubmit.co/ajax/${RECEIVER_EMAIL}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (res.ok) {
+                    if (statusBox) {
+                        statusBox.className = "submission-status success";
+                        statusBox.innerHTML = "✅ Your Money Snapshot has been successfully submitted! We will reach out on WhatsApp shortly.";
+                    }
+                    if (btn) btn.innerHTML = "✓ Submitted Successfully";
+                } else {
+                    throw new Error("Submission request failed");
+                }
+            } catch (err) {
+                if (statusBox) {
+                    statusBox.className = "submission-status error";
+                    statusBox.innerHTML = "⚠️ We could not send the email automatically. Please click 'Send on WhatsApp' below to send your snapshot directly!";
+                }
+                if (btn) btn.innerHTML = "Retry Submission";
+            } finally {
+                isSubmitting = false;
+            }
+        }
+
+        // WhatsApp message generator
+        function openWhatsApp() {
+            const snapshotRows = snap();
+            const text = "Salam Hassaan! Here is my Money Snapshot for our 1-1 session:\n\n" +
+                snapshotRows.map(([k, v]) => `• *${k}*: ${v}`).join("\n");
+            
+            const targetWa = (/\d{10,}/.test(WA_NUMBER) ? WA_NUMBER : "");
+            const waUrl = "https://wa.me/" + targetWa + "?text=" + encodeURIComponent(text);
+            window.open(waUrl, "_blank");
+        }
+
+        // CSV Downloader
+        function downloadCsvFile() {
+            const P = snap();
+            const q = v => '"' + String(v).replace(/"/g, '""') + '"';
+            const csvContent = "\ufeff" + P.map(p => q(p[0])).join(",") + "\n" + P.map(p => q(p[1])).join(",");
+            const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            const safeName = S.name.trim().toLowerCase().replace(/\W+/g, "-") || "snapshot";
+            a.download = `money-snapshot-${safeName}.csv`;
+            a.click();
+        }
+
+        // Initial render
+        render();
+    })();
+    </script>
+
+    <!-- Swup & AOS Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/swup@4"></script>
+    <script src="https://unpkg.com/@swup/scripts-plugin@3"></script>
+</body>
+</html>
