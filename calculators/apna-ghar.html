@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PM Apna Ghar Loan Calculator | Financogram</title>
+    <link rel="icon" type="image/png" href="../assets/logo-transparent.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Financogram Global Styles -->
+    <link rel="stylesheet" href="../css/style.css">
+
+    <meta name="description" content="Calculate your real monthly installments for the PM Apna Ghar 5% subsidized housing finance scheme in Pakistan.">
+    <meta name="keywords" content="Apna Ghar calculator, PM housing scheme, mortgage Pakistan, 5% markup, KIBOR, home financing">
+
+    <!-- AOS & Alpine.js -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <style>
+        .calc-container {
+            margin: 0 auto;
+            max-width: 580px;
+        }
+
+        .calc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .kicker {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 0 0 6px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .calc-header h1 {
+            font-size: 30px;
+            font-weight: 700;
+            line-height: 1.15;
+            margin: 0 0 8px;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+        }
+
+        .sub {
+            font-size: 14.5px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .scheme-badge {
+            width: 56px;
+            height: 56px;
+            flex-shrink: 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .scheme-badge img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        /* Card blocks */
+        .calc-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.3rem 1.3rem 1.4rem;
+            margin-bottom: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .card-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+            margin-bottom: 0.35rem;
+        }
+
+        .readout {
+            font-family: 'Space Grotesk', 'Inter', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary-color);
+            font-variant-numeric: tabular-nums;
+            margin-bottom: 0.8rem;
+            line-height: 1.1;
+        }
+
+        [data-theme="dark"] .readout {
+            color: #8c90ff;
+        }
+
+        .readout.small {
+            font-size: 20px;
+            color: var(--text-main);
+            margin-bottom: 0.6rem;
+        }
+
+        /* Quick chips */
+        .chips {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 1.1rem;
+            flex-wrap: wrap;
+        }
+
+        .chip {
+            flex: 1;
+            min-width: 65px;
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 8px 0;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.15s ease;
+            user-select: none;
+        }
+
+        .chip:hover {
+            border-color: var(--primary-color);
+            color: var(--text-main);
+        }
+
+        .chip.active {
+            background: rgba(73, 79, 223, 0.12);
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        [data-theme="dark"] .chip.active {
+            background: rgba(73, 79, 223, 0.28);
+            color: #a4a7ff;
+            border-color: #8c90ff;
+        }
+
+        /* Sliders */
+        .calc-range {
+            width: 100%;
+            height: 6px;
+            border-radius: 6px;
+            background: var(--border-color);
+            -webkit-appearance: none;
+            appearance: none;
+            outline: none;
+            margin: 10px 0 6px 0;
+        }
+
+        .calc-range::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            border: 3px solid var(--bg-card);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+            cursor: pointer;
+            transition: transform 0.1s ease;
+        }
+
+        .calc-range::-webkit-slider-thumb:hover,
+        .calc-range::-webkit-slider-thumb:active {
+            transform: scale(1.15);
+        }
+
+        .calc-range::-moz-range-thumb {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            border: 3px solid var(--bg-card);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+            cursor: pointer;
+        }
+
+        .range-caption {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11.5px;
+            color: var(--text-muted);
+            margin-top: 6px;
+        }
+
+        .kibor-note {
+            font-size: 12.5px;
+            color: var(--text-muted);
+            margin-top: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .kibor-note b {
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .calc-card.compact {
+            padding: 1rem 1.3rem 1.1rem;
+        }
+
+        .calc-card.compact .card-label {
+            margin-bottom: 0.5rem;
+        }
+
+        .calc-card.compact .readout.small {
+            font-size: 17px;
+            margin-bottom: 0.6rem;
+        }
+
+        .calc-card.compact .kibor-note {
+            font-size: 12px;
+            margin-top: 0.6rem;
+        }
+
+        .calc-card.disabled {
+            opacity: 0.42;
+            pointer-events: none;
+            filter: grayscale(0.4);
+        }
+
+        /* Section Titles */
+        .calc-section-title {
+            font-size: 12.5px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin: 1.6rem 0 0.7rem;
+        }
+
+        /* Breakdown Rows */
+        .breakdown-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 11px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .breakdown-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .breakdown-row:first-child {
+            padding-top: 0;
+        }
+
+        .breakdown-row .label {
+            font-size: 13.5px;
+            color: var(--text-muted);
+        }
+
+        .breakdown-row .value {
+            font-family: 'Space Grotesk', 'Inter', sans-serif;
+            font-size: 15.5px;
+            font-weight: 600;
+            color: var(--text-main);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .breakdown-row .value.gold {
+            color: #d9ae3e;
+            font-weight: 700;
+        }
+
+        [data-theme="dark"] .breakdown-row .value.gold {
+            color: #e5bf58;
+        }
+
+        /* Phase Split Cards */
+        .phase-card {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 1rem;
+        }
+
+        .phase {
+            flex: 1;
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 1.1rem;
+        }
+
+        .phase-tag {
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .phase-rate {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-top: 2px;
+            margin-bottom: 10px;
+        }
+
+        [data-theme="dark"] .phase-rate {
+            color: #8c90ff;
+        }
+
+        .phase-num {
+            font-family: 'Space Grotesk', 'Inter', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-main);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .phase-num span {
+            display: block;
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 400;
+            color: var(--text-muted);
+            margin-top: 3px;
+        }
+
+        .phase.second .phase-rate {
+            color: #e8654f;
+        }
+
+        .phase.second .phase-num {
+            color: #e8654f;
+        }
+
+        .phase-single {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .phase-single .phase-num {
+            font-size: 28px;
+            color: var(--primary-color);
+        }
+
+        [data-theme="dark"] .phase-single .phase-num {
+            color: #8c90ff;
+        }
+
+        /* Total cost hero */
+        .total-hero {
+            font-family: 'Space Grotesk', 'Inter', sans-serif;
+            font-size: 34px;
+            font-weight: 700;
+            color: var(--primary-color);
+            line-height: 1.05;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: -0.5px;
+        }
+
+        [data-theme="dark"] .total-hero {
+            color: #8c90ff;
+        }
+
+        .total-hero span {
+            display: block;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--text-muted);
+            margin-top: 6px;
+            letter-spacing: normal;
+        }
+
+        /* Disclaimer footer note */
+        .calc-disclaimer {
+            margin-top: 1.6rem;
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            padding: 1.1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+        }
+
+        .calc-disclaimer b {
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        @media (max-width: 480px) {
+            .calc-header h1 { font-size: 24px; }
+            .readout { font-size: 28px; }
+            .phase-num { font-size: 18px; }
+            .total-hero { font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo"><img src="../assets/logo-transparent.png" alt="Financogram Logo" style="height: 40px; width: auto; display: inline-block; vertical-align: middle; margin-right: 8px;">Financogram</a>
+            
+            <button class="menu-toggle" id="mobile-menu" aria-label="Toggle Navigation">
+                ☰
+            </button>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="index.html">Calculators</a></li>
+                <li><a href="../learn/index.html">Learn</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li>
+                    <button id="theme-toggle" aria-label="Toggle Dark Mode" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 6px; display: flex; align-items: center; justify-content: center; height: 36px; width: 36px;">
+                        <span id="theme-icon">🌙</span>
+                    </button>
+                </li>
+                <li>
+                    <a href="https://www.instagram.com/financo.gram/" target="_blank" aria-label="Instagram" style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 8px; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; text-decoration: none; transition: transform 0.2s;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main id="swup" class="container transition-fade" style="margin-top: 40px; margin-bottom: 60px;">
+        <div class="calc-container">
+            <a href="index.html" style="display: inline-block; margin-bottom: 20px; font-weight: 500;">&larr; Back to all calculators</a>
+
+            <!-- Header -->
+            <header class="calc-header">
+                <div>
+                    <p class="kicker">Financogram &middot; Real Estate</p>
+                    <h1>Apna Ghar Loan Calculator</h1>
+                    <p class="sub">Adjust your loan amount and see your real monthly installment for both phases of the PM Apna Ghar scheme.</p>
+                </div>
+                <div class="scheme-badge" title="PM Apna Ghar Programme">
+                    <img src="../assets/apna-ghar.png" alt="Apna Ghar Programme">
+                </div>
+            </header>
+
+            <!-- Loan Amount Card -->
+            <div class="calc-card" data-aos="fade-up" data-aos-duration="600">
+                <div class="card-label">Loan amount you want to avail</div>
+                <div class="readout" id="loanReadout">Rs 1,00,00,000</div>
+                <div class="chips">
+                    <div class="chip" data-value="2500000">25L</div>
+                    <div class="chip" data-value="5000000">50L</div>
+                    <div class="chip" data-value="7500000">75L</div>
+                    <div class="chip active" data-value="10000000">1Cr</div>
+                </div>
+                <input type="range" class="calc-range" id="loanSlider" min="1000000" max="10000000" step="50000" value="10000000">
+                <div class="range-caption"><span>Rs 10L</span><span>Rs 1Cr (scheme max)</span></div>
+            </div>
+
+            <!-- Tenure Card -->
+            <div class="calc-card" data-aos="fade-up" data-aos-duration="600">
+                <div class="card-label">Years to repay</div>
+                <div class="readout small" id="tenureReadout">20 years</div>
+                <div class="chips" id="tenureChips">
+                    <div class="chip" data-tenure="5">5 yrs</div>
+                    <div class="chip" data-tenure="10">10 yrs</div>
+                    <div class="chip" data-tenure="15">15 yrs</div>
+                    <div class="chip active" data-tenure="20">20 yrs</div>
+                </div>
+                <input type="range" class="calc-range" id="tenureSlider" min="1" max="20" step="1" value="20">
+                <div class="range-caption"><span>1 yr</span><span>20 yrs (scheme max)</span></div>
+                <p class="kibor-note" id="tenureNote">Years 1–10 fixed at 5%. Years 11–20 float with KIBOR.</p>
+            </div>
+
+            <!-- KIBOR Card -->
+            <div class="calc-card compact" id="kiborCard" data-aos="fade-up" data-aos-duration="600">
+                <div class="card-label">Years 11–20 rate assumption (optional)</div>
+                <div class="readout small" id="kiborReadout">10.0% KIBOR</div>
+                <input type="range" class="calc-range" id="kiborSlider" min="5" max="20" step="0.5" value="10">
+                <div class="range-caption"><span>5%</span><span>20%</span></div>
+                <p class="kibor-note">Rate resets to <b>1-yr KIBOR + 3%</b> after year 10. Combined: <b id="combinedRate">13.0%</b></p>
+            </div>
+
+            <!-- What You Need Upfront -->
+            <div class="calc-section-title">What you need upfront</div>
+            <div class="calc-card" data-aos="fade-up" data-aos-duration="600">
+                <div class="breakdown-row">
+                    <div class="label">Loan amount</div>
+                    <div class="value" id="outLoan">Rs 1,00,00,000</div>
+                </div>
+                <div class="breakdown-row">
+                    <div class="label">Down payment (10%, mandatory)</div>
+                    <div class="value gold" id="outDown">Rs 10,00,000</div>
+                </div>
+                <div class="breakdown-row">
+                    <div class="label">Total home budget</div>
+                    <div class="value" id="outTotal">Rs 1,10,00,000</div>
+                </div>
+            </div>
+
+            <!-- Monthly Installment -->
+            <div class="calc-section-title" id="installmentTitle">Your monthly installment</div>
+            <div class="phase-card" id="twoPhaseCard" data-aos="fade-up" data-aos-duration="600">
+                <div class="phase">
+                    <div class="phase-tag" id="phase1Tag">Years 1–10</div>
+                    <div class="phase-rate">Fixed at 5%</div>
+                    <div class="phase-num" id="outEmi1">Rs 65,996<span>per month</span></div>
+                </div>
+                <div class="phase second">
+                    <div class="phase-tag" id="phase2Tag">Years 11–20</div>
+                    <div class="phase-rate" id="phase2RateLabel">At 13.0%</div>
+                    <div class="phase-num" id="outEmi2">Rs 92,919<span>per month</span></div>
+                </div>
+            </div>
+            <div class="phase-single" id="singlePhaseCard" style="display:none;" data-aos="fade-up" data-aos-duration="600">
+                <div class="phase-tag" id="singlePhaseTag">Years 1–10</div>
+                <div class="phase-rate">Fixed at 5% the whole way — no KIBOR risk</div>
+                <div class="phase-num" id="outEmiSingle">Rs 1,06,066<span>per month</span></div>
+            </div>
+
+            <!-- Total Cost Hero -->
+            <div class="calc-section-title">Total actual cost, <span id="totalYearsLabel">20</span> years</div>
+            <div class="calc-card" data-aos="fade-up" data-aos-duration="600">
+                <div class="total-hero" id="outTotalPaid">Rs 1.91 Cr<span>total repaid on your loan</span></div>
+            </div>
+
+            <!-- Footnote / Disclaimer -->
+            <div class="calc-disclaimer" data-aos="fade-up" data-aos-duration="600">
+                Based on the federal PM Apna Ghar Programme structure: 5% fixed markup for the first 10 years of the loan, then 1-yr KIBOR + 3% for any years beyond that, up to a 20-year term. Down payment reflects the scheme's 10% mandatory equity requirement. <b>Figures for years beyond 10 are estimates</b> — actual KIBOR will vary and your real installment will be revised by your bank at that time. Not a bank quotation.
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>"Financo provides educational information and calculators for informational purposes only. This content is not personalized financial, investment, tax, or legal advice."</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/main.js"></script>
+
+    <script data-swup-reload-script>
+    (function initApnaGharCalc() {
+        function emi(principal, annualRatePct, months){
+            const r = annualRatePct / 100 / 12;
+            if(r === 0) return principal / months;
+            const f = Math.pow(1 + r, months);
+            return principal * r * f / (f - 1);
+        }
+
+        function remainingBalance(principal, annualRatePct, totalMonths, elapsedMonths){
+            const r = annualRatePct / 100 / 12;
+            const fN = Math.pow(1 + r, totalMonths);
+            const fn = Math.pow(1 + r, elapsedMonths);
+            return principal * (fN - fn) / (fN - 1);
+        }
+
+        function fmtIndian(num){
+            num = Math.round(num);
+            const neg = num < 0; 
+            num = Math.abs(num);
+            let str = num.toString();
+            let last3 = str.slice(-3);
+            let rest = str.slice(0, -3);
+            if(rest !== '') last3 = ',' + last3;
+            let formattedRest = rest.replace(/\B(?=(\d{2})+(?!\d))/g, ',');
+            return (neg ? '-' : '') + 'Rs ' + formattedRest + last3;
+        }
+
+        function fmtCompact(num){
+            if(num >= 10000000) return (num / 10000000).toFixed(2) + ' Cr';
+            if(num >= 100000) return (num / 100000).toFixed(2) + ' L';
+            return num.toLocaleString();
+        }
+
+        const loanSlider = document.getElementById('loanSlider');
+        const kiborSlider = document.getElementById('kiborSlider');
+        const tenureSlider = document.getElementById('tenureSlider');
+        const loanChips = document.querySelectorAll('.chip[data-value]');
+        const tenureChips = document.querySelectorAll('.chip[data-tenure]');
+
+        if(!loanSlider || !kiborSlider || !tenureSlider) return;
+
+        function syncChips(val){
+            loanChips.forEach(c => c.classList.toggle('active', Number(c.dataset.value) === val));
+        }
+
+        function syncTenureChips(val){
+            tenureChips.forEach(c => c.classList.toggle('active', Number(c.dataset.tenure) === val));
+        }
+
+        function recalc(){
+            const loan = Number(loanSlider.value);
+            const kibor = Number(kiborSlider.value);
+            const tenure = Number(tenureSlider.value);
+            const phase2Rate = kibor + 3;
+            const totalMonths = tenure * 12;
+
+            const downPayment = loan * 0.10;
+            const totalBudget = loan + downPayment;
+
+            const kiborCard = document.getElementById('kiborCard');
+            const twoPhaseCard = document.getElementById('twoPhaseCard');
+            const singlePhaseCard = document.getElementById('singlePhaseCard');
+
+            let totalPaid;
+
+            if(tenure <= 10){
+                // Entire loan sits inside the fixed 5% window — no KIBOR phase at all
+                const emiSingle = emi(loan, 5, totalMonths);
+                totalPaid = emiSingle * totalMonths;
+
+                if(kiborCard) kiborCard.classList.add('disabled');
+                if(twoPhaseCard) twoPhaseCard.style.display = 'none';
+                if(singlePhaseCard) singlePhaseCard.style.display = 'block';
+
+                const sTag = document.getElementById('singlePhaseTag');
+                if(sTag) sTag.textContent = tenure === 1 ? 'Year 1' : `Years 1–${tenure}`;
+                const sOut = document.getElementById('outEmiSingle');
+                if(sOut) sOut.innerHTML = fmtIndian(emiSingle) + '<span>per month</span>';
+            } else {
+                // First 10 years fixed at 5%, remaining years float at KIBOR+3%
+                const emi1 = emi(loan, 5, totalMonths);
+                const balanceAfter10 = remainingBalance(loan, 5, totalMonths, 120);
+                const phase2Months = totalMonths - 120;
+                const emi2 = emi(balanceAfter10, phase2Rate, phase2Months);
+                totalPaid = emi1 * 120 + emi2 * phase2Months;
+
+                if(kiborCard) kiborCard.classList.remove('disabled');
+                if(twoPhaseCard) twoPhaseCard.style.display = 'flex';
+                if(singlePhaseCard) singlePhaseCard.style.display = 'none';
+
+                const p1Tag = document.getElementById('phase1Tag');
+                if(p1Tag) p1Tag.textContent = 'Years 1–10';
+                const p2Tag = document.getElementById('phase2Tag');
+                if(p2Tag) p2Tag.textContent = `Years 11–${tenure}`;
+                const p2Rate = document.getElementById('phase2RateLabel');
+                if(p2Rate) p2Rate.textContent = 'At ' + phase2Rate.toFixed(1) + '%';
+                const out1 = document.getElementById('outEmi1');
+                if(out1) out1.innerHTML = fmtIndian(emi1) + '<span>per month</span>';
+                const out2 = document.getElementById('outEmi2');
+                if(out2) out2.innerHTML = fmtIndian(emi2) + '<span>per month</span>';
+            }
+
+            const tReadout = document.getElementById('tenureReadout');
+            if(tReadout) tReadout.textContent = tenure === 1 ? '1 year' : tenure + ' years';
+
+            const tNote = document.getElementById('tenureNote');
+            if(tNote) {
+                tNote.textContent = tenure <= 10
+                    ? 'Your entire loan is repaid within the fixed 5% window — no KIBOR risk at all.'
+                    : `Years 1–10 fixed at 5%. Years 11–${tenure} float with KIBOR.`;
+            }
+
+            const tYears = document.getElementById('totalYearsLabel');
+            if(tYears) tYears.textContent = tenure;
+
+            const instTitle = document.getElementById('installmentTitle');
+            if(instTitle) instTitle.textContent = 'Your monthly installment';
+
+            const lReadout = document.getElementById('loanReadout');
+            if(lReadout) lReadout.textContent = fmtIndian(loan);
+
+            const kReadout = document.getElementById('kiborReadout');
+            if(kReadout) kReadout.textContent = kibor.toFixed(1) + '% KIBOR';
+
+            const cRate = document.getElementById('combinedRate');
+            if(cRate) cRate.textContent = phase2Rate.toFixed(1) + '%';
+
+            const outLoan = document.getElementById('outLoan');
+            if(outLoan) outLoan.textContent = fmtIndian(loan);
+
+            const outDown = document.getElementById('outDown');
+            if(outDown) outDown.textContent = fmtIndian(downPayment);
+
+            const outTotal = document.getElementById('outTotal');
+            if(outTotal) outTotal.textContent = fmtIndian(totalBudget);
+
+            const outTotalPaid = document.getElementById('outTotalPaid');
+            if(outTotalPaid) outTotalPaid.innerHTML = 'Rs ' + fmtCompact(totalPaid) + '<span>total repaid on your loan</span>';
+
+            syncChips(loan);
+            syncTenureChips(tenure);
+        }
+
+        loanSlider.addEventListener('input', recalc);
+        kiborSlider.addEventListener('input', recalc);
+        tenureSlider.addEventListener('input', recalc);
+
+        loanChips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                loanSlider.value = chip.dataset.value;
+                recalc();
+            });
+        });
+
+        tenureChips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                tenureSlider.value = chip.dataset.tenure;
+                recalc();
+            });
+        });
+
+        recalc();
+    })();
+    </script>
+
+    <!-- Swup & AOS Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/swup@4"></script>
+    <script src="https://unpkg.com/@swup/scripts-plugin@3"></script>
+</body>
+</html>
