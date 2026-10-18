@@ -593,6 +593,19 @@
             border: 1px solid #e63946;
         }
 
+        .success-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: rgba(42, 157, 143, 0.15);
+            color: #2a9d8f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            margin: 0 auto 20px;
+        }
+
         .page-footer-note {
             font-size: 12.5px;
             color: var(--text-muted);
@@ -726,6 +739,7 @@
 
         let currentStep = 0;
         let isSubmitting = false;
+        let isSubmitted = false;
 
         const esc = s => String(s).replace(/[&<>"']/g, c => ({
             "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
@@ -979,7 +993,34 @@
 
             let cardHtml = "";
 
-            if (!isFinished) {
+            if (isSubmitted) {
+                // Post-Submission Success Screen
+                if (pBar) pBar.style.width = "100%";
+                if (pStep) pStep.textContent = "Completed";
+                if (pPct) pPct.textContent = "100% complete";
+
+                cardHtml = `
+                    <div class="step-card" style="text-align: center; padding: 44px 24px;">
+                        <div class="success-icon">✓</div>
+                        <h1 style="margin-bottom: 10px;">Snapshot Submitted!</h1>
+                        <p class="step-hint" style="max-width: 480px; margin: 0 auto 28px; font-size: 15px; line-height: 1.6;">
+                            Thank you, <strong>${esc(S.name.trim())}</strong>! Your Money Snapshot has been securely received. We will review your answers and contact you on WhatsApp at <strong>${esc(S.phone.trim())}</strong> to schedule our 1-1 session.
+                        </p>
+
+                        <div class="snapshot-actions" style="max-width: 380px; margin: 0 auto;">
+                            <button type="button" class="btn-action-wa" id="btnSubmitWa">
+                                💬 Message Hassaan on WhatsApp
+                            </button>
+                            <button type="button" class="btn-action-csv" id="btnDownloadCsv">
+                                📥 Download a Copy (CSV)
+                            </button>
+                            <a href="index.html" class="btn-action-edit" style="text-decoration: none; border-style: solid; margin-top: 4px;">
+                                &larr; Return to Homepage
+                            </a>
+                        </div>
+                    </div>
+                `;
+            } else if (!isFinished) {
                 const s = STEPS[currentStep];
                 cardHtml = `
                     <div class="step-card">
@@ -1001,7 +1042,7 @@
                 cardHtml = `
                     <div class="step-card">
                         <h1>Your Money Snapshot</h1>
-                        <p class="step-hint">Review your responses below. When you click Submit, your details will be sent directly to our team via Email and WhatsApp.</p>
+                        <p class="step-hint">Review your responses below before submitting. We'll use these details to prepare your personalized 1-1 session.</p>
                         
                         <div id="submitStatus" class="submission-status"></div>
 
@@ -1020,20 +1061,12 @@
                         </label>
 
                         <div class="snapshot-actions">
-                            <button type="button" class="btn-action-primary" id="btnSubmitEmail" ${S.ok ? "" : "disabled"} style="${S.ok ? "" : "opacity:0.5; cursor:not-allowed;"}">
-                                ✉️ Submit Snapshot via Email
+                            <button type="button" class="btn-action-primary" id="btnSubmitSnapshot" ${S.ok ? "" : "disabled"} style="${S.ok ? "" : "opacity:0.5; cursor:not-allowed;"}">
+                                Submit Snapshot &rarr;
                             </button>
-                            <button type="button" class="btn-action-wa" id="btnSubmitWa" ${S.ok ? "" : "disabled"} style="${S.ok ? "" : "opacity:0.5; cursor:not-allowed;"}">
-                                💬 Send on WhatsApp
+                            <button type="button" class="btn-action-edit" data-nav="edit">
+                                ✏️ Edit Answers
                             </button>
-                            <div class="snapshot-secondary-actions">
-                                <button type="button" class="btn-action-csv" id="btnDownloadCsv" ${S.ok ? "" : "disabled"} style="${S.ok ? "" : "opacity:0.5; cursor:not-allowed;"}">
-                                    📥 Download CSV
-                                </button>
-                                <button type="button" class="btn-action-edit" data-nav="edit">
-                                    ✏️ Edit Answers
-                                </button>
-                            </div>
                         </div>
                     </div>
                 `;
@@ -1113,16 +1146,12 @@
 
                 if (t.id === "consentCheck") {
                     S.ok = t.checked;
-                    const bEmail = document.getElementById("btnSubmitEmail");
-                    const bWa = document.getElementById("btnSubmitWa");
-                    const bCsv = document.getElementById("btnDownloadCsv");
-                    [bEmail, bWa, bCsv].forEach(b => {
-                        if (b) {
-                            b.disabled = !t.checked;
-                            b.style.opacity = t.checked ? "1" : "0.5";
-                            b.style.cursor = t.checked ? "pointer" : "not-allowed";
-                        }
-                    });
+                    const bSubmit = document.getElementById("btnSubmitSnapshot");
+                    if (bSubmit) {
+                        bSubmit.disabled = !t.checked;
+                        bSubmit.style.opacity = t.checked ? "1" : "0.5";
+                        bSubmit.style.cursor = t.checked ? "pointer" : "not-allowed";
+                    }
                     return;
                 }
 
@@ -1191,9 +1220,9 @@
                     return;
                 }
 
-                // Action: Submit via Email
-                if (b.id === "btnSubmitEmail") {
-                    sendEmailSubmission();
+                // Action: Submit Snapshot (Automatically sends email)
+                if (b.id === "btnSubmitSnapshot") {
+                    submitSnapshot();
                     return;
                 }
 
@@ -1211,14 +1240,17 @@
             });
         }
 
-        // Email Submission via FormSubmit.co
-        async function sendEmailSubmission() {
+        // Automatic Submission via FormSubmit.co
+        async function submitSnapshot() {
             if (isSubmitting) return;
-            const btn = document.getElementById("btnSubmitEmail");
+            const btn = document.getElementById("btnSubmitSnapshot");
             const statusBox = document.getElementById("submitStatus");
 
             isSubmitting = true;
-            if (btn) btn.innerHTML = "⏳ Sending details...";
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = "⏳ Submitting Snapshot...";
+            }
             if (statusBox) {
                 statusBox.className = "submission-status";
                 statusBox.style.display = "none";
@@ -1259,20 +1291,23 @@
                 });
 
                 if (res.ok) {
-                    if (statusBox) {
-                        statusBox.className = "submission-status success";
-                        statusBox.innerHTML = "✅ Your Money Snapshot has been successfully submitted! We will reach out on WhatsApp shortly.";
-                    }
-                    if (btn) btn.innerHTML = "✓ Submitted Successfully";
+                    isSubmitted = true;
+                    render();
+                    window.scrollTo({ top: 80, behavior: "smooth" });
                 } else {
                     throw new Error("Submission request failed");
                 }
             } catch (err) {
                 if (statusBox) {
                     statusBox.className = "submission-status error";
-                    statusBox.innerHTML = "⚠️ We could not send the email automatically. Please click 'Send on WhatsApp' below to send your snapshot directly!";
+                    statusBox.style.display = "block";
+                    statusBox.innerHTML = `⚠️ Could not submit automatically. Please retry or message directly on WhatsApp:<br><br>
+                        <button type="button" class="btn-action-wa" id="btnSubmitWa">💬 Message on WhatsApp</button>`;
                 }
-                if (btn) btn.innerHTML = "Retry Submission";
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = "Retry Submission &rarr;";
+                }
             } finally {
                 isSubmitting = false;
             }
