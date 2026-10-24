@@ -8,9 +8,10 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/wordmark-hero.css">
     <meta name="description" content="Financogram provides simple money lessons, financial calculators, and investment guides for the youth of Pakistan.">
     <meta name="keywords" content="personal finance, investing, calculators, Pakistan, SIP, real estate, retirement">
     <meta property="og:title" content="Financogram - Personal Finance Simplified">
@@ -24,76 +25,178 @@
 </head>
 <body>
 
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo"><img src="assets/logo-transparent.png" alt="Financogram Logo" style="height: 36px; width: auto;">Financogram</a>
-            
-            <button class="menu-toggle" id="mobile-menu" aria-label="Toggle Navigation">☰</button>
+    <!-- ==========================================================================
+         Wordmark Hero Section: Hassaan bin Jalil
+         Layout: Desktop 1440px target, full viewport height (100vh), solid Green (#093829).
+         Two colors only (Green + White) plus product visual. No gradients, no glows.
+         ========================================================================== -->
+    <section class="hero-wordmark-section" id="hero">
+        
+        <!-- Thin Top Navigation -->
+        <nav class="hero-thin-nav" aria-label="Main Navigation">
+            <a href="index.html" class="hero-nav-brand">
+                <span class="hero-nav-name">Hassaan bin Jalil</span>
+                <span class="hero-nav-tagline">Financial Education for Pakistanis</span>
+            </a>
 
-            <ul class="nav-links" id="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="calculators/index.html">Calculators</a></li>
-                <li><a href="learn/index.html">Learn</a></li>
-                <li><a href="consultancy.html">Consultancy</a></li>
-                <li><a href="about.html">About</a></li>
-                <li>
-                    <button id="theme-toggle" aria-label="Toggle Dark Mode" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 6px; display: flex; align-items: center; justify-content: center; height: 36px; width: 36px;">
-                        <span id="theme-icon">🌙</span>
-                    </button>
-                </li>
-                <li>
-                    <a href="https://www.instagram.com/financo.gram/" target="_blank" aria-label="Instagram" style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 8px; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; text-decoration: none; transition: transform 0.2s;">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                        </svg>
-                    </a>
-                </li>
-            </ul>
+            <div class="hero-nav-links">
+                <a href="calculators/index.html">Calculators</a>
+                <a href="learn/index.html">Articles</a>
+                <a href="about.html">About Me</a>
+            </div>
+
+            <div class="hero-nav-right">
+                <a href="consultancy.html" class="hero-nav-session-btn">1-1 Session</a>
+            </div>
+        </nav>
+
+        <!-- Edge-to-Edge Heavy Condensed Sans-Serif Wordmark -->
+        <div class="hero-wordmark-container" aria-label="HASSAAN BIN JALIL">
+            <div class="hero-wordmark-wrap">
+                <!-- Word 1: HASSAAN -->
+                <div class="wordmark-line wordmark-line-1">
+                    <span class="char-mask"><span class="char" style="--char-i: 0;">H</span></span>
+                    <span class="char-mask"><span class="char" style="--char-i: 1;">A</span></span>
+                    <span class="char-mask"><span class="char" style="--char-i: 2;">S</span></span>
+                    <span class="char-mask"><span class="char" style="--char-i: 3;">S</span></span>
+                    <span class="char-mask"><span class="char" style="--char-i: 4;">A</span></span>
+                    <span class="char-mask"><span class="char" style="--char-i: 5;">A</span></span>
+                    <span class="char-mask"><span class="char" style="--char-i: 6;">N</span></span>
+                </div>
+
+                <!-- Horizontal Gap on Desktop, Stacked Line on Mobile -->
+                <span class="char-space">&nbsp;</span>
+
+                <!-- Words 2 & 3: BIN JALIL -->
+                <div class="wordmark-line wordmark-line-2">
+                    <span class="char-mask"><span class="char" style="--char-i: 7;">B</span></span>
+                    <span class="char-mask"><span class="char" style="--char-i: 8;">I</span></span>
+                    <span class="char-mask"><span class="char" style="--char-i: 9;">N</span></span>
+                    <span class="char-mask" style="width: 1.6vw;">&nbsp;</span>
+                    <span class="char-mask"><span class="char" style="--char-i: 10;">J</span></span>
+                    <span class="char-mask"><span class="char" style="--char-i: 11;">A</span></span>
+                    <span class="char-mask"><span class="char" style="--char-i: 12;">L</span></span>
+                    <span class="char-mask"><span class="char" style="--char-i: 13;">I</span></span>
+                    <span class="char-mask"><span class="char" style="--char-i: 14;">L</span></span>
+                </div>
+            </div>
         </div>
-    </nav>
+
+        <!-- Layered Center Product Visual: 3 Tilted Profile / Financial Cards -->
+        <div class="hero-product-layer" aria-label="Featured Profile and Calculator Cards">
+            <div class="cards-container">
+                
+                <!-- Left Card: Hassaan bin Jalil Profile (Tilted -10deg) -->
+                <div class="tilted-card card-left">
+                    <div class="profile-avatar-wrap" style="width: 58px; height: 58px; margin: 0 auto 8px;">
+                        <img src="assets/founder.jpg" alt="Hassaan bin Jalil" class="profile-avatar">
+                        <span class="profile-badge-check" title="Verified Finance Educator">✓</span>
+                    </div>
+                    <div class="profile-name" style="font-size: 15px; margin-bottom: 2px;">Hassaan bin Jalil</div>
+                    <div class="profile-title" style="font-size: 11px; margin-bottom: 8px;">Finance Educator</div>
+                    <div class="profile-tags" style="margin-bottom: 10px; gap: 4px;">
+                        <span class="profile-tag" style="font-size: 9px; padding: 2px 5px;">Aerospace Eng.</span>
+                        <span class="profile-tag" style="font-size: 9px; padding: 2px 5px;">MBA</span>
+                    </div>
+                    <a href="consultancy.html" class="profile-cta-btn" style="padding: 7px; font-size: 11px;">
+                        1-1 Session &rarr;
+                    </a>
+                </div>
+
+                <!-- Center Card: Early SIP Calculator (Top / Foreground Hero Card) -->
+                <div class="tilted-card card-center">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <div class="card-badge" style="margin-bottom: 0;">
+                            <span>📈</span> Financo SIP
+                        </div>
+                        <span style="font-size: 10px; font-weight: 600; color: #48bb78; letter-spacing: 0.04em;">● 14.2% CAGR</span>
+                    </div>
+                    <div class="card-label">Estimated Corpus (15 Yrs)</div>
+                    <div class="card-number" style="font-size: 32px; font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.02em; margin-bottom: 4px;">PKR 18.5M</div>
+                    <div class="card-subtext" style="font-size: 11.5px; margin-bottom: 12px;">Monthly SIP: <b>PKR 35,000</b> invested consistently</div>
+                    
+                    <div style="background: rgba(255,255,255,0.06); border-radius: 10px; padding: 8px 10px; margin-bottom: 12px; display: flex; justify-content: space-between; font-size: 11px;">
+                        <div>
+                            <div style="color: rgba(255,255,255,0.55); font-size: 10px;">Invested</div>
+                            <div style="font-weight: 700; color: #FFFFFF;">PKR 6.3M</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="color: rgba(255,255,255,0.55); font-size: 10px;">Wealth Gained</div>
+                            <div style="font-weight: 700; color: #FFFFFF;">+PKR 12.2M</div>
+                        </div>
+                    </div>
+
+                    <div class="card-graph-bar" style="margin-bottom: 14px;">
+                        <div class="card-graph-fill" style="width: 34%;" title="Invested: 34%"></div>
+                        <div class="card-graph-fill accent" style="width: 66%;" title="Compound Gains: 66%"></div>
+                    </div>
+                    
+                    <a href="calculators/sip.html" class="profile-cta-btn" style="background: var(--hero-white); color: var(--hero-dark-card) !important; font-weight: 800; text-align: center; justify-content: center;">
+                        Run the Numbers &rarr;
+                    </a>
+                </div>
+
+                <!-- Right Card: Buy vs Rent (Tilted +10deg) -->
+                <div class="tilted-card card-right">
+                    <div class="card-badge">
+                        <span>🏠</span> Buy vs Rent
+                    </div>
+                    <div class="card-label">Wealth Difference (20 Yrs)</div>
+                    <div class="card-number" style="font-size: 20px;">+PKR 18.4M</div>
+                    <div class="card-subtext" style="font-size: 10.5px; line-height: 1.4;">Renting + index investing vs locking capital in residential plot</div>
+                    <div class="card-graph-bar">
+                        <div class="card-graph-fill" style="width: 62%;"></div>
+                        <div class="card-graph-fill accent" style="width: 38%;"></div>
+                    </div>
+                    <a href="calculators/buy-vs-rent.html" class="card-footer-link" style="font-size: 11px;">
+                        Compare Housing &rarr;
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Bottom Bar: Two Lines of 20px Text on Left + Dark CTA Box on Right -->
+        <div class="hero-bottom-bar">
+            <div class="hero-corner-left">
+                Finance for<br>Pakistanis
+            </div>
+
+            <a href="#popular-tools" class="hero-cta-box" id="ctaCalculators">
+                <span>See Calculators</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </a>
+        </div>
+
+    </section>
 
     <main id="swup" class="transition-fade">
-        <!-- Fintech Dashboard Hero -->
-        <header class="hero" style="background: linear-gradient(to bottom, rgba(42, 157, 143, 0.1), transparent); padding: 80px 20px 40px; text-align: center; border-radius: 0 0 40px 40px; margin-bottom: 60px; border-bottom: none;">
-            <div class="container" style="position: relative; z-index: 2;">
-                <h1 style="font-size: 4rem;">Master your money.<br><span style="color: var(--primary-color);">Build your future.</span></h1>
-                <p style="margin-bottom: 2.5rem; font-size: 1.25rem; max-width: 650px; margin-left: auto; margin-right: auto;">Simple money lessons and smart calculators to help you make better financial decisions. No jargon, just clarity.</p>
-                
-                <div style="display: flex; gap: 1rem; justify-content: center; margin-bottom: 4rem; flex-wrap: wrap;">
-                    <a href="calculators/index.html" class="btn">Explore Calculators</a>
-                    <a href="consultancy.html" class="btn" style="background: var(--primary-color); color: #fff !important;">1-1 Session</a>
-                    <a href="learn/index.html" class="btn btn-outline">Read Articles</a>
-                </div>
-                
-                <!-- Hero Image with floating effect -->
-            </div>
-        </header>
 
-        <section class="section container">
-            <h2 class="section-title">Popular Tools</h2>
+        <section class="section container" id="popular-tools" style="padding-top: 60px;">
+            <h2 class="section-title" style="font-family: var(--font-display); font-size: clamp(36px, 5vw, 56px); letter-spacing: 0.02em; text-transform: uppercase;">Popular Tools</h2>
             <div class="grid">
-                <div class="card" data-aos="fade-up" data-aos-duration="600" data-aos="fade-up" data-aos-duration="600" style="text-align: center;">
+                <div class="card" data-aos="fade-up" data-aos-duration="600" style="text-align: center;">
                     <div style="font-size: 2.5rem; margin-bottom: 1rem;">📈</div>
-                    <h3>Early SIP Calculator</h3>
+                    <h3 style="font-family: var(--font-display); font-size: 28px; letter-spacing: 0.02em; text-transform: uppercase; margin-bottom: 0.5rem;">Early SIP Calculator</h3>
                     <p>Calculate the future value of your Systematic Investment Plan based on your monthly contributions.</p>
-                    <a href="calculators/sip.html" class="btn" style="width: 100%; margin-top: 1rem;">Run the Numbers</a>
+                    <a href="calculators/sip.html" class="btn" style="width: 100%; margin-top: 1rem;">Run the Numbers &rarr;</a>
                 </div>
                 
-                <div class="card" data-aos="fade-up" data-aos-duration="600" data-aos="fade-up" data-aos-duration="600" style="text-align: center;">
+                <div class="card" data-aos="fade-up" data-aos-duration="600" style="text-align: center;">
                     <div style="font-size: 2.5rem; margin-bottom: 1rem;">🏠</div>
-                    <h3>Buy vs Rent</h3>
+                    <h3 style="font-family: var(--font-display); font-size: 28px; letter-spacing: 0.02em; text-transform: uppercase; margin-bottom: 0.5rem;">Buy vs Rent</h3>
                     <p>Compare the long-term financial impact of buying a house versus renting and investing the difference.</p>
-                    <a href="calculators/buy-vs-rent.html" class="btn" style="width: 100%; margin-top: 1rem;">Run the Numbers</a>
+                    <a href="calculators/buy-vs-rent.html" class="btn" style="width: 100%; margin-top: 1rem;">Run the Numbers &rarr;</a>
                 </div>
                 
-                <div class="card" data-aos="fade-up" data-aos-duration="600" data-aos="fade-up" data-aos-duration="600" style="text-align: center;">
+                <div class="card" data-aos="fade-up" data-aos-duration="600" style="text-align: center;">
                     <div style="font-size: 2.5rem; margin-bottom: 1rem;">🏖️</div>
-                    <h3>Retire Today</h3>
+                    <h3 style="font-family: var(--font-display); font-size: 28px; letter-spacing: 0.02em; text-transform: uppercase; margin-bottom: 0.5rem;">Retire Today</h3>
                     <p>Find out exactly how much you need invested today to quit your job and retire indefinitely.</p>
-                    <a href="calculators/retire-today.html" class="btn" style="width: 100%; margin-top: 1rem;">Run the Numbers</a>
+                    <a href="calculators/retire-today.html" class="btn" style="width: 100%; margin-top: 1rem;">Run the Numbers &rarr;</a>
                 </div>
             </div>
         </section>
@@ -101,24 +204,24 @@
         <section class="section container" style="margin-top: 2rem;">
             <div style="background: var(--bg-card); border-radius: var(--border-radius); padding: 4rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; gap: 4rem; flex-wrap: wrap;">
                 <div style="flex: 1; min-width: 300px;">
-                    <div style="display: inline-block; padding: 6px 12px; background: rgba(244, 162, 97, 0.1); color: var(--brand-orange); border-radius: 100px; font-weight: 600; font-size: 0.85rem; margin-bottom: 1rem;">Financo Learn</div>
-                    <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem;">Financial education that actually makes sense.</h2>
+                    <div class="filter-chip">Financo Learn</div>
+                    <h2 style="font-family: var(--font-display); font-size: clamp(32px, 4vw, 48px); letter-spacing: 0.02em; text-transform: uppercase; margin-bottom: 1.25rem;">Financial Education That Actually Makes Sense</h2>
                     <p style="font-size: 1.1rem; margin-bottom: 2rem;">Stop reading boring banking blogs. We break down complex financial concepts into simple, actionable 3-minute guides designed for young professionals.</p>
-                    <a href="learn/index.html" class="btn">Start Reading</a>
+                    <a href="learn/index.html" class="btn">Start Reading &rarr;</a>
                 </div>
                 <div style="flex: 1; min-width: 300px;">
                     <div style="display: flex; flex-direction: column; gap: 1rem;">
-                        <a href="learn/retirement-planning.html" class="card" data-aos="fade-up" data-aos-duration="600" data-aos="fade-up" data-aos-duration="600" style="padding: 1.5rem; display: flex; align-items: center; gap: 1rem; text-decoration: none;">
-                            <div style="background: var(--bg-main); padding: 1rem; border-radius: 12px; font-size: 1.5rem;">🌱</div>
+                        <a href="learn/retirement-planning.html" class="card" data-aos="fade-up" data-aos-duration="600" style="padding: 1.5rem; display: flex; align-items: center; gap: 1rem; text-decoration: none;">
+                            <div style="background: rgba(255,255,255,0.08); padding: 1rem; border-radius: 12px; font-size: 1.5rem;">🌱</div>
                             <div>
-                                <h4 style="margin: 0; color: var(--text-main);">How to Plan Your Retirement</h4>
+                                <h4 style="margin: 0; color: var(--text-main); font-weight: 700;">How to Plan Your Retirement</h4>
                                 <span style="color: var(--text-muted); font-size: 0.9rem;">4 min read</span>
                             </div>
                         </a>
-                        <a href="learn/before-investing.html" class="card" data-aos="fade-up" data-aos-duration="600" data-aos="fade-up" data-aos-duration="600" style="padding: 1.5rem; display: flex; align-items: center; gap: 1rem; text-decoration: none;">
-                            <div style="background: var(--bg-main); padding: 1rem; border-radius: 12px; font-size: 1.5rem;">🛡️</div>
+                        <a href="learn/before-investing.html" class="card" data-aos="fade-up" data-aos-duration="600" style="padding: 1.5rem; display: flex; align-items: center; gap: 1rem; text-decoration: none;">
+                            <div style="background: rgba(255,255,255,0.08); padding: 1rem; border-radius: 12px; font-size: 1.5rem;">🛡️</div>
                             <div>
-                                <h4 style="margin: 0; color: var(--text-main);">5 Things Before Investing</h4>
+                                <h4 style="margin: 0; color: var(--text-main); font-weight: 700;">5 Things Before Investing</h4>
                                 <span style="color: var(--text-muted); font-size: 0.9rem;">3 min read</span>
                             </div>
                         </a>
@@ -136,6 +239,7 @@
     </footer>
 
     <script src="js/main.js"></script>
+    <script src="js/wordmark-hero.js"></script>
 
     <!-- Swup & AOS Scripts -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>

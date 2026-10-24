@@ -45,16 +45,16 @@
         }
 
         .progress-meta .badge {
-            background: rgba(73, 79, 223, 0.12);
-            color: var(--primary-color);
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
             padding: 4px 10px;
             border-radius: 100px;
             font-size: 12px;
         }
 
         [data-theme="dark"] .progress-meta .badge {
-            background: rgba(73, 79, 223, 0.25);
-            color: #8c90ff;
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
         }
 
         .progress-track {
@@ -68,13 +68,13 @@
         .progress-fill {
             height: 100%;
             width: 0%;
-            background: var(--primary-color);
+            background: #ffffff;
             border-radius: 10px;
             transition: width 0.35s cubic-bezier(0.2, 0, 0, 1);
         }
 
         [data-theme="dark"] .progress-fill {
-            background: #8c90ff;
+            background: #ffffff;
         }
 
         /* Question Card */
@@ -164,26 +164,26 @@
         }
 
         .opt-chip.active {
-            border-color: var(--primary-color);
-            background: rgba(73, 79, 223, 0.08);
-            color: var(--primary-color);
+            border-color: #ffffff;
+            background: #ffffff;
+            color: #093829;
         }
 
         [data-theme="dark"] .opt-chip.active {
-            border-color: #8c90ff;
-            background: rgba(73, 79, 223, 0.22);
-            color: #ffffff;
+            border-color: #ffffff;
+            background: #ffffff;
+            color: #093829;
         }
 
         .opt-chip.active b::after {
             content: "✓";
-            color: var(--primary-color);
+            color: #093829;
             font-size: 14px;
             margin-left: 6px;
         }
 
         [data-theme="dark"] .opt-chip.active b::after {
-            color: #8c90ff;
+            color: #093829;
         }
 
         /* Form Inputs */
@@ -216,8 +216,8 @@
         }
 
         .text-input:focus, .select-input:focus, .textarea-input:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(73, 79, 223, 0.15);
+            border-color: #FFFFFF;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.18);
         }
 
         /* Custom Range Slider */
@@ -226,16 +226,17 @@
         }
 
         .range-readout {
-            font-family: 'Space Grotesk', 'Inter', sans-serif;
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--primary-color);
+            font-family: 'Bebas Neue', 'Inter', sans-serif;
+            font-size: 32px;
+            font-weight: 900;
+            color: #FFFFFF;
             margin-bottom: 8px;
+            letter-spacing: 0.02em;
             font-variant-numeric: tabular-nums;
         }
 
         [data-theme="dark"] .range-readout {
-            color: #8c90ff;
+            color: #FFFFFF;
         }
 
         .range-input {
@@ -479,7 +480,7 @@
             justify-content: center;
             gap: 10px;
             transition: all 0.2s ease;
-            box-shadow: 0 4px 14px rgba(73, 79, 223, 0.2);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
         }
 
         .btn-action-primary:hover:not(:disabled) {
@@ -581,9 +582,9 @@
 
         .submission-status.success {
             display: block;
-            background: rgba(42, 157, 143, 0.15);
-            color: #2a9d8f;
-            border: 1px solid #2a9d8f;
+            background: rgba(74, 222, 128, 0.15);
+            color: #4ade80;
+            border: 1px solid rgba(74, 222, 128, 0.3);
         }
 
         .submission-status.error {
@@ -597,8 +598,8 @@
             width: 72px;
             height: 72px;
             border-radius: 50%;
-            background: rgba(42, 157, 143, 0.15);
-            color: #2a9d8f;
+            background: rgba(74, 222, 128, 0.15);
+            color: #4ade80;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -620,7 +621,10 @@
     <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="index.html" class="logo"><img src="assets/logo-transparent.png" alt="Financogram Logo" style="height: 40px; width: auto; display: inline-block; vertical-align: middle; margin-right: 8px;">Financogram</a>
+            <a href="index.html" class="logo-brand">
+                <span class="brand-name"><img src="assets/logo-transparent.png" alt="Logo" style="height: 32px; width: auto;">Hassaan bin Jalil</span>
+                <span class="brand-tagline">Financial Education for Pakistanis</span>
+            </a>
             
             <button class="menu-toggle" id="mobile-menu" aria-label="Toggle Navigation">
                 ☰
@@ -629,23 +633,9 @@
             <ul class="nav-links" id="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="calculators/index.html">Calculators</a></li>
-                <li><a href="learn/index.html">Learn</a></li>
-                <li><a href="consultancy.html">Consultancy</a></li>
-                <li><a href="about.html">About</a></li>
-                <li>
-                    <button id="theme-toggle" aria-label="Toggle Dark Mode" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 6px; display: flex; align-items: center; justify-content: center; height: 36px; width: 36px;">
-                        <span id="theme-icon">🌙</span>
-                    </button>
-                </li>
-                <li>
-                    <a href="https://www.instagram.com/financo.gram/" target="_blank" aria-label="Instagram" style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 8px; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; text-decoration: none; transition: transform 0.2s;">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                        </svg>
-                    </a>
-                </li>
+                <li><a href="learn/index.html">Articles</a></li>
+                <li><a href="about.html">About Me</a></li>
+                <li><a href="consultancy.html" class="nav-session-pill">1-1 Session</a></li>
             </ul>
         </div>
     </nav>

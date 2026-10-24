@@ -1,0 +1,745 @@
+/* ==========================================================================
+   Hassaan bin Jalil - Wordmark Hero Section Styles
+   Strict 2-color palette: Deep Forest Green (#093829) & Pure White (#FFFFFF)
+   No gradients, no glows.
+   ========================================================================== */
+
+:root {
+    --hero-green: #093829;
+    --hero-white: #FFFFFF;
+    --hero-dark-card: #041710;
+    --hero-card-border: rgba(255, 255, 255, 0.16);
+    --hero-font-display: 'Bebas Neue', 'Anton', -apple-system, sans-serif;
+    --hero-font-body: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Hero Section Container (1440px target, full viewport height) */
+.hero-wordmark-section {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    min-height: 640px;
+    background-color: var(--hero-green);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Thin Top Navigation */
+.hero-thin-nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 68px;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 20;
+    background: transparent;
+}
+
+.hero-nav-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    text-decoration: none;
+}
+
+.hero-nav-name {
+    font-family: var(--hero-font-body);
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--hero-white);
+    letter-spacing: -0.01em;
+    line-height: 1;
+}
+
+.hero-nav-tagline {
+    font-family: var(--hero-font-body);
+    font-size: 10.5px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.72);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.hero-nav-links {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 36px;
+}
+
+.hero-nav-links a {
+    font-family: var(--hero-font-body);
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--hero-white);
+    text-decoration: none;
+    opacity: 0.88;
+    transition: opacity 0.2s ease;
+    letter-spacing: -0.01em;
+}
+
+.hero-nav-links a:hover {
+    opacity: 1;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.hero-nav-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.hero-nav-session-btn {
+    font-family: var(--hero-font-body);
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--hero-white);
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 6px 14px;
+    border-radius: 100px;
+    transition: all 0.2s ease;
+}
+
+.hero-nav-session-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--hero-white);
+}
+
+/* Giant Wordmark Container */
+.hero-wordmark-container {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    transform: translateY(-50%);
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    user-select: none;
+    will-change: transform;
+}
+
+.hero-wordmark-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 1.2vw;
+    box-sizing: border-box;
+    white-space: nowrap;
+}
+
+.wordmark-line {
+    display: inline-flex;
+    align-items: center;
+}
+
+.char-mask {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    line-height: 0.82;
+}
+
+.char {
+    display: inline-block;
+    font-family: var(--hero-font-display);
+    font-size: clamp(96px, 16.6vw, 255px);
+    font-weight: 900;
+    line-height: 0.82;
+    color: var(--hero-white);
+    text-transform: uppercase;
+    letter-spacing: -0.015em;
+    transform: translateY(118%);
+    animation: letterRise 0.72s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: calc(var(--char-i) * 0.04s);
+}
+
+.char-space {
+    display: inline-block;
+    width: 2.2vw;
+}
+
+@keyframes letterRise {
+    0% {
+        transform: translateY(118%);
+        opacity: 0;
+    }
+    35% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Centered Layered Product Visual */
+.hero-product-layer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: auto;
+    will-change: transform;
+    opacity: 0;
+    animation: productDrop 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: 0.65s;
+}
+
+@keyframes productDrop {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, calc(-50% - 30px)) rotate(-4.5deg) scale(0.95);
+    }
+    70% {
+        opacity: 1;
+        transform: translate(-50%, calc(-50% + 3px)) rotate(0.6deg) scale(1.008);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) rotate(0deg) scale(1);
+    }
+}
+
+.cards-container {
+    position: relative;
+    width: 680px;
+    height: 380px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Individual Tilted Cards */
+.tilted-card {
+    position: absolute;
+    background: var(--hero-dark-card);
+    border: 1px solid var(--hero-card-border);
+    border-radius: 18px;
+    box-shadow: 0 24px 50px rgba(0, 0, 0, 0.45);
+    color: var(--hero-white);
+    padding: 22px;
+    box-sizing: border-box;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+}
+
+.tilted-card:hover {
+    border-color: rgba(255, 255, 255, 0.38);
+}
+
+/* Card 1: Left Card (SIP Calculator) */
+.card-left {
+    width: 250px;
+    left: 20px;
+    z-index: 1;
+    transform: rotate(-10deg) translateY(12px) translateX(-15px);
+}
+
+.card-left:hover {
+    transform: rotate(-6deg) translateY(0px) translateX(-10px) scale(1.03);
+    z-index: 4;
+}
+
+/* Card 2: Center Card (Hassaan Profile) */
+.card-center {
+    width: 285px;
+    z-index: 3;
+    transform: rotate(0deg) scale(1.04);
+    border-color: rgba(255, 255, 255, 0.28);
+}
+
+.card-center:hover {
+    transform: rotate(0deg) scale(1.07);
+}
+
+/* Card 3: Right Card (Buy vs Rent) */
+.card-right {
+    width: 250px;
+    right: 20px;
+    z-index: 1;
+    transform: rotate(10deg) translateY(14px) translateX(15px);
+}
+
+.card-right:hover {
+    transform: rotate(6deg) translateY(0px) translateX(10px) scale(1.03);
+    z-index: 4;
+}
+
+/* Card Content Aesthetics */
+.card-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 12px;
+}
+
+.card-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.65);
+    margin-bottom: 4px;
+    letter-spacing: 0.01em;
+}
+
+.card-number {
+    font-family: var(--hero-font-body);
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--hero-white);
+    margin-bottom: 6px;
+    line-height: 1.1;
+}
+
+.card-subtext {
+    font-size: 11px;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 14px;
+}
+
+/* Visual Progress & Bars for Cards */
+.card-graph-bar {
+    height: 8px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    margin-bottom: 12px;
+}
+
+.card-graph-fill {
+    height: 100%;
+    background: #FFFFFF;
+}
+
+.card-graph-fill.accent {
+    background: rgba(255, 255, 255, 0.45);
+}
+
+.card-footer-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--hero-white);
+    text-decoration: none;
+    opacity: 0.85;
+    transition: opacity 0.2s ease;
+}
+
+.card-footer-link:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+/* Center Profile Card Specifics */
+.profile-avatar-wrap {
+    position: relative;
+    width: 82px;
+    height: 82px;
+    margin: 0 auto 12px;
+}
+
+.profile-avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    display: block;
+}
+
+.profile-badge-check {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 22px;
+    height: 22px;
+    background: var(--hero-green);
+    border: 2px solid var(--hero-dark-card);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--hero-white);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.profile-name {
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+    color: var(--hero-white);
+    margin-bottom: 3px;
+    letter-spacing: -0.01em;
+}
+
+.profile-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.profile-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+    margin-bottom: 14px;
+}
+
+.profile-tag {
+    font-size: 10.5px;
+    font-weight: 500;
+    padding: 3px 8px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.profile-cta-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    background: var(--hero-white);
+    color: var(--hero-dark-card) !important;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.profile-cta-btn:hover {
+    background: #E8ECE9;
+    transform: translateY(-1px);
+}
+
+/* Bottom Bar Corners */
+.hero-bottom-bar {
+    position: absolute;
+    bottom: 36px;
+    left: 0;
+    width: 100%;
+    padding: 0 44px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    z-index: 10;
+    box-sizing: border-box;
+    pointer-events: none;
+}
+
+.hero-corner-left {
+    font-family: var(--hero-font-body);
+    font-size: 20px;
+    line-height: 1.25;
+    font-weight: 600;
+    color: var(--hero-white);
+    letter-spacing: -0.015em;
+    opacity: 0;
+    animation: fadeInCorner 0.6s ease-out forwards;
+    animation-delay: 1.15s;
+    pointer-events: auto;
+}
+
+.hero-cta-box {
+    pointer-events: auto;
+    background: var(--hero-dark-card);
+    border: 1px solid var(--hero-card-border);
+    color: var(--hero-white);
+    text-decoration: none;
+    font-family: var(--hero-font-body);
+    font-size: 15px;
+    font-weight: 600;
+    padding: 16px 26px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+    opacity: 0;
+    animation: fadeInCorner 0.6s ease-out forwards;
+    animation-delay: 1.15s;
+}
+
+.hero-cta-box:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.4);
+    background: #020C08;
+}
+
+.hero-cta-box svg {
+    transition: transform 0.2s ease;
+}
+
+.hero-cta-box:hover svg {
+    transform: translateX(3px);
+}
+
+@keyframes fadeInCorner {
+    0% {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================================================
+   Mobile Responsive Adjustments
+   Mobile: wordmark on two lines, product over the second line, corner items
+   stacked at the bottom.
+   ========================================================================== */
+
+@media (max-width: 900px) {
+    .hero-thin-nav {
+        padding: 0 24px;
+        height: 60px;
+    }
+    .hero-nav-links {
+        display: none;
+    }
+    .cards-container {
+        width: 540px;
+        height: 340px;
+    }
+    .card-left {
+        width: 210px;
+        left: 0;
+    }
+    .card-right {
+        width: 210px;
+        right: 0;
+    }
+    .card-center {
+        width: 250px;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-wordmark-section {
+        min-height: 100vh;
+        height: 100vh;
+    }
+
+    .hero-thin-nav {
+        padding: 0 20px;
+        height: 56px;
+    }
+
+    .hero-nav-session-btn {
+        display: none;
+    }
+
+    /* Wordmark on two lines on mobile */
+    .hero-wordmark-container {
+        top: 24%;
+        transform: translateY(-50%);
+        padding: 0 12px;
+    }
+
+    .hero-wordmark-wrap {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        padding: 0;
+        gap: 0;
+    }
+
+    .wordmark-line {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .char-space {
+        display: none;
+    }
+
+    .char {
+        font-size: clamp(62px, 19vw, 84px);
+        line-height: 0.84;
+        letter-spacing: -0.01em;
+    }
+
+    .wordmark-line-1 {
+        z-index: 6; /* Line 1 HASSAAN is fully visible above the product card */
+    }
+
+    .wordmark-line-2 {
+        margin-top: -2px;
+        z-index: 1; /* Line 2 BIN JALIL sits under the product visual */
+    }
+
+    /* Product over the second line on mobile */
+    .hero-product-layer {
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .cards-container {
+        width: 320px;
+        height: 290px;
+    }
+
+    .card-center {
+        width: 245px;
+        left: 50%;
+        transform: translateX(-50%) rotate(0deg);
+        padding: 16px 18px;
+        z-index: 3;
+    }
+
+    .card-center:hover {
+        transform: translateX(-50%) scale(1.03);
+    }
+
+    .profile-avatar-wrap {
+        width: 66px;
+        height: 66px;
+        margin: 0 auto 8px;
+    }
+
+    .profile-name {
+        font-size: 16.5px;
+        margin-bottom: 2px;
+    }
+
+    .profile-title {
+        font-size: 11px;
+        margin-bottom: 8px;
+    }
+
+    .profile-tags {
+        margin-bottom: 10px;
+        gap: 4px;
+    }
+
+    .profile-tag {
+        font-size: 9.5px;
+        padding: 2px 6px;
+    }
+
+    .profile-cta-btn {
+        padding: 8px;
+        font-size: 11.5px;
+    }
+
+    .card-left {
+        display: block;
+        width: 165px;
+        left: 0;
+        transform: rotate(-9deg) translateY(10px);
+        padding: 12px 14px;
+        opacity: 0.85;
+        z-index: 1;
+    }
+
+    .card-left .card-number {
+        font-size: 16px;
+    }
+
+    .card-left .card-subtext,
+    .card-left .card-graph-bar {
+        display: none;
+    }
+
+    .card-right {
+        display: block;
+        width: 165px;
+        right: 0;
+        transform: rotate(9deg) translateY(12px);
+        padding: 12px 14px;
+        opacity: 0.85;
+        z-index: 1;
+    }
+
+    .card-right .card-number {
+        font-size: 16px;
+    }
+
+    .card-right .card-subtext,
+    .card-right .card-graph-bar {
+        display: none;
+    }
+
+    /* Corner items stacked at the bottom on mobile */
+    .hero-bottom-bar {
+        bottom: 24px;
+        padding: 0 22px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+    }
+
+    .hero-corner-left {
+        font-size: 20px;
+        line-height: 1.25;
+    }
+
+    .hero-cta-box {
+        width: 100%;
+        justify-content: center;
+        padding: 14px 20px;
+        font-size: 14.5px;
+    }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    .char {
+        animation: none !important;
+        transform: none !important;
+        opacity: 1 !important;
+    }
+    .hero-product-layer {
+        animation: none !important;
+        transform: translate(-50%, -50%) !important;
+        opacity: 1 !important;
+    }
+    .hero-corner-left,
+    .hero-cta-box {
+        animation: none !important;
+        transform: none !important;
+        opacity: 1 !important;
+    }
+}

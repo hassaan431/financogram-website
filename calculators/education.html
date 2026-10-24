@@ -16,7 +16,7 @@
         .calc-container { margin: 0 auto; max-width: 600px; }
         
         header { margin-bottom: 28px; }
-        .kicker { font-size: 13px; font-weight: 600; color: var(--primary-color); margin: 0 0 6px; letter-spacing: 0.02em; text-transform: uppercase; }
+        .kicker { font-size: 13px; font-weight: 600; color: rgba(255, 255, 255, 0.72); margin: 0 0 6px; letter-spacing: 0.02em; text-transform: uppercase; }
         h1 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 32px; line-height: 1.15; margin: 0 0 8px; color: var(--text-main); }
         .sub { font-size: 14.5px; color: var(--text-muted); line-height: 1.5; margin: 0; }
 
@@ -63,25 +63,20 @@
 </head>
 <body>
 
-    <!-- Navigation Bar -->
+        <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="../index.html" class="logo"><img src="../assets/logo-transparent.png" alt="Financogram Logo" style="height: 40px; width: auto; display: inline-block; vertical-align: middle; margin-right: 8px;">Financogram</a>
-            
-            <button class="menu-toggle" id="mobile-menu" aria-label="Toggle Navigation">
-                ☰
-            </button>
-
+            <a href="../index.html" class="logo-brand">
+                <span class="brand-name"><img src="../assets/logo-transparent.png" alt="Logo" style="height: 32px; width: auto;">Hassaan bin Jalil</span>
+                <span class="brand-tagline">Financial Education for Pakistanis</span>
+            </a>
+            <button class="menu-toggle" id="mobile-menu" aria-label="Toggle Navigation">☰</button>
             <ul class="nav-links" id="nav-links">
                 <li><a href="../index.html">Home</a></li>
                 <li><a href="index.html">Calculators</a></li>
-                <li><a href="../learn/index.html">Learn</a></li>
-                <li><a href="../about.html">About</a></li>
-                <li>
-                    <button id="theme-toggle" aria-label="Toggle Dark Mode" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 6px; display: flex; align-items: center; justify-content: center; height: 36px; width: 36px;">
-                        <span id="theme-icon">🌙</span>
-                    </button>
-                </li>
+                <li><a href="../learn/index.html">Articles</a></li>
+                <li><a href="../about.html">About Me</a></li>
+                <li><a href="../consultancy.html" class="nav-session-pill">1-1 Session</a></li>
             </ul>
         </div>
     </nav>
@@ -187,7 +182,7 @@
           <div class="stat" style="margin-top: 20px;">
               <div class="lump-sum-row">
                   <div class="label" style="margin-bottom: 0;">Prefer one lump sum instead of monthly?</div>
-                  <div class="value" id="lumpsum-out" style="color: var(--primary-color);">Rs 0</div>
+                  <div class="value" id="lumpsum-out" style="color: #FFFFFF;">Rs 0</div>
               </div>
           </div>
 

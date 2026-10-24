@@ -21,7 +21,7 @@
         }
         .about-mission {
             font-size: 1.4rem;
-            color: var(--primary-color);
+            color: #FFFFFF;
             margin-bottom: 2.5rem;
             line-height: 1.5;
             font-weight: 600;
@@ -74,44 +74,33 @@
     <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="index.html" class="logo"><img src="assets/logo-transparent.png" alt="Financogram Logo" style="height: 40px; width: auto; display: inline-block; vertical-align: middle; margin-right: 8px;">Financogram</a>
+            <a href="index.html" class="logo-brand">
+                <span class="brand-name"><img src="assets/logo-transparent.png" alt="Logo" style="height: 32px; width: auto;">Hassaan bin Jalil</span>
+                <span class="brand-tagline">Financial Education for Pakistanis</span>
+            </a>
             <button class="menu-toggle" id="mobile-menu" aria-label="Toggle Navigation">
                 ☰
             </button>
             <ul class="nav-links" id="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="calculators/index.html">Calculators</a></li>
-                <li><a href="learn/index.html">Learn</a></li>
-                <li><a href="consultancy.html">Consultancy</a></li>
-                <li><a href="about.html">About</a></li>
-                <li>
-                    <button id="theme-toggle" aria-label="Toggle Dark Mode" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 6px; display: flex; align-items: center; justify-content: center; height: 36px; width: 36px;">
-                        <span id="theme-icon">🌙</span>
-                    </button>
-                </li>
-                <li>
-                    <a href="https://www.instagram.com/financo.gram/" target="_blank" aria-label="Instagram" style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 8px; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; text-decoration: none; transition: transform 0.2s;">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                        </svg>
-                    </a>
-                </li>
+                <li><a href="learn/index.html">Articles</a></li>
+                <li><a href="about.html">About Me</a></li>
+                <li><a href="consultancy.html" class="nav-session-pill">1-1 Session</a></li>
             </ul>
         </div>
     </nav>
 
     <!-- Main Content Area -->
-    <main class="container about-container" style="margin-top: 60px; min-height: 60vh; margin-bottom: 80px;">
+    <main class="container about-container" style="margin-top: 50px; min-height: 60vh; margin-bottom: 80px;">
         
-        <h1 style="font-size: 3rem; margin-bottom: 1rem; letter-spacing: -1px;">Teaching what school never did.</h1>
-        <p class="about-mission">
-            Our mission is to educate the youth of Pakistan about personal finance, investing, and wealth building.
-        </p>
+        <div class="page-hero-banner">
+            <h1>Teaching What School Never Did</h1>
+            <p>Our mission is to educate the youth of Pakistan about personal finance, investing, and long-term wealth building.</p>
+        </div>
 
         <div class="card about-bio">
-            <h2>The Story Behind Financogram</h2>
+            <h2 style="font-family: var(--font-display); font-size: 2.2rem; letter-spacing: 0.02em; text-transform: uppercase;">The Story Behind Financogram</h2>
             <p>
                 Money dictates almost every aspect of our lives, yet the vast majority of us graduate from school without a single lesson on how to manage it. We are taught complex calculus, but we aren't taught how to budget, save, or invest.
             </p>
@@ -126,26 +115,26 @@
             </ul>
         </div>
 
-        <div style="background: #ffffff; border: 1px solid var(--border-color); border-radius: 24px; box-shadow: 0 12px 40px rgba(0,0,0,0.04); padding: 3rem; display: flex; gap: 3.5rem; align-items: center; flex-wrap: wrap; margin-bottom: 3rem;">
+        <div class="card" style="padding: 3rem; display: flex; gap: 3.5rem; align-items: center; flex-wrap: wrap; margin-bottom: 3rem;">
             <div style="flex: 1; min-width: 250px; text-align: center;">
-                <img src="assets/founder.jpg" alt="Founder of Financogram" style="width: 100%; max-width: 320px; border-radius: 16px; margin-bottom: 1.5rem; display: inline-block;">
-                <p style="font-size: 1rem; font-weight: 600; color: var(--primary-color); line-height: 1.5; padding: 0 10px;">
+                <img src="assets/founder.jpg" alt="Hassaan bin Jalil" style="width: 100%; max-width: 300px; border-radius: 16px; margin-bottom: 1.25rem; display: inline-block; border: 2px solid rgba(255,255,255,0.2);">
+                <p style="font-size: 1rem; font-weight: 700; color: #FFFFFF; line-height: 1.5; padding: 0 10px;">
                     Aerospace Engineer turned MBA.<br>Corporate Analyst.<br>Finance Educator.
                 </p>
             </div>
             <div style="flex: 1.8; min-width: 300px;">
-                <h2 style="margin-bottom: 1.5rem; color: var(--text-main); font-size: 2rem; font-weight: 800; letter-spacing: -0.5px;">Meet the Founder</h2>
-                <p style="margin-bottom: 1.25rem; line-height: 1.8; font-size: 1.05rem; color: var(--text-main);">
+                <h2 style="margin-bottom: 1.25rem; font-family: var(--font-display); font-size: 2.4rem; letter-spacing: 0.02em; text-transform: uppercase;">Meet the Founder</h2>
+                <p style="margin-bottom: 1.25rem; line-height: 1.8; font-size: 1.05rem;">
                     While I've spent years dealing with complex data and systems, my true passion lies in something much simpler: understanding money. I absolutely love to learn and educate others about personal finance.
                 </p>
-                <p style="line-height: 1.8; font-size: 1.05rem; color: var(--text-main);">
+                <p style="line-height: 1.8; font-size: 1.05rem;">
                     I started Financogram because I realized that the foundational rules of saving, investing, and growing wealth aren't taught in school, leaving millions of smart young people to figure it out the hard way. My goal is to change that.
                 </p>
             </div>
         </div>
         
-        <a href="https://www.instagram.com/financo.gram/" target="_blank" class="btn" style="font-size: 1.1rem; padding: 14px 32px;">
-            Join our community on Instagram
+        <a href="https://www.instagram.com/financo.gram/" target="_blank" class="btn" style="font-size: 1.05rem; padding: 14px 32px;">
+            Join Our Community on Instagram &rarr;
         </a>
 
     </main>

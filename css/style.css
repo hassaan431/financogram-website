@@ -1,163 +1,368 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&display=swap');
 
 /* ==========================================================================
-   Financo - Revolut-Inspired Fintech Design System
+   Hassaan bin Jalil - Unified Design System
+   Strict Palette: Deep Forest Pakistan Green (#093829) & Pure White (#FFFFFF)
+   Solid dark card surfaces (#0A241B / #041710), clean hairline borders.
+   No gradients, no glows.
    ========================================================================== */
 
-:root {
+:root,
+html,
+[data-theme="dark"],
+[data-theme="light"] {
     --spacing-xl: 64px;
     --spacing-lg: 48px;
     --spacing-md: 32px;
 
-    /* Revolut Design Tokens */
-    --primary-color: #494fdf; /* Cobalt Violet */
-    --primary-hover: #3a40c4;
-    --text-main: #191c1f; /* ink */
-    --text-muted: #505a63; /* mute */
+    /* Brand Tokens - Strict Deep Forest Pakistan Green & Pure White */
+    --hero-green: #093829;
+    --primary-color: #093829;
+    --primary-hover: #0E4F3B;
+    --accent-color: #FFFFFF;
+    --text-main: #FFFFFF;
+    --text-muted: rgba(255, 255, 255, 0.72);
     
-    --bg-main: #f4f4f4; /* surface-soft */
-    --bg-card: #ffffff; /* surface-card */
-    --border-color: #e2e2e7; /* hairline-light */
+    --bg-main: #061A13; /* Deep forest canvas */
+    --bg-card: #0A241B; /* Solid dark forest card */
+    --bg-card-alt: #041710;
+    --border-color: rgba(255, 255, 255, 0.14);
     
     /* Typography */
     --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-display: 'Bebas Neue', 'Anton', -apple-system, sans-serif;
     
     /* Spacing & Layout */
     --container-width: 1200px;
     
-    /* Borders & Shadows */
-    --border-radius: 20px; /* rounded.lg for cards */
-    --border-radius-sm: 12px; /* rounded.md for inputs */
+    /* Borders & Shadows (No fuzzy neon glows) */
+    --border-radius: 18px;
+    --border-radius-sm: 10px;
     --shadow-sm: none;
-    --shadow-md: none;
-    --shadow-hover: none;
+    --shadow-md: 0 16px 36px rgba(0, 0, 0, 0.35);
 }
 
-[data-theme="dark"] {
-    --primary-color: #494fdf;
-    --primary-hover: #4f55f1;
-    --text-main: #ffffff; /* on-dark */
-    --text-muted: rgba(255,255,255,0.72); /* on-dark-mute */
-    
-    --bg-main: #000000; /* canvas-dark */
-    --bg-card: #16181a; /* surface-elevated */
-    --border-color: rgba(255,255,255,0.12); /* hairline-dark */
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+html {
+    scroll-behavior: smooth;
+}
 
 body {
     font-family: var(--font-family);
     background-color: var(--bg-main);
     color: var(--text-main);
-    line-height: 1.5;
+    line-height: 1.55;
     -webkit-font-smoothing: antialiased; 
-    transition: background-color 0.3s, color 0.3s;
-    letter-spacing: 0.24px;
+    transition: background-color 0.25s, color 0.25s;
+    letter-spacing: 0.1px;
 }
 
 h1, h2, h3, h4 { 
-    font-weight: 500; 
-    line-height: 1.1; 
+    font-weight: 700; 
+    line-height: 1.15; 
     margin-bottom: 1rem; 
     color: var(--text-main); 
-    letter-spacing: -1px; 
+    letter-spacing: -0.02em; 
 }
-p { margin-bottom: 1rem; color: var(--text-muted); }
-a { color: #376cd5; text-decoration: none; transition: color 0.2s; font-weight: 500; }
-a:hover { color: #2a52a3; }
 
-.container { max-width: var(--container-width); margin: 0 auto; padding: 0 1.5rem; }
+p { 
+    margin-bottom: 1rem; 
+    color: var(--text-muted); 
+    line-height: 1.6;
+}
 
-/* Buttons */
+a { 
+    color: var(--text-main); 
+    text-decoration: none; 
+    transition: all 0.2s; 
+    font-weight: 500; 
+}
+
+a:hover { 
+    opacity: 0.85; 
+}
+
+.container { 
+    max-width: var(--container-width); 
+    margin: 0 auto; 
+    padding: 0 1.5rem; 
+}
+
+/* ==========================================================================
+   Buttons (Matching Hero Visual: Solid, Confident, Clean)
+   ========================================================================== */
+
 .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--text-main);
-    color: var(--bg-main) !important;
-    padding: 14px 28px;
-    border-radius: 100px; /* rounded.full */
-    font-weight: 600;
+    gap: 8px;
+    background-color: #FFFFFF;
+    color: #041710 !important;
+    padding: 13px 24px;
+    border-radius: var(--border-radius-sm);
+    font-weight: 700;
+    font-size: 14.5px;
     border: none;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: transform 0.18s ease, background-color 0.18s ease;
     height: 48px;
 }
+
 .btn:hover {
-    opacity: 0.9;
-}
-.btn-outline {
-    background-color: transparent;
-    border: 1px solid var(--text-main);
-    color: var(--text-main) !important;
-}
-.btn-outline:hover {
-    background-color: rgba(0,0,0,0.05);
-}
-[data-theme="dark"] .btn-outline:hover {
-    background-color: rgba(255,255,255,0.1);
+    background-color: #E8ECE9;
+    transform: translateY(-1px);
+    opacity: 1;
 }
 
-/* Cards */
+.btn-primary {
+    background-color: var(--hero-green);
+    color: #FFFFFF !important;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-main) !important;
+}
+
+.btn-outline:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+    background-color: rgba(255, 255, 255, 0.06);
+    transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   Cards (Solid dark green surfaces, crisp hairline borders)
+   ========================================================================== */
+
 .card {
     background-color: var(--bg-card);
     border-radius: var(--border-radius);
-    padding: 2rem;
+    padding: 2.2rem;
     border: 1px solid var(--border-color);
-    transition: all 0.3s ease;
+    box-shadow: var(--shadow-md);
+    transition: transform 0.25s ease, border-color 0.25s ease;
+    color: #FFFFFF;
 }
 
-/* Navbar */
+.card h1,
+.card h2,
+.card h3,
+.card h4,
+.article-card h3 {
+    color: #FFFFFF !important;
+    font-weight: 700;
+}
+
+.card p {
+    color: rgba(255, 255, 255, 0.78) !important;
+}
+
+.article-meta,
+.card > span {
+    color: rgba(255, 255, 255, 0.65) !important;
+}
+
+.card:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   Unified Top Navigation Bar
+   Thin, sleek, sharing the exact identity as the wordmark hero
+   ========================================================================== */
+
 .navbar {
-    background-color: var(--bg-main);
+    background-color: rgba(6, 26, 19, 0.94);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border-color);
     position: sticky; 
     top: 0;
     z-index: 100; 
-    transition: background-color 0.3s;
 }
+
 .nav-container {
     display: flex; 
     justify-content: space-between; 
     align-items: center;
-    padding: 1rem 1.5rem;
+    padding: 0 1.5rem;
     max-width: var(--container-width);
     margin: 0 auto;
     height: 64px;
 }
-.logo { font-size: 1.5rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px; }
-.nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
-.nav-links a { color: var(--text-main); font-weight: 600; font-size: 16px; }
-.nav-links a:hover { opacity: 0.7; }
-.menu-toggle { display: none; font-size: 1.5rem; background: none; border: none; cursor: pointer; color: var(--text-main); }
 
-/* Forms & Inputs */
-.input-group { margin-bottom: 1.5rem; }
+.logo-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    text-decoration: none;
+}
+
+.logo-brand .brand-name {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--text-main);
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo-brand .brand-tagline {
+    font-size: 10px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.nav-links { 
+    display: flex; 
+    align-items: center; 
+    gap: 2.2rem; 
+    list-style: none; 
+}
+
+.nav-links a { 
+    color: #FFFFFF !important; 
+    font-weight: 500; 
+    font-size: 14px; 
+    opacity: 0.9;
+    transition: opacity 0.2s;
+}
+
+.nav-links a:hover { 
+    opacity: 1; 
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.nav-session-pill {
+    font-size: 12.5px !important;
+    font-weight: 600 !important;
+    color: var(--text-main) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    padding: 6px 14px !important;
+    border-radius: 100px !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease !important;
+}
+
+.nav-session-pill:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: #FFFFFF !important;
+}
+
+.menu-toggle { 
+    display: none; 
+    font-size: 1.5rem; 
+    background: none; 
+    border: none; 
+    cursor: pointer; 
+    color: var(--text-main); 
+}
+
+/* ==========================================================================
+   Page Banners / Hero Headers
+   Solid Deep Pakistan Green (#093829), pure white text, no blurry gradients
+   ========================================================================== */
+
+.page-hero-banner {
+    background-color: var(--hero-green);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    padding: 64px 28px;
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    box-shadow: var(--shadow-md);
+}
+
+.page-hero-banner h1 {
+    font-family: var(--font-display);
+    font-size: clamp(38px, 6vw, 64px);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    margin-bottom: 0.75rem;
+    line-height: 1;
+}
+
+.page-hero-banner p {
+    max-width: 620px;
+    margin: 0 auto;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+/* Category Filter Chips */
+.filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-color);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 12px;
+}
+
+/* ==========================================================================
+   Forms & Inputs (Clean, Solid, High Contrast)
+   ========================================================================== */
+
+.input-group { 
+    margin-bottom: 1.5rem; 
+}
+
 .input-group label {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 13.5px;
     color: var(--text-main);
 }
-.input-group input[type="number"], .input-group select {
+
+.input-group input[type="number"], 
+.input-group select,
+.input-group input[type="text"] {
     width: 100%;
-    padding: 14px 16px;
-    height: 56px;
+    padding: 13px 16px;
+    height: 52px;
     border-radius: var(--border-radius-sm);
     border: 1px solid var(--border-color);
-    background-color: var(--bg-card);
+    background-color: var(--bg-card-alt);
     color: var(--text-main);
-    font-size: 16px;
-    font-weight: 400;
+    font-size: 15.5px;
+    font-weight: 500;
     font-family: var(--font-family);
     transition: all 0.2s;
     outline: none;
 }
-.input-group input:focus, .input-group select:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 1px var(--primary-color);
+
+.input-group input:focus, 
+.input-group select:focus {
+    border-color: #FFFFFF;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.18);
 }
 
 /* Range Sliders */
@@ -166,99 +371,185 @@ a:hover { color: #2a52a3; }
     align-items: center;
     gap: 15px;
 }
+
 input[type=range] {
     -webkit-appearance: none;
+    appearance: none;
     width: 100%;
     background: transparent;
     margin-top: 10px;
     flex-grow: 1;
 }
-input[type=range]:focus { outline: none; }
+
+input[type=range]:focus { 
+    outline: none; 
+}
+
 input[type=range]::-webkit-slider-runnable-track {
     width: 100%;
-    height: 8px;
+    height: 6px;
     cursor: pointer;
-    background: var(--border-color);
+    background: rgba(255, 255, 255, 0.16);
     border-radius: 4px;
 }
+
 input[type=range]::-webkit-slider-thumb {
-    height: 24px;
-    width: 24px;
+    height: 22px;
+    width: 22px;
     border-radius: 50%;
-    background: var(--text-main);
+    background: #FFFFFF;
     cursor: pointer;
     -webkit-appearance: none;
     margin-top: -8px;
-    border: 4px solid var(--bg-card);
+    border: 3px solid var(--bg-card-alt);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
     transition: transform 0.1s;
 }
+
 input[type=range]::-webkit-slider-thumb:active {
-    transform: scale(1.2);
+    transform: scale(1.18);
 }
 
-/* Layout Utilities */
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
-.section { padding: 88px 0; }
-.section-title { text-align: center; margin-bottom: 3rem; font-size: 48px; font-weight: 500; letter-spacing: -0.48px; }
+/* ==========================================================================
+   Layout Utilities
+   ========================================================================== */
 
-/* Dashboard / Split Layout for Calculators */
+.grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+    gap: 2rem; 
+}
+
+.section { 
+    padding: 72px 0; 
+}
+
+.section-title { 
+    text-align: center; 
+    margin-bottom: 2.8rem; 
+    font-size: 42px; 
+    font-weight: 700; 
+    letter-spacing: -0.02em; 
+    color: var(--text-main);
+}
+
+/* ==========================================================================
+   Dashboard / Split Layout for Calculators
+   ========================================================================== */
+
 .calc-dashboard {
     display: grid;
-    grid-template-columns: 400px 1fr;
-    gap: 2rem;
+    grid-template-columns: 420px 1fr;
+    gap: 2.2rem;
     align-items: start;
     margin-top: 2rem;
 }
+
 .calc-inputs {
     background: var(--bg-card);
     padding: 32px;
     border-radius: var(--border-radius);
     border: 1px solid var(--border-color);
     position: sticky;
-    top: 100px;
+    top: 90px;
+    box-shadow: var(--shadow-md);
 }
+
 .calc-results {
-    background: var(--bg-main);
+    background: var(--bg-card);
     padding: 32px;
     border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    box-shadow: var(--shadow-md);
 }
 
 /* Results Big Number */
 .result-box {
-    background: var(--primary-color);
+    background: var(--hero-green);
     color: #ffffff;
-    padding: 32px;
+    padding: 34px 28px;
     border-radius: var(--border-radius);
-    border: none;
+    border: 1px solid var(--border-color);
     text-align: center;
 }
-.result-box h3 { color: rgba(255,255,255,0.72); font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; }
-.result-box .huge-number { font-size: 64px; font-weight: 500; color: #ffffff; letter-spacing: -1px; }
 
-/* Footer */
-.footer { background-color: var(--bg-main); border-top: 1px solid var(--border-color); padding: 80px 24px; margin-top: 4rem; text-align: center; }
+.result-box h3 { 
+    color: rgba(255, 255, 255, 0.72); 
+    font-size: 12.5px; 
+    text-transform: uppercase; 
+    letter-spacing: 0.06em; 
+    margin-bottom: 0.5rem; 
+}
+
+.result-box .huge-number { 
+    font-family: var(--font-display); 
+    font-size: clamp(48px, 5vw, 68px); 
+    font-weight: 900; 
+    color: #ffffff; 
+    letter-spacing: 0.02em; 
+    line-height: 1;
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+.footer { 
+    background-color: var(--bg-card-alt); 
+    border-top: 1px solid var(--border-color); 
+    padding: 64px 24px; 
+    margin-top: 5rem; 
+    text-align: center; 
+}
+
+.footer p {
+    max-width: 720px;
+    margin: 0 auto;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
 
 @media (max-width: 900px) {
-    .calc-dashboard { grid-template-columns: 1fr; }
-    .calc-inputs { position: static; }
+    .calc-dashboard { 
+        grid-template-columns: 1fr; 
+    }
+    .calc-inputs { 
+        position: static; 
+    }
 }
 
 @media (max-width: 768px) {
-    .nav-links { display: none; }
-    .menu-toggle { display: block; }
+    .nav-links { 
+        display: none; 
+    }
+    .menu-toggle { 
+        display: block; 
+    }
+    .navbar {
+        height: 56px;
+    }
+    .nav-container {
+        height: 56px;
+        padding: 0 1.25rem;
+    }
 }
-
 
 /* Swup Page Transition Styles */
 html.is-animating .transition-fade {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(8px);
 }
+
 .transition-fade {
-    transition: opacity 300ms ease-out, transform 300ms ease-out;
+    transition: opacity 240ms ease-out, transform 240ms ease-out;
     opacity: 1;
     transform: translateY(0);
 }

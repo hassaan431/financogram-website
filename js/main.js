@@ -24,37 +24,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-// Theme Toggle Logic
-document.addEventListener('DOMContentLoaded', () => {
-    const themeToggleBtn = document.getElementById('theme-toggle');
-    const themeIcon = document.getElementById('theme-icon');
-    
-    // Default to dark theme if no saved preference
-    const currentTheme = localStorage.getItem('theme') || 'dark';
-    
-    document.documentElement.setAttribute('data-theme', currentTheme);
-    if (currentTheme === 'dark') {
-        if (themeIcon) themeIcon.textContent = '☀️';
-    } else {
-        if (themeIcon) themeIcon.textContent = '🌙';
-    }
-    
-    if (themeToggleBtn) {
-        themeToggleBtn.addEventListener('click', () => {
-            const activeTheme = document.documentElement.getAttribute('data-theme');
-            let targetTheme = activeTheme === 'dark' ? 'light' : 'dark';
-            
-            if (targetTheme === 'dark') {
-                themeIcon.textContent = '☀️';
-            } else {
-                themeIcon.textContent = '🌙';
-            }
-            
-            document.documentElement.setAttribute('data-theme', targetTheme);
-            localStorage.setItem('theme', targetTheme);
-        });
-    }
-});
+// Unified Theme Enforcement (Strict Pakistan Green & Pure White)
+try {
+    localStorage.removeItem('theme');
+    localStorage.setItem('theme', 'dark');
+} catch (e) {}
+document.documentElement.setAttribute('data-theme', 'dark');
 
 
 // Initialize AOS (Animate On Scroll)
