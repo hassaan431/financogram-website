@@ -60,4 +60,12 @@
     <loc>https://financogram.com/learn/buying-house.html</loc>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://financogram.com/learn/gold-vs-stocks.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://financogram.com/learn/apni-chhat-apna-ghar.html</loc>
+    <priority>0.9</priority>
+  </url>
 </urlset>
