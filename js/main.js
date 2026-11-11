@@ -37,6 +37,17 @@ document.addEventListener("DOMContentLoaded", () => {
     AOS.init({ once: true, offset: 50, duration: 600, easing: 'ease-out-cubic' });
 });
 
+// Load PostHog Web Analytics
+(function() {
+    if (!window.FinancoAnalytics) {
+        const isSubdir = window.location.pathname.includes('/calculators/') || window.location.pathname.includes('/learn/');
+        const script = document.createElement('script');
+        script.src = (isSubdir ? '../' : '') + 'js/analytics.js';
+        script.async = true;
+        document.head.appendChild(script);
+    }
+})();
+
 // Initialize Swup for SPA page transitions
 document.addEventListener("DOMContentLoaded", () => {
     if (typeof Swup !== 'undefined') {
@@ -46,6 +57,9 @@ document.addEventListener("DOMContentLoaded", () => {
         
         swup.hooks.on('page:view', () => {
             AOS.refresh();
+            if (window.posthog && typeof window.posthog.capture === 'function') {
+                window.posthog.capture('$pageview');
+            }
         });
     }
 });

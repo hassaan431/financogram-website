@@ -615,6 +615,8 @@
             line-height: 1.5;
         }
     </style>
+    <!-- PostHog Analytics -->
+    <script src="js/analytics.js"></script>
 </head>
 <body>
 
@@ -1121,6 +1123,12 @@
                     if (errBox) errBox.innerHTML = `⚠️ ${err}`;
                     return;
                 }
+                if (window.FinancoAnalytics) {
+                    FinancoAnalytics.trackConsultationStep(currentStep + 1, STEPS[currentStep].t, {
+                        next_step: currentStep + 2,
+                        total_steps: STEPS.length
+                    });
+                }
                 currentStep++;
                 render();
                 window.scrollTo({ top: 120, behavior: "smooth" });
@@ -1282,12 +1290,26 @@
 
                 if (res.ok) {
                     isSubmitted = true;
+                    if (window.FinancoAnalytics) {
+                        FinancoAnalytics.trackConsultationSubmit('email_success', {
+                            goal: S.goal,
+                            age: S.age,
+                            tax_filer: S.fl,
+                            shariah: S.sh,
+                            income: S.inc
+                        });
+                    }
                     render();
                     window.scrollTo({ top: 80, behavior: "smooth" });
                 } else {
                     throw new Error("Submission request failed");
                 }
             } catch (err) {
+                if (window.FinancoAnalytics) {
+                    FinancoAnalytics.trackConsultationSubmit('email_error', {
+                        goal: S.goal
+                    });
+                }
                 if (statusBox) {
                     statusBox.className = "submission-status error";
                     statusBox.style.display = "block";
@@ -1305,6 +1327,12 @@
 
         // WhatsApp message generator
         function openWhatsApp() {
+            if (window.FinancoAnalytics) {
+                FinancoAnalytics.trackConsultationSubmit('whatsapp_redirect', {
+                    goal: S.goal,
+                    age: S.age
+                });
+            }
             const snapshotRows = snap();
             const text = "Salam Hassaan! Here is my Money Snapshot for our 1-1 session:\n\n" +
                 snapshotRows.map(([k, v]) => `• *${k}*: ${v}`).join("\n");
@@ -1316,6 +1344,11 @@
 
         // CSV Downloader
         function downloadCsvFile() {
+            if (window.FinancoAnalytics) {
+                FinancoAnalytics.track('consultation_csv_downloaded', {
+                    goal: S.goal
+                });
+            }
             const P = snap();
             const q = v => '"' + String(v).replace(/"/g, '""') + '"';
             const csvContent = "\ufeff" + P.map(p => q(p[0])).join(",") + "\n" + P.map(p => q(p[1])).join(",");
