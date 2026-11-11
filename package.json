@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@vercel/speed-insights": "^2.1.0",
     "puppeteer": "^25.9.0"
   }
 }
