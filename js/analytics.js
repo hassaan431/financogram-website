@@ -1,7 +1,21 @@
 /**
- * Financogram PostHog Web Analytics Integration
+ * Financogram Web Analytics Integration
+ * Includes PostHog and Vercel Web Analytics
  * Auto-captures pageviews, session recordings, interactions, and custom conversion events.
  */
+
+// ============================================================================
+// Vercel Web Analytics
+// ============================================================================
+(function () {
+    window.va = window.va || function () { 
+        (window.vaq = window.vaq || []).push(arguments); 
+    };
+})();
+
+// ============================================================================
+// PostHog Web Analytics Integration
+// ============================================================================
 (function () {
     const POSTHOG_API_KEY = 'phc_ybBna2UqwJe3xqaqz9PxcG96RHEbhFgVQYvsBUzzE4cW';
     const POSTHOG_HOST = 'https://us.i.posthog.com';
