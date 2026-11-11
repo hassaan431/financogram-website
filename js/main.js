@@ -60,6 +60,9 @@ document.addEventListener("DOMContentLoaded", () => {
             if (window.posthog && typeof window.posthog.capture === 'function') {
                 window.posthog.capture('$pageview');
             }
+            if (typeof window.va === 'function') {
+                window.va('event', { name: 'page_view', data: { path: window.location.pathname } });
+            }
         });
     }
 });
