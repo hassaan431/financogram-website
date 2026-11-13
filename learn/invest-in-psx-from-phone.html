@@ -342,6 +342,147 @@
             word-break: break-word;
         }
 
+        /* Pre-Investing Checklist */
+        .checklist-card {
+            background: var(--bg-card-alt);
+            border: 1px solid rgba(42, 157, 143, 0.35);
+            border-radius: 14px;
+            padding: 20px 22px;
+            margin: 1.5rem 0 2.25rem;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+        }
+
+        .checklist-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.65rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .checklist-title {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 1.15rem;
+            color: #FFFFFF;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checklist-badge {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            background: rgba(233, 196, 106, 0.15);
+            color: #E9C46A;
+            border: 1px solid rgba(233, 196, 106, 0.3);
+            padding: 3px 9px;
+            border-radius: 999px;
+        }
+
+        .checklist-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 10px;
+            padding: 10px 14px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .checklist-item:hover {
+            border-color: rgba(42, 157, 143, 0.4);
+            background: rgba(42, 157, 143, 0.05);
+        }
+
+        .checklist-item.checked {
+            border-color: rgba(42, 157, 143, 0.55);
+            background: rgba(42, 157, 143, 0.1);
+        }
+
+        .checklist-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checklist-check {
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            border: 1.5px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.78rem;
+            color: transparent;
+            transition: all 0.2s;
+            flex-shrink: 0;
+            font-weight: 800;
+        }
+
+        .checklist-item.checked .checklist-check {
+            background: #2A9D8F;
+            border-color: #2A9D8F;
+            color: #FFFFFF;
+        }
+
+        .checklist-name {
+            font-weight: 700;
+            color: #FFFFFF;
+            font-size: 0.92rem;
+            line-height: 1.25;
+        }
+
+        .checklist-sub {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            line-height: 1.35;
+            margin-top: 2px;
+        }
+
+        .checklist-target {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #E9C46A;
+            background: rgba(233, 196, 106, 0.12);
+            border: 1px solid rgba(233, 196, 106, 0.25);
+            padding: 3px 8px;
+            border-radius: 6px;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        @media (max-width: 580px) {
+            .checklist-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+                padding: 11px 12px;
+            }
+            .checklist-target {
+                margin-left: 32px;
+            }
+        }
+
         .article-content h3 {
             font-family: 'Fraunces', Georgia, serif;
             font-size: 1.12rem;
@@ -823,9 +964,79 @@
                 </div>
             </section>
 
-            <!-- Core Pillars: How Nafa Works -->
+            <!-- Core Content -->
             <div class="article-content">
                 
+                <!-- 5-Point Pre-Investing Checklist -->
+                <section class="checklist-card" aria-label="5-Point Pre-Investing Readiness Checklist">
+                    <div class="checklist-header">
+                        <h2 class="checklist-title" style="margin: 0; font-size: 1.15rem; gap: 8px;">
+                            <span>📋</span> Checklist Before Investing: Are You Ready?
+                        </h2>
+                        <span class="checklist-badge">5 Non-Negotiables</span>
+                    </div>
+                    <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.9rem; line-height: 1.5;">
+                        Investing in equities creates generational wealth, but entering the market unprepared leads to panic-selling during dips. Tap each item to verify your readiness before opening an account:
+                    </p>
+
+                    <div class="checklist-grid">
+                        <div class="checklist-item" onclick="toggleChecklistItem(this)" role="checkbox" aria-checked="false" tabindex="0">
+                            <div class="checklist-left">
+                                <div class="checklist-check">✓</div>
+                                <div>
+                                    <div class="checklist-name">Emergency Fund</div>
+                                    <div class="checklist-sub">Liquid cash parked in a savings account or money market fund so market dips never force you to sell</div>
+                                </div>
+                            </div>
+                            <div class="checklist-target">3–6 Months</div>
+                        </div>
+
+                        <div class="checklist-item" onclick="toggleChecklistItem(this)" role="checkbox" aria-checked="false" tabindex="0">
+                            <div class="checklist-left">
+                                <div class="checklist-check">✓</div>
+                                <div>
+                                    <div class="checklist-name">Insurance Cover</div>
+                                    <div class="checklist-sub">Protection buffer for your dependents so unexpected medical emergencies don't liquidate your shares</div>
+                                </div>
+                            </div>
+                            <div class="checklist-target">Life + Health</div>
+                        </div>
+
+                        <div class="checklist-item" onclick="toggleChecklistItem(this)" role="checkbox" aria-checked="false" tabindex="0">
+                            <div class="checklist-left">
+                                <div class="checklist-check">✓</div>
+                                <div>
+                                    <div class="checklist-name">Pay Off Debt</div>
+                                    <div class="checklist-sub">Clear expensive credit card balances and high-interest personal debt before investing</div>
+                                </div>
+                            </div>
+                            <div class="checklist-target">&gt;12–16% Interest</div>
+                        </div>
+
+                        <div class="checklist-item" onclick="toggleChecklistItem(this)" role="checkbox" aria-checked="false" tabindex="0">
+                            <div class="checklist-left">
+                                <div class="checklist-check">✓</div>
+                                <div>
+                                    <div class="checklist-name">Clear Goal</div>
+                                    <div class="checklist-sub">Define your specific investment horizon (retirement, house deposit, long-term wealth compounding: 5+ years)</div>
+                                </div>
+                            </div>
+                            <div class="checklist-target">Defined</div>
+                        </div>
+
+                        <div class="checklist-item" onclick="toggleChecklistItem(this)" role="checkbox" aria-checked="false" tabindex="0">
+                            <div class="checklist-left">
+                                <div class="checklist-check">✓</div>
+                                <div>
+                                    <div class="checklist-name">KYC Ready</div>
+                                    <div class="checklist-sub">Active Pakistani bank account in your own legal name alongside an unexpired CNIC or NICOP</div>
+                                </div>
+                            </div>
+                            <div class="checklist-target">CNIC &amp; Bank</div>
+                        </div>
+                    </div>
+                </section>
+
                 <h2>🛡️ Before You Begin: How Nafa Works</h2>
                 <p>For decades, investing in the Pakistan Stock Exchange meant visiting a brokerage branch, filling out endless stacks of paperwork, waiting weeks for manual verification, and calling a broker desk on the phone to execute orders. Nafa digitizes the entire experience on your smartphone while preserving institutional-grade safety.</p>
 
@@ -1136,6 +1347,19 @@
     <script src="../js/main.js"></script>
 
     <script>
+        // Checklist Toggle Logic
+        function toggleChecklistItem(el) {
+            el.classList.toggle('checked');
+            const isChecked = el.classList.contains('checked');
+            el.setAttribute('aria-checked', isChecked ? 'true' : 'false');
+            
+            const allItems = document.querySelectorAll('.checklist-item');
+            const checkedItems = document.querySelectorAll('.checklist-item.checked');
+            if (checkedItems.length === allItems.length) {
+                showToast("🎉 All 5 pre-investing criteria checked! You are ready to onboard.");
+            }
+        }
+
         // Copy Referral Code logic
         function copyReferralCode() {
             const code = "9G532N7X";
