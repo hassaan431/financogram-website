@@ -95,77 +95,217 @@
             </div>
         </div>
 
-        <!-- Layered Center Product Visual: 3 Tilted Profile / Financial Cards -->
-        <div class="hero-product-layer" aria-label="Featured Profile and Calculator Cards">
-            <div class="cards-container">
+        <!-- Layered Center Product Visual: Interactive 3D Card Stack -->
+        <div class="hero-product-layer" aria-label="Featured Calculators and Guides">
+            <div class="cards-container" id="heroCardsDeck">
                 
-                <!-- Left Card: Hassaan bin Jalil Profile (Tilted -10deg) -->
-                <div class="tilted-card card-left">
-                    <div class="profile-avatar-wrap" style="width: 58px; height: 58px; margin: 0 auto 8px;">
-                        <img src="assets/founder.jpg" alt="Hassaan bin Jalil" class="profile-avatar">
-                        <span class="profile-badge-check" title="Verified Finance Educator">✓</span>
-                    </div>
-                    <div class="profile-name" style="font-size: 15px; margin-bottom: 2px;">Hassaan bin Jalil</div>
-                    <div class="profile-title" style="font-size: 11px; margin-bottom: 8px;">Finance Educator</div>
-                    <div class="profile-tags" style="margin-bottom: 10px; gap: 4px;">
-                        <span class="profile-tag" style="font-size: 9px; padding: 2px 5px;">Aerospace Eng.</span>
-                        <span class="profile-tag" style="font-size: 9px; padding: 2px 5px;">MBA</span>
-                    </div>
-                    <a href="consultancy.html" class="profile-cta-btn" style="padding: 7px; font-size: 11px;">
-                        1-1 Session &rarr;
-                    </a>
-                </div>
-
-                <!-- Center Card: Early SIP Calculator (Top / Foreground Hero Card) -->
-                <div class="tilted-card card-center">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                        <div class="card-badge" style="margin-bottom: 0;">
-                            <span>📈</span> Financo SIP
-                        </div>
-                        <span style="font-size: 10px; font-weight: 600; color: #48bb78; letter-spacing: 0.04em;">● 14.2% CAGR</span>
+                <!-- Card 1: Financo SIP Calculator -->
+                <div class="tilted-card hero-card card-active" data-index="0" data-title="Financo SIP">
+                    <div class="card-top-row">
+                        <div class="card-badge"><span>📈</span> Financo SIP</div>
+                        <span class="card-status-pill" style="color: #48bb78;">● 14.2% CAGR</span>
                     </div>
                     <div class="card-label">Estimated Corpus (15 Yrs)</div>
-                    <div class="card-number" style="font-size: 32px; font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.02em; margin-bottom: 4px;">PKR 18.5M</div>
-                    <div class="card-subtext" style="font-size: 11.5px; margin-bottom: 12px;">Monthly SIP: <b>PKR 35,000</b> invested consistently</div>
+                    <div class="card-number">PKR 18.5M</div>
+                    <div class="card-subtext">Monthly SIP: <b>PKR 35,000</b> invested consistently</div>
                     
-                    <div style="background: rgba(255,255,255,0.06); border-radius: 10px; padding: 8px 10px; margin-bottom: 12px; display: flex; justify-content: space-between; font-size: 11px;">
+                    <div class="card-stats-box">
                         <div>
-                            <div style="color: rgba(255,255,255,0.55); font-size: 10px;">Invested</div>
-                            <div style="font-weight: 700; color: #FFFFFF;">PKR 6.3M</div>
+                            <div class="stat-mini-label">Invested</div>
+                            <div class="stat-mini-value">PKR 6.3M</div>
                         </div>
                         <div style="text-align: right;">
-                            <div style="color: rgba(255,255,255,0.55); font-size: 10px;">Wealth Gained</div>
-                            <div style="font-weight: 700; color: #FFFFFF;">+PKR 12.2M</div>
+                            <div class="stat-mini-label">Wealth Gained</div>
+                            <div class="stat-mini-value" style="color: #48bb78;">+PKR 12.2M</div>
                         </div>
                     </div>
 
-                    <div class="card-graph-bar" style="margin-bottom: 14px;">
+                    <div class="card-graph-bar">
                         <div class="card-graph-fill" style="width: 34%;" title="Invested: 34%"></div>
                         <div class="card-graph-fill accent" style="width: 66%;" title="Compound Gains: 66%"></div>
                     </div>
                     
-                    <a href="calculators/sip.html" class="profile-cta-btn" style="background: var(--hero-white); color: var(--hero-dark-card) !important; font-weight: 800; text-align: center; justify-content: center;">
+                    <a href="calculators/sip.html" class="profile-cta-btn card-action-btn">
                         Run the Numbers &rarr;
                     </a>
                 </div>
 
-                <!-- Right Card: Buy vs Rent (Tilted +10deg) -->
-                <div class="tilted-card card-right">
-                    <div class="card-badge">
-                        <span>🏠</span> Buy vs Rent
+                <!-- Card 2: Buy vs Rent Comparison -->
+                <div class="tilted-card hero-card card-next" data-index="1" data-title="Buy vs Rent">
+                    <div class="card-top-row">
+                        <div class="card-badge"><span>🏠</span> Buy vs Rent</div>
+                        <span class="card-status-pill">● 20-Yr Model</span>
                     </div>
                     <div class="card-label">Wealth Difference (20 Yrs)</div>
-                    <div class="card-number" style="font-size: 20px;">+PKR 18.4M</div>
-                    <div class="card-subtext" style="font-size: 10.5px; line-height: 1.4;">Renting + index investing vs locking capital in residential plot</div>
-                    <div class="card-graph-bar">
-                        <div class="card-graph-fill" style="width: 62%;"></div>
-                        <div class="card-graph-fill accent" style="width: 38%;"></div>
+                    <div class="card-number">+PKR 18.4M</div>
+                    <div class="card-subtext">Renting + index investing vs locking capital in residential plot</div>
+                    
+                    <div class="card-stats-box">
+                        <div>
+                            <div class="stat-mini-label">Rent &amp; Invest</div>
+                            <div class="stat-mini-value">PKR 42.1M</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="stat-mini-label">Buying House</div>
+                            <div class="stat-mini-value">PKR 23.7M</div>
+                        </div>
                     </div>
-                    <a href="calculators/buy-vs-rent.html" class="card-footer-link" style="font-size: 11px;">
+
+                    <div class="card-graph-bar">
+                        <div class="card-graph-fill" style="width: 64%;" title="Rent & Invest: 64%"></div>
+                        <div class="card-graph-fill accent" style="width: 36%;" title="Buying Plot/House: 36%"></div>
+                    </div>
+                    
+                    <a href="calculators/buy-vs-rent.html" class="profile-cta-btn card-action-btn">
                         Compare Housing &rarr;
                     </a>
                 </div>
 
+                <!-- Card 3: Apna Ghar Calculation -->
+                <div class="tilted-card hero-card card-far-right" data-index="2" data-title="Apna Ghar">
+                    <div class="card-top-row">
+                        <div class="card-badge"><span>🏛️</span> ACAG Scheme</div>
+                        <span class="card-status-pill" style="color: #48bb78;">● 0% MARKUP</span>
+                    </div>
+                    <div class="card-label">Subsidized Housing Loan</div>
+                    <div class="card-number">PKR 1.5M</div>
+                    <div class="card-subtext">Punjab's interest-free home financing with 7-year repayment</div>
+                    
+                    <div class="card-stats-box">
+                        <div>
+                            <div class="stat-mini-label">Monthly Payment</div>
+                            <div class="stat-mini-value">PKR 14,000</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="stat-mini-label">Interest Paid</div>
+                            <div class="stat-mini-value" style="color: #48bb78;">PKR 0 (Free)</div>
+                        </div>
+                    </div>
+
+                    <div class="card-graph-bar">
+                        <div class="card-graph-fill" style="width: 100%;" title="100% Principal, 0% Markup"></div>
+                    </div>
+                    
+                    <a href="calculators/apna-ghar.html" class="profile-cta-btn card-action-btn">
+                        Calculate Loan &rarr;
+                    </a>
+                </div>
+
+                <!-- Card 4: Newest Calculator Added (EOBI Pension) -->
+                <div class="tilted-card hero-card card-hidden" data-index="3" data-title="EOBI Pension">
+                    <div class="card-top-row">
+                        <div class="card-badge"><span>🧓</span> EOBI Pension</div>
+                        <span class="card-status-pill highlight-pill">✨ NEW CALCULATOR</span>
+                    </div>
+                    <div class="card-label">Guaranteed Monthly Pension</div>
+                    <div class="card-number">PKR 10,000+</div>
+                    <div class="card-subtext">Statutory retirement benefit, insured wage rate &amp; survivor protection</div>
+                    
+                    <div class="card-stats-box">
+                        <div>
+                            <div class="stat-mini-label">Min. Service</div>
+                            <div class="stat-mini-value">15 Years</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="stat-mini-label">Insured Cap</div>
+                            <div class="stat-mini-value">Rs 37,000/mo</div>
+                        </div>
+                    </div>
+
+                    <div class="card-graph-bar">
+                        <div class="card-graph-fill" style="width: 50%;" title="Base Pension"></div>
+                        <div class="card-graph-fill accent" style="width: 50%;" title="Increment Years"></div>
+                    </div>
+                    
+                    <a href="calculators/eobi.html" class="profile-cta-btn card-action-btn">
+                        Estimate Pension &rarr;
+                    </a>
+                </div>
+
+                <!-- Card 5: Newest Article Added (Start Investing in PSX From Your Phone) -->
+                <div class="tilted-card hero-card card-hidden" data-index="4" data-title="PSX Guide">
+                    <div class="card-top-row">
+                        <div class="card-badge"><span>📱</span> PSX Investing</div>
+                        <span class="card-status-pill highlight-pill" style="color: #f59e0b; background: rgba(245, 158, 11, 0.15); border-color: rgba(245, 158, 11, 0.3);">✨ NEW ARTICLE</span>
+                    </div>
+                    <div class="card-label">Start Investing With Just</div>
+                    <div class="card-number">PKR 5,000</div>
+                    <div class="card-subtext">Step-by-step CDC onboarding via Nafa app for resident &amp; overseas</div>
+                    
+                    <div class="card-stats-box">
+                        <div>
+                            <div class="stat-mini-label">Read Time</div>
+                            <div class="stat-mini-value">4 Mins</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="stat-mini-label">Custody Type</div>
+                            <div class="stat-mini-value" style="color: #48bb78;">SECP Regulated</div>
+                        </div>
+                    </div>
+
+                    <div class="card-graph-bar">
+                        <div class="card-graph-fill" style="width: 78%;" title="PSX 20-Yr Growth"></div>
+                        <div class="card-graph-fill accent" style="width: 22%;" title="Dividends"></div>
+                    </div>
+                    
+                    <a href="learn/invest-in-psx-from-phone.html" class="profile-cta-btn card-action-btn">
+                        Read Free Guide &rarr;
+                    </a>
+                </div>
+
+                <!-- Card 6: Salary & Tax Calculator -->
+                <div class="tilted-card hero-card card-prev" data-index="5" data-title="Salary Tax">
+                    <div class="card-top-row">
+                        <div class="card-badge"><span>💼</span> Salary Tax</div>
+                        <span class="card-status-pill">● FY 2026-27</span>
+                    </div>
+                    <div class="card-label">Monthly Net Take-Home</div>
+                    <div class="card-number">PKR 215,833</div>
+                    <div class="card-subtext">On PKR 250,000/mo gross salary under latest FBR tax slabs</div>
+                    
+                    <div class="card-stats-box">
+                        <div>
+                            <div class="stat-mini-label">Monthly Tax</div>
+                            <div class="stat-mini-value" style="color: #f87171;">PKR 34,167</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="stat-mini-label">Effective Rate</div>
+                            <div class="stat-mini-value">13.7%</div>
+                        </div>
+                    </div>
+
+                    <div class="card-graph-bar">
+                        <div class="card-graph-fill" style="width: 86%;" title="Take-Home: 86.3%"></div>
+                        <div class="card-graph-fill accent" style="width: 14%; background: #f87171;" title="Tax: 13.7%"></div>
+                    </div>
+                    
+                    <a href="calculators/salary.html" class="profile-cta-btn card-action-btn">
+                        Calculate Tax &rarr;
+                    </a>
+                </div>
+
+            </div>
+
+            <!-- Deck Navigation Controls (Arrows + Dot Indicators) -->
+            <div class="cards-deck-controls" aria-label="Card navigation">
+                <button class="deck-arrow-btn deck-prev-btn" aria-label="Previous Card" title="Previous Card">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <div class="deck-dots" role="tablist">
+                    <button class="deck-dot active" role="tab" aria-label="Financo SIP" data-index="0"></button>
+                    <button class="deck-dot" role="tab" aria-label="Buy vs Rent" data-index="1"></button>
+                    <button class="deck-dot" role="tab" aria-label="Apna Ghar" data-index="2"></button>
+                    <button class="deck-dot" role="tab" aria-label="EOBI Pension" data-index="3"></button>
+                    <button class="deck-dot" role="tab" aria-label="PSX Guide" data-index="4"></button>
+                    <button class="deck-dot" role="tab" aria-label="Salary Tax" data-index="5"></button>
+                </div>
+                <button class="deck-arrow-btn deck-next-btn" aria-label="Next Card" title="Next Card">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
             </div>
         </div>
 
