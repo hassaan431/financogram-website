@@ -769,7 +769,7 @@
 
     /* Wordmark on two lines on mobile */
     .hero-wordmark-container {
-        top: 24%;
+        top: 18%;
         transform: translateY(-50%);
         padding: 0 12px;
     }
@@ -794,23 +794,23 @@
     }
 
     .char {
-        font-size: clamp(62px, 19vw, 84px);
+        font-size: clamp(58px, 18vw, 80px);
         line-height: 0.84;
         letter-spacing: -0.01em;
     }
 
     .wordmark-line-1 {
-        z-index: 6; /* Line 1 HASSAAN is fully visible above the product card */
+        z-index: 6;
     }
 
     .wordmark-line-2 {
         margin-top: -2px;
-        z-index: 1; /* Line 2 BIN JALIL sits under the product visual */
+        z-index: 6;
     }
 
-    /* Product over the second line on mobile */
+    /* Product positioned cleanly below the wordmark on mobile */
     .hero-product-layer {
-        top: 50%;
+        top: 54%;
         transform: translate(-50%, -50%);
     }
 
